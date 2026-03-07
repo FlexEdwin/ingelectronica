@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ecuaciones Diferenciales - flexedwin</title>
+    <title>Ecuaciones Diferenciales - FlexEdwin</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <script>
         MathJax = {
             tex: {
                 inlineMath: [['$', '$']],
-                displayMath: [['$$', '$$']],
-                processEscapes: true
+                displayMath: [['$$', '$$']]
             },
             svg: {
                 fontCache: 'global'
@@ -28,120 +27,161 @@
             --primary-color: #2563eb;
             --primary-hover: #1d4ed8;
             --bg-color: #f8fafc;
-            --surface-color: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #475569;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --sidebar-bg: #1e293b;
+            --sidebar-text: #f1f5f9;
             --border-color: #e2e8f0;
+            --step-bg: #eff6ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.7;
-            margin: 0;
-            padding: 0;
+            line-height: 1.8;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
+        /* Navbar / Header */
         header {
-            background-color: var(--surface-color);
-            padding: 2rem;
-            text-align: center;
+            background-color: #ffffff;
             border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        header h1 {
-            margin: 0;
+        .brand h1 {
+            font-size: 1.5rem;
             color: var(--primary-color);
-            font-size: 2rem;
+            font-weight: 700;
         }
 
-        main {
+        .brand span {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Layout Principal */
+        .container {
+            display: flex;
             flex: 1;
-            max-width: 1000px;
-            margin: 2rem auto;
-            width: 90%;
-            background: var(--surface-color);
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
-        /* Sistema de Pestañas */
-        .tab-container {
-            display: flex;
-            flex-wrap: wrap;
-            background-color: #f1f5f9;
-            border-bottom: 1px solid var(--border-color);
+        /* Sidebar / Pestañas */
+        .sidebar {
+            width: 300px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            overflow-y: auto;
+            flex-shrink: 0;
         }
 
-        .tab-button {
-            background: inherit;
+        .sidebar-header {
+            padding: 1.5rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            border-bottom: 1px solid #334155;
+        }
+
+        .tablinks {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 1.25rem 1.5rem;
+            background: none;
             border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 1rem 1.5rem;
-            transition: 0.3s;
+            color: var(--sidebar-text);
             font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .tablinks:hover {
+            background-color: #334155;
+        }
+
+        .tablinks.active {
+            background-color: #0f172a;
+            border-left: 4px solid var(--primary-color);
             font-weight: 600;
-            color: var(--text-muted);
-            border-bottom: 3px solid transparent;
         }
 
-        .tab-button:hover {
-            background-color: #e2e8f0;
-            color: var(--primary-color);
+        /* Área de Contenido */
+        .content-area {
+            flex: 1;
+            padding: 2rem 4rem;
+            overflow-y: auto;
+            background-color: #ffffff;
         }
 
-        .tab-button.active {
-            background-color: var(--surface-color);
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--primary-color);
-        }
-
-        .tab-content {
+        .tabcontent {
             display: none;
-            padding: 2.5rem;
+            max-width: 900px;
+            margin: 0 auto;
             animation: fadeIn 0.4s ease-in-out;
         }
 
-        .tab-content.active {
-            display: block;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Estilos del contenido matemático */
-        .exercise-title {
-            font-size: 1.5rem;
-            color: var(--text-main);
-            margin-top: 0;
+        /* Tipografía del Contenido Académico */
+        h2 {
+            font-size: 2rem;
+            color: #0f172a;
+            margin-bottom: 1rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--border-color);
-            margin-bottom: 1.5rem;
         }
 
-        .step {
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
+        h3 {
+            font-size: 1.25rem;
             color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            background-color: var(--step-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
         }
 
-        .math-block {
+        p {
+            margin-bottom: 1rem;
+        }
+
+        /* Estilos para el contenedor de fórmulas MathJax */
+        .MathJax_Display {
             overflow-x: auto;
-            margin: 1rem 0;
+            overflow-y: hidden;
+            padding: 1rem 0;
         }
 
+        /* Footer */
         footer {
-            text-align: center;
-            padding: 1.5rem;
-            background-color: var(--surface-color);
+            background-color: #ffffff;
             border-top: 1px solid var(--border-color);
-            margin-top: auto;
-            color: var(--text-muted);
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--text-light);
             font-size: 0.9rem;
         }
 
@@ -151,329 +191,809 @@
             font-weight: 600;
         }
 
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: 200px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .content-area {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Resolución de Ecuaciones Diferenciales</h1>
-        <p>Soluciones paso a paso</p>
+        <div class="brand">
+            <h1>FlexEdwin</h1>
+            <span>Desarrollo Web & Educación</span>
+        </div>
+        <div class="brand">
+            <span>&copy; 2026</span>
+        </div>
     </header>
 
-    <main>
-        <div class="tab-container">
-            <button class="tab-button active" onclick="openTab(event, 'ej11')">Ejercicio 11</button>
-            <button class="tab-button" onclick="openTab(event, 'ej12')">Ejercicio 12</button>
-            <button class="tab-button" onclick="openTab(event, 'ej13')">Ejercicio 13</button>
-            <button class="tab-button" onclick="openTab(event, 'ej14')">Ejercicio 14</button>
-            <button class="tab-button" onclick="openTab(event, 'ej15')">Ejercicio 15</button>
-            <button class="tab-button" onclick="openTab(event, 'ej16')">Ejercicio 16</button>
-            <button class="tab-button" onclick="openTab(event, 'ej17')">Ejercicio 17</button>
-            <button class="tab-button" onclick="openTab(event, 'ej18')">Ejercicio 18</button>
-            <button class="tab-button" onclick="openTab(event, 'ej19')">Ejercicio 19</button>
-            <button class="tab-button" onclick="openTab(event, 'ej20')">Ejercicio 20</button>
-        </div>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">Menú de Ejercicios</div>
+            <button class="tablinks" onclick="openTab(event, 'ej11')">Ejercicio 11</button>
+            <button class="tablinks" onclick="openTab(event, 'ej12')">Ejercicio 12</button>
+            <button class="tablinks" onclick="openTab(event, 'ej13')">Ejercicio 13</button>
+            <button class="tablinks" onclick="openTab(event, 'ej14')">Ejercicio 14</button>
+            <button class="tablinks" onclick="openTab(event, 'ej15')">Ejercicio 15</button>
+            <button class="tablinks" onclick="openTab(event, 'ej16')">Ejercicio 16</button>
+            <button class="tablinks" onclick="openTab(event, 'ej17')">Ejercicio 17</button>
+            <button class="tablinks" onclick="openTab(event, 'ej18')">Ejercicio 18</button>
+        </aside>
 
-        <div id="ej11" class="tab-content active">
-            <h2 class="exercise-title">Ejercicio 11: Ecuación Diferencial Exacta (Directa)</h2>
-            <div class="math-block">$$(2xy^3 + 5)dx + (3x^2y^2 + 4y)dy = 0$$</div>
+        <main class="content-area">
             
-            <p><strong>Clasificación Obligatoria:</strong><br>
-            Orden: Primer orden.<br>
-            Linealidad: No lineal.<br>
-            Homogeneidad: Sí es Homogénea ($=0$).</p>
+            <div id="ej11" class="tabcontent">
+                <h2>Ejercicio 11: Ecuación Diferencial Exacta (Directa)</h2>
+                <p>Vamos a resolver la siguiente ecuación:</p>
+                <p>$$(2xy^3 + 5)dx + (3x^2y^2 + 4y)dy = 0$$</p>
+                
+                <h3>Clasificación Obligatoria:</h3>
+                <p><strong>Orden:</strong> Primer orden (solo tenemos $dx$ y $dy$ a la primera potencia).</p>
+                <p><strong>Linealidad:</strong> No lineal (tenemos productos cruzados $xy^3$ y potencias como $y^2$).</p>
+                <p><strong>Homogeneidad (Regla del Profesor):</strong> Igualada a cero ($= 0$), así que afirmamos en el examen que Sí es Homogénea.</p>
+                
+                <h3>Paso 0: Preparación y Prueba de Exactitud</h3>
+                <p>Verificamos que tiene la estructura $M(x,y)dx + N(x,y)dy = 0$.</p>
+                <p>Definimos nuestras partes:</p>
+                <p>$$M(x,y) = 2xy^3 + 5$$</p>
+                <p>$$N(x,y) = 3x^2y^2 + 4y$$</p>
+                <p>Aplicamos la prueba de exactitud. Solo derivo respecto a la variable indicada, lo demás es constante.</p>
+                <p>Derivamos $M$ parcialmente respecto a $y$:</p>
+                <p>$$\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(2xy^3 + 5)$$</p>
+                <p>Separamos por la suma:</p>
+                <p>$$\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(2xy^3) + \frac{\partial}{\partial y}(5)$$</p>
+                <p>En el primer término, el $2x$ es constante y sale. El $5$ es una constante pura, su derivada es cero:</p>
+                <p>$$\frac{\partial M}{\partial y} = 2x \left( \frac{\partial}{\partial y}(y^3) \right) + 0$$</p>
+                <p>Aplicamos regla de la potencia ($ny^{n-1}$):</p>
+                <p>$$\frac{\partial M}{\partial y} = 2x(3y^{3-1})$$</p>
+                <p>$$\frac{\partial M}{\partial y} = 2x(3y^2)$$</p>
+                <p>Multiplicamos coeficientes numéricos ($2 \cdot 3 = 6$):</p>
+                <p>$$\frac{\partial M}{\partial y} = 6xy^2$$</p>
+                <p>Derivamos $N$ parcialmente respecto a $x$:</p>
+                <p>$$\frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(3x^2y^2 + 4y)$$</p>
+                <p>Separamos la suma:</p>
+                <p>$$\frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(3x^2y^2) + \frac{\partial}{\partial x}(4y)$$</p>
+                <p>En el primer término, el $3y^2$ sale como constante. El $4y$ no tiene $x$, así que actúa como constante pura y su derivada es cero:</p>
+                <p>$$\frac{\partial N}{\partial x} = 3y^2 \left( \frac{\partial}{\partial x}(x^2) \right) + 0$$</p>
+                <p>Derivamos por regla de la potencia:</p>
+                <p>$$\frac{\partial N}{\partial x} = 3y^2(2x^{2-1})$$</p>
+                <p>$$\frac{\partial N}{\partial x} = 3y^2(2x^1)$$</p>
+                <p>Multiplicamos ($3 \cdot 2 = 6$) y ordenamos alfabéticamente:</p>
+                <p>$$\frac{\partial N}{\partial x} = 6xy^2$$</p>
+                <p>Como $\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x} = 6xy^2$, escribimos firmemente: Es una ED exacta.</p>
+                
+                <h3>Paso 1: Integración</h3>
+                <p>Vamos a integrar $M(x,y)$ respecto a $x$.</p>
+                <p>$$f(x,y) = \int M(x,y) dx = \int (2xy^3 + 5) dx$$</p>
+                <p>Separamos la integral:</p>
+                <p>$$f(x,y) = \int 2xy^3 dx + \int 5 dx$$</p>
+                <p>Sacamos las constantes respecto a $x$ (el $2y^3$ sale de la primera, el $5$ sale de la segunda):</p>
+                <p>$$f(x,y) = 2y^3 \int x^1 dx + 5 \int 1 dx$$</p>
+                <p>Aplicamos reglas de integración básicas ($\frac{x^{n+1}}{n+1}$):</p>
+                <p>$$f(x,y) = 2y^3 \left( \frac{x^{1+1}}{1+1} \right) + 5(x) + g(y)$$</p>
+                <p>Sumamos exponentes y denominadores:</p>
+                <p>$$f(x,y) = 2y^3 \left( \frac{x^2}{2} \right) + 5x + g(y)$$</p>
+                <p>Simplificamos dividiendo el $2$ del numerador con el $2$ del denominador:</p>
+                <p>$$f(x,y) = 1(y^3)(x^2) + 5x + g(y)$$</p>
+                <p>Ordenamos alfabéticamente el primer término:</p>
+                <p>$$f(x,y) = x^2y^3 + 5x + g(y)$$</p>
+                
+                <h3>Paso 2: Derivación parcial e igualación</h3>
+                <p>Derivamos nuestra nueva función respecto a la otra variable, $y$:</p>
+                <p>$$\frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(x^2y^3 + 5x + g(y))$$</p>
+                <p>Separamos y derivamos (lo que tiene $x$ es constante):</p>
+                <p>$$\frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(x^2y^3) + \frac{\partial}{\partial y}(5x) + \frac{\partial}{\partial y}(g(y))$$</p>
+                <p>$$\frac{\partial f}{\partial y} = x^2(3y^2) + 0 + g'(y)$$</p>
+                <p>Ordenamos poniendo el coeficiente al inicio:</p>
+                <p>$$\frac{\partial f}{\partial y} = 3x^2y^2 + g'(y)$$</p>
+                <p>Igualamos esto con nuestra $N(x,y)$ original:</p>
+                <p>$$3x^2y^2 + g'(y) = 3x^2y^2 + 4y$$</p>
+                <p>Observamos ambos lados. Cancelamos términos idénticos en ambos lados de la igualdad. (Se va el $3x^2y^2$ con el $3x^2y^2$).</p>
+                <p>$$g'(y) = 4y$$</p>
+                
+                <h3>Paso 3: Hallar $g(y)$</h3>
+                <p>Integramos $g'(y)$ respecto a $y$:</p>
+                <p>$$g(y) = \int 4y dy$$</p>
+                <p>Sacamos el $4$ como constante:</p>
+                <p>$$g(y) = 4 \int y^1 dy$$</p>
+                <p>Regla de la potencia:</p>
+                <p>$$g(y) = 4 \left( \frac{y^{1+1}}{1+1} \right) = 4 \left( \frac{y^2}{2} \right)$$</p>
+                <p>Simplificamos dividiendo los números ($4 \div 2 = 2$):</p>
+                <p>$$g(y) = 2y^2$$</p>
+                
+                <h3>Paso 4: Solución implícita</h3>
+                <p>Sustituimos $g(y)$ en nuestra función $f(x,y)$ del Paso 1:</p>
+                <p>$$f(x,y) = x^2y^3 + 5x + 2y^2$$</p>
+                <p>Igualamos a la constante de integración $C$:</p>
+                <p>$$x^2y^3 + 5x + 2y^2 = C$$</p>
+            </div>
 
-            <div class="step">Paso 0: Prueba de Exactitud</div>
-            <p>$M(x,y) = 2xy^3 + 5$</p>
-            <p>$N(x,y) = 3x^2y^2 + 4y$</p>
-            <div class="math-block">$$\frac{\partial M}{\partial y} = 2x(3y^2) + 0 = 6xy^2$$</div>
-            <div class="math-block">$$\frac{\partial N}{\partial x} = 3y^2(2x) + 0 = 6xy^2$$</div>
-            <p>Como $\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}$, Es una ED exacta.</p>
+            <div id="ej12" class="tabcontent">
+                <h2>Ejercicio 12: Transformable a Exacta (Con Factor Integrante)</h2>
+                <p>Vamos a darle con esta ecuación:</p>
+                <p>$$(3xy^2 + 2y)dx + (2x^2y + x)dy = 0$$</p>
+                
+                <h3>Clasificación Obligatoria:</h3>
+                <p><strong>Orden:</strong> Primer orden.</p>
+                <p><strong>Linealidad:</strong> No lineal (por los términos cruzados $xy^2$ y $x^2y$).</p>
+                <p><strong>Homogeneidad:</strong> Está igualada a cero ($= 0$), así que directo ponemos que Sí es Homogénea.</p>
+                
+                <h3>Ensayo y Error Visible (Prueba de Exactitud inicial)</h3>
+                <p>Identificamos nuestras variables:</p>
+                <p>$M = 3xy^2 + 2y$</p>
+                <p>$N = 2x^2y + x$</p>
+                <p>Solo derivo respecto a la variable indicada, lo demás es constante.</p>
+                <p>$$\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(3xy^2) + \frac{\partial}{\partial y}(2y) = 3x(2y) + 2(1) = 6xy + 2$$</p>
+                <p>$$\frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(2x^2y) + \frac{\partial}{\partial x}(x) = 2y(2x) + 1 = 4xy + 1$$</p>
+                <p>Vemos que $6xy + 2 \neq 4xy + 1$, así que no es exacta.</p>
+                
+                <h3>Búsqueda del Factor Integrante</h3>
+                <p>Vamos a buscar el Factor Integrante probando primero con $P(y)$:</p>
+                <p>$$P(y) = \frac{\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}}{M}$$</p>
+                <p>Sustituimos con mucho cuidado y paréntesis:</p>
+                <p>$$P(y) = \frac{(4xy + 1) - (6xy + 2)}{3xy^2 + 2y}$$</p>
+                <p>Destruimos paréntesis aplicando ley de signos (el menos afecta a los dos términos de adentro):</p>
+                <p>$$P(y) = \frac{4xy + 1 - 6xy - 2}{3xy^2 + 2y}$$</p>
+                <p>Sumamos/restamos términos semejantes arriba ($4xy - 6xy = -2xy$; y $1 - 2 = -1$):</p>
+                <p>$$P(y) = \frac{-2xy - 1}{3xy^2 + 2y}$$</p>
+                <p>Factorizamos el denominador sacando factor común $y$:</p>
+                <p>$$P(y) = \frac{-(2xy + 1)}{y(3xy + 2)}$$</p>
+                <p>El numerador y la parte de adentro del denominador son distintos, no podemos cancelar la $x$. Depende de ambas variables.</p>
+                <p>No sirve.</p>
+                <p>Vamos a la segura probando $P(x)$:</p>
+                <p>$$P(x) = \frac{\frac{\partial M}{\partial y} - \frac{\partial N}{\partial x}}{N}$$</p>
+                <p>Sustituimos usando paréntesis:</p>
+                <p>$$P(x) = \frac{(6xy + 2) - (4xy + 1)}{2x^2y + x}$$</p>
+                <p>Destruimos paréntesis (ley de signos):</p>
+                <p>$$P(x) = \frac{6xy + 2 - 4xy - 1}{2x^2y + x}$$</p>
+                <p>Agrupamos términos semejantes arriba ($6xy - 4xy = 2xy$; y $2 - 1 = +1$):</p>
+                <p>$$P(x) = \frac{2xy + 1}{2x^2y + x}$$</p>
+                <p>Factorizamos el denominador sacando factor común $x$:</p>
+                <p>$$P(x) = \frac{2xy + 1}{x(2xy + 1)}$$</p>
+                <p>¡Aquí está la magia! Cancelamos términos idénticos completos. El binomio $(2xy + 1)$ del numerador se cancela con el del denominador:</p>
+                <p>$$P(x) = \frac{1}{x}$$</p>
+                <p>Depende solo de $x$. Sí sirve.</p>
+                <p>Calculamos el Factor Integrante $I(x)$:</p>
+                <p>$$I(x) = e^{\int P(x) dx} = e^{\int \frac{1}{x} dx}$$</p>
+                <p>La integral básica nos da logaritmo natural:</p>
+                <p>$$I(x) = e^{\ln x}$$</p>
+                <p>(Regla del Profesor: No hay números multiplicando al logaritmo, así que cancelamos directo).</p>
+                <p>Exponencial y logaritmo natural se cancelan:</p>
+                <p>$$I(x) = x$$</p>
+                
+                <h3>Transformación a Exacta</h3>
+                <p>Multiplicamos TODA la ecuación diferencial original por nuestro F.I. recién hallado ($x$):</p>
+                <p>$$x \cdot [ (3xy^2 + 2y)dx + (2x^2y + x)dy ] = x \cdot [0]$$</p>
+                <p>Aplicamos propiedad distributiva a cada término:</p>
+                <p>$$(x \cdot 3xy^2 + x \cdot 2y)dx + (x \cdot 2x^2y + x \cdot x)dy = 0$$</p>
+                <p>Aplicamos leyes de exponentes sumando las bases iguales ($x^1 \cdot x^1 = x^2$):</p>
+                <p>$$(3x^2y^2 + 2xy)dx + (2x^3y + x^2)dy = 0$$</p>
+                
+                <h3>Nueva Prueba de Exactitud:</h3>
+                <p>Nuevos componentes:</p>
+                <p>$M_{nuevo} = 3x^2y^2 + 2xy$</p>
+                <p>$N_{nuevo} = 2x^3y + x^2$</p>
+                <p>Derivamos parcialmente (Solo respecto a la variable indicada):</p>
+                <p>$$\frac{\partial M_{nuevo}}{\partial y} = 3x^2(2y) + 2x(1) = 6x^2y + 2x$$</p>
+                <p>$$\frac{\partial N_{nuevo}}{\partial x} = 2y(3x^2) + 2x^1 = 6x^2y + 2x$$</p>
+                <p>Como $6x^2y + 2x = 6x^2y + 2x$, declaramos: Es una ED exacta.</p>
+                
+                <h3>Paso 1: Integración</h3>
+                <p>Elegimos integrar $N_{nuevo}$ respecto a $y$ (tiene integrales más sencillas):</p>
+                <p>$$f(x,y) = \int (2x^3y + x^2) dy$$</p>
+                <p>Separamos la integral y sacamos constantes:</p>
+                <p>$$f(x,y) = 2x^3 \int y^1 dy + x^2 \int 1 dy$$</p>
+                <p>Aplicamos la regla de la potencia:</p>
+                <p>$$f(x,y) = 2x^3 \left( \frac{y^{1+1}}{1+1} \right) + x^2(y) + g(x)$$</p>
+                <p>$$f(x,y) = 2x^3 \left( \frac{y^2}{2} \right) + x^2y + g(x)$$</p>
+                <p>Cancelamos el $2$ del numerador con el $2$ del denominador:</p>
+                <p>$$f(x,y) = x^3y^2 + x^2y + g(x)$$</p>
+                
+                <h3>Paso 2: Derivación e Igualación</h3>
+                <p>Derivamos nuestra $f(x,y)$ respecto a $x$:</p>
+                <p>$$\frac{\partial f}{\partial x} = \frac{\partial}{\partial x} (x^3y^2 + x^2y + g(x))$$</p>
+                <p>Separamos y derivamos ($y$ es constante):</p>
+                <p>$$\frac{\partial f}{\partial x} = y^2(3x^2) + y(2x) + g'(x)$$</p>
+                <p>Ordenamos los coeficientes:</p>
+                <p>$$\frac{\partial f}{\partial x} = 3x^2y^2 + 2xy + g'(x)$$</p>
+                <p>Igualamos esto con $M_{nuevo}$:</p>
+                <p>$$3x^2y^2 + 2xy + g'(x) = 3x^2y^2 + 2xy$$</p>
+                <p>Cancelamos términos idénticos en ambos lados de la igualdad. (Se va todo a la izquierda y a la derecha).</p>
+                <p>$$g'(x) = 0$$</p>
+                
+                <h3>Paso 3: Hallar $g(x)$</h3>
+                <p>Integramos $g'(x)$ respecto a $x$:</p>
+                <p>$$g(x) = \int 0 dx$$</p>
+                <p>Por nuestro rigor habitual:</p>
+                <p>$$g(x) = 0$$</p>
+                
+                <h3>Paso 4: Solución implícita</h3>
+                <p>Sustituimos $g(x)$ en la función $f(x,y)$ que hallamos:</p>
+                <p>$$f(x,y) = x^3y^2 + x^2y + 0$$</p>
+                <p>Igualamos a nuestra constante $C$:</p>
+                <p>$$x^3y^2 + x^2y = C$$</p>
+            </div>
 
-            <div class="step">Paso 1: Integración</div>
-            <div class="math-block">$$f(x,y) = \int (2xy^3 + 5) dx = 2y^3 \left( \frac{x^2}{2} \right) + 5x + g(y)$$</div>
-            <div class="math-block">$$f(x,y) = x^2y^3 + 5x + g(y)$$</div>
+            <div id="ej13" class="tabcontent">
+                <h2>Ejercicio 13: Ecuación Diferencial Exacta (Directa)</h2>
+                <p>Nuestra ecuación a resolver es:</p>
+                <p>$$(4x^3y^3 + 2y^2)dx + (3x^4y^2 + 4xy)dy = 0$$</p>
+                
+                <h3>Clasificación Obligatoria:</h3>
+                <p><strong>Orden:</strong> Primer orden (diferenciales $dx$ y $dy$ a la primera potencia).</p>
+                <p><strong>Linealidad:</strong> No lineal (tenemos variables con exponentes como $y^3$ y multiplicaciones cruzadas como $xy$).</p>
+                <p><strong>Homogeneidad (Regla del Profesor):</strong> Igualada a cero ($= 0$), así que afirmamos directo que Sí es Homogénea.</p>
+                
+                <h3>Paso 0: Preparación y Prueba de Exactitud</h3>
+                <p>Verificamos la estructura $M(x,y)dx + N(x,y)dy = 0$.</p>
+                <p>Definimos:</p>
+                <p>$$M(x,y) = 4x^3y^3 + 2y^2$$</p>
+                <p>$$N(x,y) = 3x^4y^2 + 4xy$$</p>
+                <p>Prueba de exactitud. Solo derivo respecto a la variable indicada, lo demás es constante.</p>
+                <p>Derivamos $M$ parcialmente respecto a $y$:</p>
+                <p>$$\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(4x^3y^3 + 2y^2)$$</p>
+                <p>Separamos por linealidad:</p>
+                <p>$$\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(4x^3y^3) + \frac{\partial}{\partial y}(2y^2)$$</p>
+                <p>Sacamos lo que tenga $x$ y números como constante:</p>
+                <p>$$\frac{\partial M}{\partial y} = 4x^3 \left( \frac{\partial}{\partial y}(y^3) \right) + 2 \left( \frac{\partial}{\partial y}(y^2) \right)$$</p>
+                <p>Aplicamos regla de la potencia ($ny^{n-1}$):</p>
+                <p>$$\frac{\partial M}{\partial y} = 4x^3(3y^2) + 2(2y)$$</p>
+                <p>Multiplicamos coeficientes numéricos ($4 \cdot 3 = 12$ y $2 \cdot 2 = 4$):</p>
+                <p>$$\frac{\partial M}{\partial y} = 12x^3y^2 + 4y$$</p>
+                <p>Derivamos $N$ parcialmente respecto a $x$:</p>
+                <p>$$\frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(3x^4y^2 + 4xy)$$</p>
+                <p>Separamos:</p>
+                <p>$$\frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(3x^4y^2) + \frac{\partial}{\partial x}(4xy)$$</p>
+                <p>En el primer término, el $3y^2$ sale como constante. En el segundo, el $4y$ sale como constante:</p>
+                <p>$$\frac{\partial N}{\partial x} = 3y^2 \left( \frac{\partial}{\partial x}(x^4) \right) + 4y \left( \frac{\partial}{\partial x}(x^1) \right)$$</p>
+                <p>Derivamos por regla de la potencia:</p>
+                <p>$$\frac{\partial N}{\partial x} = 3y^2(4x^3) + 4y(1)$$</p>
+                <p>Multiplicamos ($3 \cdot 4 = 12$) y ordenamos alfabéticamente:</p>
+                <p>$$\frac{\partial N}{\partial x} = 12x^3y^2 + 4y$$</p>
+                <p>Como $\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x} = 12x^3y^2 + 4y$, declaramos: Es una ED exacta.</p>
+                
+                <h3>Paso 1: Integración</h3>
+                <p>Vamos a integrar $M(x,y)$ respecto a $x$.</p>
+                <p>$$f(x,y) = \int M(x,y) dx = \int (4x^3y^3 + 2y^2) dx$$</p>
+                <p>Separamos la integral:</p>
+                <p>$$f(x,y) = \int 4x^3y^3 dx + \int 2y^2 dx$$</p>
+                <p>Sacamos las constantes respecto a $x$ (el $4y^3$ sale de la primera, el $2y^2$ completo sale de la segunda porque no tiene $x$):</p>
+                <p>$$f(x,y) = 4y^3 \int x^3 dx + 2y^2 \int 1 dx$$</p>
+                <p>Aplicamos reglas de integración ($\frac{x^{n+1}}{n+1}$):</p>
+                <p>$$f(x,y) = 4y^3 \left( \frac{x^{3+1}}{3+1} \right) + 2y^2(x) + g(y)$$</p>
+                <p>$$f(x,y) = 4y^3 \left( \frac{x^4}{4} \right) + 2xy^2 + g(y)$$</p>
+                <p>Simplificamos dividiendo el $4$ del numerador con el $4$ del denominador, y ordenamos el primer término:</p>
+                <p>$$f(x,y) = x^4y^3 + 2xy^2 + g(y)$$</p>
+                
+                <h3>Paso 2: Derivación parcial e igualación</h3>
+                <p>Derivamos nuestra nueva función respecto a $y$:</p>
+                <p>$$\frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(x^4y^3 + 2xy^2 + g(y))$$</p>
+                <p>Separamos y derivamos (la $x$ es constante):</p>
+                <p>$$\frac{\partial f}{\partial y} = x^4(3y^2) + 2x(2y) + g'(y)$$</p>
+                <p>Ordenamos:</p>
+                <p>$$\frac{\partial f}{\partial y} = 3x^4y^2 + 4xy + g'(y)$$</p>
+                <p>Igualamos esto con nuestra $N(x,y)$ original:</p>
+                <p>$$3x^4y^2 + 4xy + g'(y) = 3x^4y^2 + 4xy$$</p>
+                <p>Cancelamos términos idénticos en ambos lados. (Se van tanto el $3x^4y^2$ como el $4xy$).</p>
+                <p>$$g'(y) = 0$$</p>
+                
+                <h3>Paso 3: Hallar $g(y)$</h3>
+                <p>Integramos $g'(y)$ respecto a $y$:</p>
+                <p>$$g(y) = \int 0 dy$$</p>
+                <p>$$g(y) = 0$$</p>
+                
+                <h3>Paso 4: Solución implícita</h3>
+                <p>Sustituimos $g(y)$ en nuestra función $f(x,y)$ del Paso 1:</p>
+                <p>$$f(x,y) = x^4y^3 + 2xy^2 + 0$$</p>
+                <p>Igualamos a la constante $C$:</p>
+                <p>$$x^4y^3 + 2xy^2 = C$$</p>
+            </div>
 
-            <div class="step">Paso 2: Derivación parcial e igualación</div>
-            <div class="math-block">$$\frac{\partial f}{\partial y} = x^2(3y^2) + 0 + g'(y) = 3x^2y^2 + g'(y)$$</div>
-            <p>Igualamos con $N(x,y)$:</p>
-            <div class="math-block">$$3x^2y^2 + g'(y) = 3x^2y^2 + 4y \implies g'(y) = 4y$$</div>
+            <div id="ej14" class="tabcontent">
+                <h2>Ejercicio 14: Transformable a Exacta (Con Factor Integrante)</h2>
+                <p>Resolvamos esta ecuación:</p>
+                <p>$$(2xy^2 + 3y)dx + (x^2y + x)dy = 0$$</p>
+                
+                <h3>Clasificación Obligatoria:</h3>
+                <p><strong>Orden:</strong> Primer orden.</p>
+                <p><strong>Linealidad:</strong> No lineal (por los términos cruzados $xy^2$ y $x^2y$).</p>
+                <p><strong>Homogeneidad:</strong> Está igualada a cero ($= 0$), así que ponemos directamente que Sí es Homogénea.</p>
+                
+                <h3>Ensayo y Error Visible (Prueba de Exactitud inicial)</h3>
+                <p>Identificamos variables:</p>
+                <p>$M = 2xy^2 + 3y$</p>
+                <p>$N = x^2y + x$</p>
+                <p>Derivamos respecto a la variable indicada, lo demás es constante.</p>
+                <p>$$\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(2xy^2) + \frac{\partial}{\partial y}(3y) = 2x(2y) + 3(1) = 4xy + 3$$</p>
+                <p>$$\frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(x^2y) + \frac{\partial}{\partial x}(x) = y(2x) + 1 = 2xy + 1$$</p>
+                <p>Como $4xy + 3 \neq 2xy + 1$, verificamos que no es exacta.</p>
+                
+                <h3>Búsqueda del Factor Integrante</h3>
+                <p>Comenzamos probando con $P(y)$:</p>
+                <p>$$P(y) = \frac{\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}}{M}$$</p>
+                <p>Sustituimos con paréntesis por los signos:</p>
+                <p>$$P(y) = \frac{(2xy + 1) - (4xy + 3)}{2xy^2 + 3y}$$</p>
+                <p>Destruimos paréntesis (el menos afecta todo adentro):</p>
+                <p>$$P(y) = \frac{2xy + 1 - 4xy - 3}{2xy^2 + 3y}$$</p>
+                <p>Sumamos/restamos semejantes arriba ($2xy - 4xy = -2xy$; y $1 - 3 = -2$):</p>
+                <p>$$P(y) = \frac{-2xy - 2}{2xy^2 + 3y}$$</p>
+                <p>Factorizamos arriba por factor común ($-2$) y abajo por ($y$):</p>
+                <p>$$P(y) = \frac{-2(xy + 1)}{y(2xy + 3)}$$</p>
+                <p>Nada se puede cancelar. La $x$ sobrevive. No sirve.</p>
+                <p>Probamos la otra fórmula, $P(x)$:</p>
+                <p>$$P(x) = \frac{\frac{\partial M}{\partial y} - \frac{\partial N}{\partial x}}{N}$$</p>
+                <p>Sustituimos con cuidado:</p>
+                <p>$$P(x) = \frac{(4xy + 3) - (2xy + 1)}{x^2y + x}$$</p>
+                <p>Destruimos paréntesis:</p>
+                <p>$$P(x) = \frac{4xy + 3 - 2xy - 1}{x^2y + x}$$</p>
+                <p>Agrupamos arriba ($4xy - 2xy = 2xy$; y $3 - 1 = +2$):</p>
+                <p>$$P(x) = \frac{2xy + 2}{x^2y + x}$$</p>
+                <p>Factorizamos numerador por factor común ($2$) y el denominador por factor común ($x$):</p>
+                <p>$$P(x) = \frac{2(xy + 1)}{x(xy + 1)}$$</p>
+                <p>¡Otra vez la magia algebraica! Cancelamos el binomio idéntico. El $(xy + 1)$ se cancela arriba y abajo:</p>
+                <p>$$P(x) = \frac{2}{x}$$</p>
+                <p>Depende solo de $x$. Sí sirve.</p>
+                <p>Calculamos el Factor Integrante $I(x)$:</p>
+                <p>$$I(x) = e^{\int P(x) dx} = e^{\int \frac{2}{x} dx}$$</p>
+                <p>Sacamos el $2$ de la integral y sabemos que $\int \frac{1}{x} dx = \ln x$:</p>
+                <p>$$I(x) = e^{2 \ln x}$$</p>
+                <p>(Regla del Profesor para simplificar: Aplicamos propiedad de logaritmos $a \ln(b) = \ln(b^a)$ para subir el $2$ como exponente y poder cancelar).</p>
+                <p>$$I(x) = e^{\ln x^2}$$</p>
+                <p>Cancelamos exponencial con logaritmo:</p>
+                <p>$$I(x) = x^2$$</p>
+                
+                <h3>Transformación a Exacta</h3>
+                <p>Multiplicamos toda la ecuación original por el F.I. ($x^2$):</p>
+                <p>$$x^2 \cdot [ (2xy^2 + 3y)dx + (x^2y + x)dy ] = x^2 \cdot [0]$$</p>
+                <p>Propiedad distributiva a cada término:</p>
+                <p>$$(x^2 \cdot 2xy^2 + x^2 \cdot 3y)dx + (x^2 \cdot x^2y + x^2 \cdot x)dy = 0$$</p>
+                <p>Sumamos los exponentes de las $x$:</p>
+                <p>$$(2x^3y^2 + 3x^2y)dx + (x^4y + x^3)dy = 0$$</p>
+                
+                <h3>Nueva Prueba de Exactitud:</h3>
+                <p>Nuevos componentes:</p>
+                <p>$M_{nuevo} = 2x^3y^2 + 3x^2y$</p>
+                <p>$N_{nuevo} = x^4y + x^3$</p>
+                <p>Derivamos parcialmente:</p>
+                <p>$$\frac{\partial M_{nuevo}}{\partial y} = 2x^3(2y) + 3x^2(1) = 4x^3y + 3x^2$$</p>
+                <p>$$\frac{\partial N_{nuevo}}{\partial x} = y(4x^3) + 3x^2 = 4x^3y + 3x^2$$</p>
+                <p>Como $4x^3y + 3x^2 = 4x^3y + 3x^2$, declaramos con seguridad: Es una ED exacta.</p>
+                
+                <h3>Paso 1: Integración</h3>
+                <p>Elegimos integrar $N_{nuevo}$ respecto a $y$:</p>
+                <p>$$f(x,y) = \int (x^4y + x^3) dy$$</p>
+                <p>Separamos y sacamos constantes respecto a $y$:</p>
+                <p>$$f(x,y) = x^4 \int y^1 dy + x^3 \int 1 dy$$</p>
+                <p>Aplicamos la regla de la potencia:</p>
+                <p>$$f(x,y) = x^4 \left( \frac{y^{1+1}}{1+1} \right) + x^3(y) + g(x)$$</p>
+                <p>$$f(x,y) = \frac{x^4y^2}{2} + x^3y + g(x)$$</p>
+                
+                <h3>Paso 2: Derivación e Igualación</h3>
+                <p>Derivamos nuestra $f(x,y)$ respecto a $x$:</p>
+                <p>$$\frac{\partial f}{\partial x} = \frac{\partial}{\partial x} \left( \frac{x^4y^2}{2} + x^3y + g(x) \right)$$</p>
+                <p>Separamos y derivamos ($y$ es constante):</p>
+                <p>$$\frac{\partial f}{\partial x} = \frac{y^2}{2}(4x^3) + y(3x^2) + g'(x)$$</p>
+                <p>Dividimos el $4$ del numerador entre el $2$ del denominador:</p>
+                <p>$$\frac{\partial f}{\partial x} = 2x^3y^2 + 3x^2y + g'(x)$$</p>
+                <p>Igualamos esto con $M_{nuevo}$:</p>
+                <p>$$2x^3y^2 + 3x^2y + g'(x) = 2x^3y^2 + 3x^2y$$</p>
+                <p>Cancelamos términos idénticos. (Se elimina todo a ambos lados).</p>
+                <p>$$g'(x) = 0$$</p>
+                
+                <h3>Paso 3: Hallar $g(x)$</h3>
+                <p>$$g(x) = \int 0 dx$$</p>
+                <p>$$g(x) = 0$$</p>
+                
+                <h3>Paso 4: Solución implícita</h3>
+                <p>Sustituimos $g(x)$ en la función $f(x,y)$:</p>
+                <p>$$f(x,y) = \frac{x^4y^2}{2} + x^3y + 0$$</p>
+                <p>Igualamos a nuestra constante $C$:</p>
+                <p>$$\frac{x^4y^2}{2} + x^3y = C$$</p>
+                <p>Limpieza (Regla del Profesor): Multiplicamos toda la ecuación por $2$ para eliminar ese denominador molesto:</p>
+                <p>$$2 \cdot \left( \frac{x^4y^2}{2} + x^3y \right) = 2 \cdot (C)$$</p>
+                <p>$$x^4y^2 + 2x^3y = 2C$$</p>
+                <p>Nombrando la constante $2C$ como $K$:</p>
+                <p>$$x^4y^2 + 2x^3y = K$$</p>
+            </div>
 
-            <div class="step">Paso 3 y 4: Hallar $g(y)$ y Solución</div>
-            <div class="math-block">$$g(y) = \int 4y dy = 2y^2$$</div>
-            <p>Solución:</p>
-            <div class="math-block">$$x^2y^3 + 5x + 2y^2 = C$$</div>
-            
-        </div>
+            <div id="ej15" class="tabcontent">
+                <h2>Ejercicio 15: Ecuación Diferencial Exacta (Directa)</h2>
+                <p>Vamos a resolver esta ecuación:</p>
+                <p>$$(4xy^3 + 3y^2 + 3x^2)dx + (6x^2y^2 + 6xy)dy = 0$$</p>
+                
+                <h3>Clasificación Obligatoria:</h3>
+                <p><strong>Orden:</strong> Primer orden (las diferenciales $dx$ y $dy$ no están derivadas múltiples veces).</p>
+                <p><strong>Linealidad:</strong> No lineal (tenemos variables con potencias como $y^3$ y productos como $xy^3$).</p>
+                <p><strong>Homogeneidad (Regla del Profesor):</strong> Al estar igualada a cero ($= 0$), decimos de forma directa que Sí es Homogénea.</p>
+                
+                <h3>Paso 0: Preparación y Prueba de Exactitud</h3>
+                <p>Verificamos que cumpla el formato $M(x,y)dx + N(x,y)dy = 0$.</p>
+                <p>Definimos nuestras partes:</p>
+                <p>$$M(x,y) = 4xy^3 + 3y^2 + 3x^2$$</p>
+                <p>$$N(x,y) = 6x^2y^2 + 6xy$$</p>
+                <p>Prueba de exactitud. Solo derivo respecto a la variable indicada, lo demás es constante.</p>
+                <p>Derivamos $M$ parcialmente respecto a $y$:</p>
+                <p>$$\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(4xy^3 + 3y^2 + 3x^2)$$</p>
+                <p>Separamos por la suma:</p>
+                <p>$$\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(4xy^3) + \frac{\partial}{\partial y}(3y^2) + \frac{\partial}{\partial y}(3x^2)$$</p>
+                <p>En el primer término sale el $4x$ como constante. En el segundo el $3$ sale. El tercer término es pura constante respecto a $y$, su derivada es cero:</p>
+                <p>$$\frac{\partial M}{\partial y} = 4x \left( \frac{\partial}{\partial y}(y^3) \right) + 3 \left( \frac{\partial}{\partial y}(y^2) \right) + 0$$</p>
+                <p>Aplicamos regla de la potencia ($ny^{n-1}$):</p>
+                <p>$$\frac{\partial M}{\partial y} = 4x(3y^2) + 3(2y)$$</p>
+                <p>Multiplicamos coeficientes:</p>
+                <p>$$\frac{\partial M}{\partial y} = 12xy^2 + 6y$$</p>
+                <p>Derivamos $N$ parcialmente respecto a $x$:</p>
+                <p>$$\frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(6x^2y^2 + 6xy)$$</p>
+                <p>Separamos:</p>
+                <p>$$\frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(6x^2y^2) + \frac{\partial}{\partial x}(6xy)$$</p>
+                <p>En el primer término, el $6y^2$ sale como constante. En el segundo, el $6y$ sale como constante:</p>
+                <p>$$\frac{\partial N}{\partial x} = 6y^2 \left( \frac{\partial}{\partial x}(x^2) \right) + 6y \left( \frac{\partial}{\partial x}(x^1) \right)$$</p>
+                <p>Derivamos por regla de la potencia:</p>
+                <p>$$\frac{\partial N}{\partial x} = 6y^2(2x^1) + 6y(1)$$</p>
+                <p>Multiplicamos y ordenamos alfabéticamente:</p>
+                <p>$$\frac{\partial N}{\partial x} = 12xy^2 + 6y$$</p>
+                <p>Como $\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x} = 12xy^2 + 6y$, confirmamos con confianza: Es una ED exacta.</p>
+                
+                <h3>Paso 1: Integración</h3>
+                <p>Vamos a integrar $M(x,y)$ respecto a $x$.</p>
+                <p>$$f(x,y) = \int M(x,y) dx = \int (4xy^3 + 3y^2 + 3x^2) dx$$</p>
+                <p>Separamos la integral:</p>
+                <p>$$f(x,y) = \int 4xy^3 dx + \int 3y^2 dx + \int 3x^2 dx$$</p>
+                <p>Sacamos las constantes respecto a $x$:</p>
+                <p>$$f(x,y) = 4y^3 \int x^1 dx + 3y^2 \int 1 dx + 3 \int x^2 dx$$</p>
+                <p>Aplicamos regla de integración ($\frac{x^{n+1}}{n+1}$):</p>
+                <p>$$f(x,y) = 4y^3 \left( \frac{x^2}{2} \right) + 3y^2(x) + 3 \left( \frac{x^3}{3} \right) + g(y)$$</p>
+                <p>Simplificamos coeficientes ($4 \div 2 = 2$ y $3 \div 3 = 1$):</p>
+                <p>$$f(x,y) = 2x^2y^3 + 3xy^2 + x^3 + g(y)$$</p>
+                
+                <h3>Paso 2: Derivación parcial e igualación</h3>
+                <p>Derivamos nuestra $f(x,y)$ respecto a $y$:</p>
+                <p>$$\frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(2x^2y^3 + 3xy^2 + x^3 + g(y))$$</p>
+                <p>Separamos y derivamos (la $x$ es constante):</p>
+                <p>$$\frac{\partial f}{\partial y} = 2x^2(3y^2) + 3x(2y) + 0 + g'(y)$$</p>
+                <p>$$\frac{\partial f}{\partial y} = 6x^2y^2 + 6xy + g'(y)$$</p>
+                <p>Igualamos esto con nuestra $N(x,y)$ original:</p>
+                <p>$$6x^2y^2 + 6xy + g'(y) = 6x^2y^2 + 6xy$$</p>
+                <p>Cancelamos términos idénticos en ambos lados. (Se van el $6x^2y^2$ y el $6xy$).</p>
+                <p>$$g'(y) = 0$$</p>
+                
+                <h3>Paso 3: Hallar $g(y)$</h3>
+                <p>Integramos $g'(y)$ respecto a $y$:</p>
+                <p>$$g(y) = \int 0 dy$$</p>
+                <p>$$g(y) = 0$$</p>
+                
+                <h3>Paso 4: Solución implícita</h3>
+                <p>Sustituimos $g(y)$ en nuestra función $f(x,y)$ del Paso 1:</p>
+                <p>$$f(x,y) = 2x^2y^3 + 3xy^2 + x^3 + 0$$</p>
+                <p>Igualamos a la constante $C$:</p>
+                <p>$$2x^2y^3 + 3xy^2 + x^3 = C$$</p>
+            </div>
 
-        <div id="ej12" class="tab-content">
-            <h2 class="exercise-title">Ejercicio 12: Transformable a Exacta (Con Factor Integrante)</h2>
-            <div class="math-block">$$(3xy^2 + 2y)dx + (2x^2y + x)dy = 0$$</div>
-            
-            <p><strong>Clasificación Obligatoria:</strong><br>
-            Orden: Primer orden.<br>
-            Linealidad: No lineal.<br>
-            Homogeneidad: Sí es Homogénea ($=0$).</p>
+            <div id="ej16" class="tabcontent">
+                <h2>Ejercicio 16: Transformable a Exacta (Con Factor Integrante)</h2>
+                <p>Nuestra ecuación a resolver es:</p>
+                <p>$$(2xy^2 + y)dx + (3x^2y + 2x)dy = 0$$</p>
+                
+                <h3>Clasificación Obligatoria:</h3>
+                <p><strong>Orden:</strong> Primer orden (solo diferenciales $dx$ y $dy$ simples).</p>
+                <p><strong>Linealidad:</strong> No lineal (tenemos productos como $xy^2$ y $x^2y$).</p>
+                <p><strong>Homogeneidad (Regla del Profesor):</strong> Igualada a cero ($= 0$), así que va directo al papel como Sí es Homogénea.</p>
+                
+                <h3>Ensayo y Error Visible (Prueba de Exactitud inicial)</h3>
+                <p>Verificamos la estructura $M(x,y)dx + N(x,y)dy = 0$.</p>
+                <p>Definimos nuestras funciones:</p>
+                <p>$$M(x,y) = 2xy^2 + y$$</p>
+                <p>$$N(x,y) = 3x^2y + 2x$$</p>
+                <p>Solo derivo respecto a la variable indicada, lo demás es constante.</p>
+                <p>Derivamos $M$ parcialmente respecto a $y$:</p>
+                <p>$$\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(2xy^2 + y) = 2x(2y) + 1 = 4xy + 1$$</p>
+                <p>Derivamos $N$ parcialmente respecto a $x$:</p>
+                <p>$$\frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(3x^2y + 2x) = 3y(2x) + 2(1) = 6xy + 2$$</p>
+                <p>Como $4xy + 1 \neq 6xy + 2$, la conclusión es firme: no es exacta.</p>
+                
+                <h3>Búsqueda del Factor Integrante</h3>
+                <p>Vamos a buscar el Factor Integrante probando primero con $P(x)$:</p>
+                <p>$$P(x) = \frac{\frac{\partial M}{\partial y} - \frac{\partial N}{\partial x}}{N}$$</p>
+                <p>Sustituimos con los infaltables paréntesis:</p>
+                <p>$$P(x) = \frac{(4xy + 1) - (6xy + 2)}{3x^2y + 2x}$$</p>
+                <p>Destruimos paréntesis (ley de signos afecta a todo lo del segundo):</p>
+                <p>$$P(x) = \frac{4xy + 1 - 6xy - 2}{3x^2y + 2x}$$</p>
+                <p>Agrupamos arriba ($4xy - 6xy = -2xy$; y $1 - 2 = -1$):</p>
+                <p>$$P(x) = \frac{-2xy - 1}{3x^2y + 2x}$$</p>
+                <p>Factorizamos numerador con ($-1$) y el denominador por factor común ($x$):</p>
+                <p>$$P(x) = \frac{-(2xy + 1)}{x(3xy + 2)}$$</p>
+                <p>Los paréntesis no son iguales. No sirve. (Rigor puro, dejamos la evidencia).</p>
+                <p>Probamos ahora con $P(y)$:</p>
+                <p>$$P(y) = \frac{\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}}{M}$$</p>
+                <p>Sustituimos:</p>
+                <p>$$P(y) = \frac{(6xy + 2) - (4xy + 1)}{2xy^2 + y}$$</p>
+                <p>Destruimos paréntesis:</p>
+                <p>$$P(y) = \frac{6xy + 2 - 4xy - 1}{2xy^2 + y}$$</p>
+                <p>Agrupamos arriba ($6xy - 4xy = 2xy$; y $2 - 1 = +1$):</p>
+                <p>$$P(y) = \frac{2xy + 1}{2xy^2 + y}$$</p>
+                <p>Factorizamos el denominador sacando factor común $y$:</p>
+                <p>$$P(y) = \frac{2xy + 1}{y(2xy + 1)}$$</p>
+                <p>¡Toma ya! Cancelamos el binomio completico. El $(2xy + 1)$ se anula arriba y abajo:</p>
+                <p>$$P(y) = \frac{1}{y}$$</p>
+                <p>Depende únicamente de $y$. Sí sirve.</p>
+                <p>Calculamos el Factor Integrante $I(y)$:</p>
+                <p>$$I(y) = e^{\int P(y) dy} = e^{\int \frac{1}{y} dy}$$</p>
+                <p>La integral directa:</p>
+                <p>$$I(y) = e^{\ln y}$$</p>
+                <p>Cancelamos exponencial y logaritmo (son operaciones inversas):</p>
+                <p>$$I(y) = y$$</p>
+                
+                <h3>Transformación a Exacta</h3>
+                <p>Multiplicamos la ecuación original por nuestro F.I. ($y$):</p>
+                <p>$$y \cdot [ (2xy^2 + y)dx + (3x^2y + 2x)dy ] = y \cdot [0]$$</p>
+                <p>Propiedad distributiva a cada uno de los términos:</p>
+                <p>$$(y \cdot 2xy^2 + y \cdot y)dx + (y \cdot 3x^2y + y \cdot 2x)dy = 0$$</p>
+                <p>Aplicamos leyes de exponentes sumando bases iguales:</p>
+                <p>$$(2xy^3 + y^2)dx + (3x^2y^2 + 2xy)dy = 0$$</p>
+                
+                <h3>Nueva Prueba de Exactitud:</h3>
+                <p>Nuevos participantes:</p>
+                <p>$M_{nuevo} = 2xy^3 + y^2$</p>
+                <p>$N_{nuevo} = 3x^2y^2 + 2xy$</p>
+                <p>Derivamos parcialmente:</p>
+                <p>$$\frac{\partial M_{nuevo}}{\partial y} = 2x(3y^2) + 2y^1 = 6xy^2 + 2y$$</p>
+                <p>$$\frac{\partial N_{nuevo}}{\partial x} = 3y^2(2x) + 2y(1) = 6xy^2 + 2y$$</p>
+                <p>Como $6xy^2 + 2y = 6xy^2 + 2y$, cantamos victoria: Es una ED exacta.</p>
+                
+                <h3>Paso 1: Integración</h3>
+                <p>Vamos a integrar $M_{nuevo}$ respecto a $x$:</p>
+                <p>$$f(x,y) = \int M_{nuevo}(x,y) dx = \int (2xy^3 + y^2) dx$$</p>
+                <p>Separamos la integral:</p>
+                <p>$$f(x,y) = \int 2xy^3 dx + \int y^2 dx$$</p>
+                <p>Sacamos las constantes respecto a $x$:</p>
+                <p>$$f(x,y) = 2y^3 \int x^1 dx + y^2 \int 1 dx$$</p>
+                <p>Aplicamos la regla de integración ($\frac{x^{n+1}}{n+1}$):</p>
+                <p>$$f(x,y) = 2y^3 \left( \frac{x^2}{2} \right) + y^2(x) + g(y)$$</p>
+                <p>Simplificamos dividiendo los coeficientes:</p>
+                <p>$$f(x,y) = x^2y^3 + xy^2 + g(y)$$</p>
+                
+                <h3>Paso 2: Derivación parcial e igualación</h3>
+                <p>Derivamos nuestra nueva función respecto a $y$:</p>
+                <p>$$\frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(x^2y^3 + xy^2 + g(y))$$</p>
+                <p>Separamos y derivamos (la $x$ actúa como constante):</p>
+                <p>$$\frac{\partial f}{\partial y} = x^2(3y^2) + x(2y) + g'(y)$$</p>
+                <p>Ordenamos los factores:</p>
+                <p>$$\frac{\partial f}{\partial y} = 3x^2y^2 + 2xy + g'(y)$$</p>
+                <p>Igualamos esto con nuestra $N_{nuevo}$ original:</p>
+                <p>$$3x^2y^2 + 2xy + g'(y) = 3x^2y^2 + 2xy$$</p>
+                <p>Cancelamos términos idénticos en ambos lados.</p>
+                <p>$$g'(y) = 0$$</p>
+                
+                <h3>Paso 3: Hallar $g(y)$</h3>
+                <p>Integramos $g'(y)$ respecto a $y$:</p>
+                <p>$$g(y) = \int 0 dy$$</p>
+                <p>$$g(y) = 0$$</p>
+                
+                <h3>Paso 4: Solución implícita</h3>
+                <p>Sustituimos $g(y)$ en nuestra función $f(x,y)$:</p>
+                <p>$$f(x,y) = x^2y^3 + xy^2 + 0$$</p>
+                <p>Igualamos a la constante $C$:</p>
+                <p>$$x^2y^3 + xy^2 = C$$</p>
+            </div>
 
-            <div class="step">Ensayo y Error (Prueba de Exactitud inicial)</div>
-            <p>$M = 3xy^2 + 2y \implies \frac{\partial M}{\partial y} = 6xy + 2$</p>
-            <p>$N = 2x^2y + x \implies \frac{\partial N}{\partial x} = 4xy + 1$</p>
-            <p>No es exacta.</p>
+            <div id="ej17" class="tabcontent">
+                <h2>Ejercicio 17: Ecuación Diferencial Exacta (Directa)</h2>
+                <p>Nuestra ecuación a resolver es:</p>
+                <p>$$(2xy^4 + 3x^2)dx + (4x^2y^3 + 2y)dy = 0$$</p>
+                
+                <h3>Clasificación Obligatoria:</h3>
+                <p><strong>Orden:</strong> Primer orden (solo diferenciales $dx$ y $dy$ simples).</p>
+                <p><strong>Linealidad:</strong> No lineal (tenemos $y^4$, $y^3$ y productos como $xy^4$).</p>
+                <p><strong>Homogeneidad (Regla del Profesor):</strong> Igualada a cero ($= 0$), así que va directo al examen como Sí es Homogénea.</p>
+                
+                <h3>Paso 0: Preparación y Prueba de Exactitud</h3>
+                <p>Validamos la estructura $M(x,y)dx + N(x,y)dy = 0$.</p>
+                <p>Definimos nuestras funciones:</p>
+                <p>$$M(x,y) = 2xy^4 + 3x^2$$</p>
+                <p>$$N(x,y) = 4x^2y^3 + 2y$$</p>
+                <p>Prueba de exactitud. Solo derivo respecto a la variable indicada, lo demás es constante.</p>
+                <p>Derivamos $M$ parcialmente respecto a $y$:</p>
+                <p>$$\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(2xy^4 + 3x^2)$$</p>
+                <p>Separamos por linealidad:</p>
+                <p>$$\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(2xy^4) + \frac{\partial}{\partial y}(3x^2)$$</p>
+                <p>El $2x$ sale como constante. El $3x^2$ no tiene $y$, es pura constante y su derivada es cero:</p>
+                <p>$$\frac{\partial M}{\partial y} = 2x \left( \frac{\partial}{\partial y}(y^4) \right) + 0$$</p>
+                <p>Aplicamos regla de la potencia ($ny^{n-1}$):</p>
+                <p>$$\frac{\partial M}{\partial y} = 2x(4y^3)$$</p>
+                <p>Multiplicamos coeficientes numéricos ($2 \cdot 4 = 8$):</p>
+                <p>$$\frac{\partial M}{\partial y} = 8xy^3$$</p>
+                <p>Derivamos $N$ parcialmente respecto a $x$:</p>
+                <p>$$\frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(4x^2y^3 + 2y)$$</p>
+                <p>Separamos:</p>
+                <p>$$\frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(4x^2y^3) + \frac{\partial}{\partial x}(2y)$$</p>
+                <p>El $4y^3$ sale como constante. El $2y$ es constante respecto a $x$, derivada cero:</p>
+                <p>$$\frac{\partial N}{\partial x} = 4y^3 \left( \frac{\partial}{\partial x}(x^2) \right) + 0$$</p>
+                <p>Derivamos por regla de la potencia:</p>
+                <p>$$\frac{\partial N}{\partial x} = 4y^3(2x^1)$$</p>
+                <p>Multiplicamos ($4 \cdot 2 = 8$) y ordenamos:</p>
+                <p>$$\frac{\partial N}{\partial x} = 8xy^3$$</p>
+                <p>Como $\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x} = 8xy^3$, la conclusión es firme: Es una ED exacta.</p>
+                
+                <h3>Paso 1: Integración</h3>
+                <p>Vamos a integrar $M(x,y)$ respecto a $x$.</p>
+                <p>$$f(x,y) = \int M(x,y) dx = \int (2xy^4 + 3x^2) dx$$</p>
+                <p>Separamos la integral:</p>
+                <p>$$f(x,y) = \int 2xy^4 dx + \int 3x^2 dx$$</p>
+                <p>Sacamos las constantes respecto a $x$:</p>
+                <p>$$f(x,y) = 2y^4 \int x^1 dx + 3 \int x^2 dx$$</p>
+                <p>Aplicamos la regla de integración ($\frac{x^{n+1}}{n+1}$):</p>
+                <p>$$f(x,y) = 2y^4 \left( \frac{x^2}{2} \right) + 3 \left( \frac{x^3}{3} \right) + g(y)$$</p>
+                <p>Simplificamos dividiendo los coeficientes (el $2$ con el $2$, y el $3$ con el $3$):</p>
+                <p>$$f(x,y) = x^2y^4 + x^3 + g(y)$$</p>
+                
+                <h3>Paso 2: Derivación parcial e igualación</h3>
+                <p>Derivamos nuestra nueva función respecto a $y$:</p>
+                <p>$$\frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(x^2y^4 + x^3 + g(y))$$</p>
+                <p>Separamos y derivamos (la $x$ actúa como constante):</p>
+                <p>$$\frac{\partial f}{\partial y} = x^2(4y^3) + 0 + g'(y)$$</p>
+                <p>Ordenamos los factores:</p>
+                <p>$$\frac{\partial f}{\partial y} = 4x^2y^3 + g'(y)$$</p>
+                <p>Igualamos esto con nuestra $N(x,y)$ original:</p>
+                <p>$$4x^2y^3 + g'(y) = 4x^2y^3 + 2y$$</p>
+                <p>Cancelamos términos idénticos en ambos lados. (Adiós al $4x^2y^3$).</p>
+                <p>$$g'(y) = 2y$$</p>
+                
+                <h3>Paso 3: Hallar $g(y)$</h3>
+                <p>Integramos $g'(y)$ respecto a $y$:</p>
+                <p>$$g(y) = \int 2y dy$$</p>
+                <p>Sacamos el $2$ y aplicamos regla de la potencia:</p>
+                <p>$$g(y) = 2 \left( \frac{y^2}{2} \right)$$</p>
+                <p>Cancelamos el $2$ de arriba con el de abajo:</p>
+                <p>$$g(y) = y^2$$</p>
+                
+                <h3>Paso 4: Solución implícita</h3>
+                <p>Sustituimos $g(y)$ en nuestra función $f(x,y)$:</p>
+                <p>$$f(x,y) = x^2y^4 + x^3 + y^2$$</p>
+                <p>Igualamos a la constante $C$:</p>
+                <p>$$x^2y^4 + x^3 + y^2 = C$$</p>
+            </div>
 
-            <div class="step">Búsqueda del Factor Integrante</div>
-            <div class="math-block">$$P(x) = \frac{\frac{\partial M}{\partial y} - \frac{\partial N}{\partial x}}{N} = \frac{(6xy + 2) - (4xy + 1)}{2x^2y + x} = \frac{2xy + 1}{x(2xy + 1)} = \frac{1}{x}$$</div>
-            <div class="math-block">$$I(x) = e^{\int \frac{1}{x} dx} = e^{\ln x} = x$$</div>
+            <div id="ej18" class="tabcontent">
+                <h2>Ejercicio 18: Transformable a Exacta (Con Factor Integrante)</h2>
+                <p>Vamos con esta pequeña trampa algebraica:</p>
+                <p>$$(4x^2y + 2y^2)dx + (x^3 + 2xy)dy = 0$$</p>
+                
+                <h3>Clasificación Obligatoria:</h3>
+                <p><strong>Orden:</strong> Primer orden.</p>
+                <p><strong>Linealidad:</strong> No lineal.</p>
+                <p><strong>Homogeneidad:</strong> Está igualada a cero ($= 0$), así que anotamos directo Sí es Homogénea.</p>
+                
+                <h3>Ensayo y Error Visible (Prueba de Exactitud inicial)</h3>
+                <p>Identificamos variables:</p>
+                <p>$M = 4x^2y + 2y^2$</p>
+                <p>$N = x^3 + 2xy$</p>
+                <p>Derivamos cruzado:</p>
+                <p>$$\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(4x^2y) + \frac{\partial}{\partial y}(2y^2) = 4x^2(1) + 2(2y) = 4x^2 + 4y$$</p>
+                <p>$$\frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(x^3) + \frac{\partial}{\partial x}(2xy) = 3x^2 + 2y(1) = 3x^2 + 2y$$</p>
+                <p>Como $4x^2 + 4y \neq 3x^2 + 2y$, demostramos que no es exacta.</p>
+                
+                <h3>Búsqueda del Factor Integrante</h3>
+                <p>Empezamos el ensayo probando con $P(y)$:</p>
+                <p>$$P(y) = \frac{\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}}{M}$$</p>
+                <p>Sustituimos con los infaltables paréntesis:</p>
+                <p>$$P(y) = \frac{(3x^2 + 2y) - (4x^2 + 4y)}{4x^2y + 2y^2}$$</p>
+                <p>Destruimos paréntesis (ley de signos afecta a todo lo del segundo):</p>
+                <p>$$P(y) = \frac{3x^2 + 2y - 4x^2 - 4y}{4x^2y + 2y^2}$$</p>
+                <p>Agrupamos arriba ($3x^2 - 4x^2 = -x^2$; y $2y - 4y = -2y$):</p>
+                <p>$$P(y) = \frac{-x^2 - 2y}{4x^2y + 2y^2}$$</p>
+                <p>Factorizamos numerador con ($-1$) y el denominador por factor común ($2y$):</p>
+                <p>$$P(y) = \frac{-(x^2 + 2y)}{2y(2x^2 + y)}$$</p>
+                <p>Los paréntesis no son iguales, por lo que la $x$ no se puede eliminar. No sirve. (El profesor ama ver estos intentos fallidos bien justificados).</p>
+                <p>Probamos ahora con $P(x)$:</p>
+                <p>$$P(x) = \frac{\frac{\partial M}{\partial y} - \frac{\partial N}{\partial x}}{N}$$</p>
+                <p>Sustituimos:</p>
+                <p>$$P(x) = \frac{(4x^2 + 4y) - (3x^2 + 2y)}{x^3 + 2xy}$$</p>
+                <p>Destruimos paréntesis:</p>
+                <p>$$P(x) = \frac{4x^2 + 4y - 3x^2 - 2y}{x^3 + 2xy}$$</p>
+                <p>Agrupamos arriba ($4x^2 - 3x^2 = x^2$; y $4y - 2y = 2y$):</p>
+                <p>$$P(x) = \frac{x^2 + 2y}{x^3 + 2xy}$$</p>
+                <p>Factorizamos el denominador sacando factor común $x$:</p>
+                <p>$$P(x) = \frac{x^2 + 2y}{x(x^2 + 2y)}$$</p>
+                <p>¡Toma ya! Cancelamos el binomio completico. El $(x^2 + 2y)$ se anula arriba y abajo:</p>
+                <p>$$P(x) = \frac{1}{x}$$</p>
+                <p>Depende únicamente de $x$. Sí sirve.</p>
+                <p>Calculamos el Factor Integrante $I(x)$:</p>
+                <p>$$I(x) = e^{\int P(x) dx} = e^{\int \frac{1}{x} dx}$$</p>
+                <p>La integral directa:</p>
+                <p>$$I(x) = e^{\ln x}$$</p>
+                <p>Cancelamos exponencial y logaritmo (son operaciones inversas):</p>
+                <p>$$I(x) = x$$</p>
+                
+                <h3>Transformación a Exacta</h3>
+                <p>Multiplicamos la ecuación original por nuestro F.I. recién salido del horno ($x$):</p>
+                <p>$$x \cdot [ (4x^2y + 2y^2)dx + (x^3 + 2xy)dy ] = x \cdot [0]$$</p>
+                <p>Propiedad distributiva a cada uno de los términos:</p>
+                <p>$$(x \cdot 4x^2y + x \cdot 2y^2)dx + (x \cdot x^3 + x \cdot 2xy)dy = 0$$</p>
+                <p>Aplicamos leyes de exponentes sumando bases iguales:</p>
+                <p>$$(4x^3y + 2xy^2)dx + (x^4 + 2x^2y)dy = 0$$</p>
+                
+                <h3>Nueva Prueba de Exactitud:</h3>
+                <p>Nuevos participantes:</p>
+                <p>$M_{nuevo} = 4x^3y + 2xy^2$</p>
+                <p>$N_{nuevo} = x^4 + 2x^2y$</p>
+                <p>Derivamos parcialmente:</p>
+                <p>$$\frac{\partial M_{nuevo}}{\partial y} = 4x^3(1) + 2x(2y) = 4x^3 + 4xy$$</p>
+                <p>$$\frac{\partial N_{nuevo}}{\partial x} = 4x^3 + 2y(2x) = 4x^3 + 4xy$$</p>
+                <p>Como $4x^3 + 4xy = 4x^3 + 4xy$, cantamos victoria: Es una ED exacta.</p>
+                
+                <h3>Paso 1: Integración</h3>
+                <p>Vamos a integrar $N_{nuevo}$ respecto a $y$ porque se ve un poco más amigable:</p>
+                <p>$$f(x,y) = \int (x^4 + 2x^2y) dy$$</p>
+                <p>Separamos y sacamos constantes respecto a $y$:</p>
+                <p>$$f(x,y) = x^4 \int 1 dy + 2x^2 \int y^1 dy$$</p>
+                <p>Aplicamos regla de potencias:</p>
+                <p>$$f(x,y) = x^4(y) + 2x^2 \left( \frac{y^2}{2} \right) + g(x)$$</p>
+                <p>$$f(x,y) = x^4y + x^2y^2 + g(x)$$</p>
 
-            <div class="step">Transformación y Nueva Prueba</div>
-            <div class="math-block">$$(3x^2y^2 + 2xy)dx + (2x^3y + x^2)dy = 0$$</div>
-            <div class="math-block">$$\frac{\partial M_{nuevo}}{\partial y} = 6x^2y + 2x \quad \text{y} \quad \frac{\partial N_{nuevo}}{\partial x} = 6x^2y + 2x$$</div>
-            <p>Es exacta.</p>
+                <h3>Paso 2: Derivación parcial e igualación</h3>
+                <p>Derivamos nuestra nueva función respecto a $x$:</p>
+                <p>$$\frac{\partial f}{\partial x} = \frac{\partial}{\partial x}(x^4y + x^2y^2 + g(x))$$</p>
+                <p>$$\frac{\partial f}{\partial x} = 4x^3y + 2xy^2 + g'(x)$$</p>
+                <p>Igualamos esto con nuestra $M_{nuevo}$:</p>
+                <p>$$4x^3y + 2xy^2 + g'(x) = 4x^3y + 2xy^2$$</p>
+                <p>Cancelamos términos idénticos en ambos lados:</p>
+                <p>$$g'(x) = 0$$</p>
 
-            <div class="step">Pasos de Solución</div>
-            <div class="math-block">$$f(x,y) = \int (2x^3y + x^2) dy = x^3y^2 + x^2y + g(x)$$</div>
-            <div class="math-block">$$\frac{\partial f}{\partial x} = 3x^2y^2 + 2xy + g'(x) = 3x^2y^2 + 2xy \implies g'(x) = 0 \implies g(x) = 0$$</div>
-            <p>Solución:</p>
-            <div class="math-block">$$x^3y^2 + x^2y = C$$</div>
-        </div>
+                <h3>Paso 3: Hallar $g(x)$</h3>
+                <p>Integramos $g'(x)$ respecto a $x$:</p>
+                <p>$$g(x) = \int 0 dx$$</p>
+                <p>$$g(x) = 0$$</p>
 
-        <div id="ej13" class="tab-content">
-            <h2 class="exercise-title">Ejercicio 13: Ecuación Diferencial Exacta (Directa)</h2>
-            <div class="math-block">$$(4x^3y^3 + 2y^2)dx + (3x^4y^2 + 4xy)dy = 0$$</div>
-            
-            <p><strong>Clasificación Obligatoria:</strong><br>
-            Orden: Primer orden.<br>
-            Linealidad: No lineal.<br>
-            Homogeneidad: Sí es Homogénea ($=0$).</p>
+                <h3>Paso 4: Solución implícita</h3>
+                <p>Sustituimos $g(x)$ en nuestra función $f(x,y)$:</p>
+                <p>$$f(x,y) = x^4y + x^2y^2 + 0$$</p>
+                <p>Igualamos a la constante $C$:</p>
+                <p>$$x^4y + x^2y^2 = C$$</p>
+            </div>
 
-            <div class="step">Paso 0: Prueba de Exactitud</div>
-            <div class="math-block">$$\frac{\partial M}{\partial y} = 4x^3(3y^2) + 2(2y) = 12x^3y^2 + 4y$$</div>
-            <div class="math-block">$$\frac{\partial N}{\partial x} = 3y^2(4x^3) + 4y(1) = 12x^3y^2 + 4y$$</div>
-            <p>Es una ED exacta.</p>
-
-            <div class="step">Paso 1: Integración</div>
-            <div class="math-block">$$f(x,y) = \int (4x^3y^3 + 2y^2) dx = x^4y^3 + 2xy^2 + g(y)$$</div>
-
-            <div class="step">Paso 2, 3 y 4: Derivación, Igualación y Solución</div>
-            <div class="math-block">$$\frac{\partial f}{\partial y} = 3x^4y^2 + 4xy + g'(y) = 3x^4y^2 + 4xy \implies g'(y) = 0 \implies g(y) = 0$$</div>
-            <p>Solución:</p>
-            <div class="math-block">$$x^4y^3 + 2xy^2 = C$$</div>
-        </div>
-
-        <div id="ej14" class="tab-content">
-            <h2 class="exercise-title">Ejercicio 14: Transformable a Exacta (Con Factor Integrante)</h2>
-            <div class="math-block">$$(2xy^2 + 3y)dx + (x^2y + x)dy = 0$$</div>
-            
-            <p><strong>Clasificación Obligatoria:</strong><br>
-            Orden: Primer orden.<br>
-            Linealidad: No lineal.<br>
-            Homogeneidad: Sí es Homogénea ($=0$).</p>
-
-            <div class="step">Ensayo y Error (Prueba de Exactitud inicial)</div>
-            <div class="math-block">$$\frac{\partial M}{\partial y} = 4xy + 3 \quad \text{y} \quad \frac{\partial N}{\partial x} = 2xy + 1$$</div>
-            <p>No es exacta.</p>
-
-            <div class="step">Búsqueda del Factor Integrante</div>
-            <div class="math-block">$$P(x) = \frac{(4xy + 3) - (2xy + 1)}{x^2y + x} = \frac{2xy + 2}{x(xy + 1)} = \frac{2(xy + 1)}{x(xy + 1)} = \frac{2}{x}$$</div>
-            <div class="math-block">$$I(x) = e^{\int \frac{2}{x} dx} = e^{2 \ln x} = x^2$$</div>
-
-            <div class="step">Transformación y Nueva Prueba</div>
-            <div class="math-block">$$(2x^3y^2 + 3x^2y)dx + (x^4y + x^3)dy = 0$$</div>
-            <div class="math-block">$$\frac{\partial M_{nuevo}}{\partial y} = 4x^3y + 3x^2 \quad \text{y} \quad \frac{\partial N_{nuevo}}{\partial x} = 4x^3y + 3x^2$$</div>
-            <p>Es exacta.</p>
-
-            <div class="step">Pasos de Solución</div>
-            <div class="math-block">$$f(x,y) = \int (x^4y + x^3) dy = \frac{x^4y^2}{2} + x^3y + g(x)$$</div>
-            <div class="math-block">$$\frac{\partial f}{\partial x} = 2x^3y^2 + 3x^2y + g'(x) = 2x^3y^2 + 3x^2y \implies g'(x) = 0 \implies g(x) = 0$$</div>
-            <p>Multiplicamos todo por 2 para limpiar denominadores:<br>
-            Solución:</p>
-            <div class="math-block">$$x^4y^2 + 2x^3y = K$$</div>
-        </div>
-
-        <div id="ej15" class="tab-content">
-            <h2 class="exercise-title">Ejercicio 15: Ecuación Diferencial Exacta (Directa)</h2>
-            <div class="math-block">$$(4xy^3 + 3y^2 + 3x^2)dx + (6x^2y^2 + 6xy)dy = 0$$</div>
-            
-            <p><strong>Clasificación Obligatoria:</strong><br>
-            Orden: Primer orden.<br>
-            Linealidad: No lineal.<br>
-            Homogeneidad: Sí es Homogénea ($=0$).</p>
-
-            <div class="step">Paso 0: Prueba de Exactitud</div>
-            <div class="math-block">$$\frac{\partial M}{\partial y} = 12xy^2 + 6y \quad \text{y} \quad \frac{\partial N}{\partial x} = 12xy^2 + 6y$$</div>
-            <p>Es una ED exacta.</p>
-
-            <div class="step">Paso 1: Integración</div>
-            <div class="math-block">$$f(x,y) = \int (4xy^3 + 3y^2 + 3x^2) dx = 2x^2y^3 + 3xy^2 + x^3 + g(y)$$</div>
-
-            <div class="step">Paso 2, 3 y 4: Derivación, Igualación y Solución</div>
-            <div class="math-block">$$\frac{\partial f}{\partial y} = 6x^2y^2 + 6xy + g'(y) = 6x^2y^2 + 6xy \implies g'(y) = 0 \implies g(y) = 0$$</div>
-            <p>Solución:</p>
-            <div class="math-block">$$2x^2y^3 + 3xy^2 + x^3 = C$$</div>
-        </div>
-
-        <div id="ej16" class="tab-content">
-            <h2 class="exercise-title">Ejercicio 16: Transformable a Exacta (Con Factor Integrante)</h2>
-            <div class="math-block">$$(2xy^2 + y)dx + (3x^2y + 2x)dy = 0$$</div>
-            
-            <p><strong>Clasificación Obligatoria:</strong><br>
-            Orden: Primer orden.<br>
-            Linealidad: No lineal.<br>
-            Homogeneidad: Sí es Homogénea ($=0$).</p>
-
-            <div class="step">Ensayo y Error (Prueba de Exactitud inicial)</div>
-            <div class="math-block">$$\frac{\partial M}{\partial y} = 4xy + 1 \quad \text{y} \quad \frac{\partial N}{\partial x} = 6xy + 2$$</div>
-            <p>No es exacta.</p>
-
-            <div class="step">Búsqueda del Factor Integrante (Dependiente de y)</div>
-            <div class="math-block">$$P(y) = \frac{\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}}{M} = \frac{(6xy + 2) - (4xy + 1)}{2xy^2 + y} = \frac{2xy + 1}{y(2xy + 1)} = \frac{1}{y}$$</div>
-            <div class="math-block">$$I(y) = e^{\int \frac{1}{y} dy} = e^{\ln y} = y$$</div>
-
-            <div class="step">Transformación y Nueva Prueba</div>
-            <div class="math-block">$$(2xy^3 + y^2)dx + (3x^2y^2 + 2xy)dy = 0$$</div>
-            <div class="math-block">$$\frac{\partial M_{nuevo}}{\partial y} = 6xy^2 + 2y \quad \text{y} \quad \frac{\partial N_{nuevo}}{\partial x} = 6xy^2 + 2y$$</div>
-            <p>Es exacta.</p>
-
-            <div class="step">Pasos de Solución</div>
-            <div class="math-block">$$f(x,y) = \int (2xy^3 + y^2) dx = x^2y^3 + xy^2 + g(y)$$</div>
-            <div class="math-block">$$\frac{\partial f}{\partial y} = 3x^2y^2 + 2xy + g'(y) = 3x^2y^2 + 2xy \implies g'(y) = 0 \implies g(y) = 0$$</div>
-            <p>Solución:</p>
-            <div class="math-block">$$x^2y^3 + xy^2 = C$$</div>
-        </div>
-
-        <div id="ej17" class="tab-content">
-            <h2 class="exercise-title">Ejercicio 17: Ecuación Diferencial Exacta (Directa)</h2>
-            <div class="math-block">$$(2xy^4 + 3x^2)dx + (4x^2y^3 + 2y)dy = 0$$</div>
-            
-            <p><strong>Clasificación Obligatoria:</strong><br>
-            Orden: Primer orden.<br>
-            Linealidad: No lineal.<br>
-            Homogeneidad: Sí es Homogénea ($=0$).</p>
-
-            <div class="step">Paso 0: Prueba de Exactitud</div>
-            <div class="math-block">$$\frac{\partial M}{\partial y} = 8xy^3 \quad \text{y} \quad \frac{\partial N}{\partial x} = 8xy^3$$</div>
-            <p>Es una ED exacta.</p>
-
-            <div class="step">Paso 1: Integración</div>
-            <div class="math-block">$$f(x,y) = \int (2xy^4 + 3x^2) dx = x^2y^4 + x^3 + g(y)$$</div>
-
-            <div class="step">Paso 2, 3 y 4: Derivación, Igualación y Solución</div>
-            <div class="math-block">$$\frac{\partial f}{\partial y} = 4x^2y^3 + g'(y) = 4x^2y^3 + 2y \implies g'(y) = 2y \implies g(y) = y^2$$</div>
-            <p>Solución:</p>
-            <div class="math-block">$$x^2y^4 + x^3 + y^2 = C$$</div>
-        </div>
-
-        <div id="ej18" class="tab-content">
-            <h2 class="exercise-title">Ejercicio 18: Transformable a Exacta (Con Factor Integrante)</h2>
-            <div class="math-block">$$(4x^2y + 2y^2)dx + (x^3 + 2xy)dy = 0$$</div>
-            
-            <p><strong>Clasificación Obligatoria:</strong><br>
-            Orden: Primer orden.<br>
-            Linealidad: No lineal.<br>
-            Homogeneidad: Sí es Homogénea ($=0$).</p>
-
-            <div class="step">Ensayo y Error (Prueba de Exactitud inicial)</div>
-            <div class="math-block">$$\frac{\partial M}{\partial y} = 4x^2 + 4y \quad \text{y} \quad \frac{\partial N}{\partial x} = 3x^2 + 2y$$</div>
-            <p>No es exacta.</p>
-
-            <div class="step">Búsqueda del Factor Integrante</div>
-            <div class="math-block">$$P(x) = \frac{(4x^2 + 4y) - (3x^2 + 2y)}{x^3 + 2xy} = \frac{x^2 + 2y}{x(x^2 + 2y)} = \frac{1}{x}$$</div>
-            <div class="math-block">$$I(x) = e^{\int \frac{1}{x} dx} = e^{\ln x} = x$$</div>
-
-            <div class="step">Transformación y Nueva Prueba</div>
-            <div class="math-block">$$(4x^3y + 2xy^2)dx + (x^4 + 2x^2y)dy = 0$$</div>
-            <div class="math-block">$$\frac{\partial M_{nuevo}}{\partial y} = 4x^3 + 4xy \quad \text{y} \quad \frac{\partial N_{nuevo}}{\partial x} = 4x^3 + 4xy$$</div>
-            <p>Es exacta.</p>
-
-            <div class="step">Pasos de Solución</div>
-            <div class="math-block">$$f(x,y) = \int (x^4 + 2x^2y) dy = x^4y + x^2y^2 + g(x)$$</div>
-            <div class="math-block">$$\frac{\partial f}{\partial x} = 4x^3y + 2xy^2 + g'(x) = 4x^3y + 2xy^2 \implies g'(x) = 0 \implies g(x) = 0$$</div>
-            <p>Solución:</p>
-            <div class="math-block">$$x^4y + x^2y^2 = C$$</div>
-        </div>
-
-        <div id="ej19" class="tab-content">
-            <h2 class="exercise-title">Ejercicio 19: Ecuación Diferencial Exacta (Directa)</h2>
-            <div class="math-block">$$(3x^2y^4 + 2xy)dx + (4x^3y^3 + x^2)dy = 0$$</div>
-            
-            <p><strong>Clasificación Obligatoria:</strong><br>
-            Orden: Primer orden.<br>
-            Linealidad: No lineal.<br>
-            Homogeneidad: Sí es Homogénea ($=0$).</p>
-
-            <div class="step">Paso 0: Prueba de Exactitud</div>
-            <div class="math-block">$$\frac{\partial M}{\partial y} = 12x^2y^3 + 2x \quad \text{y} \quad \frac{\partial N}{\partial x} = 12x^2y^3 + 2x$$</div>
-            <p>Es una ED exacta.</p>
-
-            <div class="step">Paso 1: Integración</div>
-            <div class="math-block">$$f(x,y) = \int (3x^2y^4 + 2xy) dx = x^3y^4 + x^2y + g(y)$$</div>
-
-            <div class="step">Paso 2, 3 y 4: Derivación, Igualación y Solución</div>
-            <div class="math-block">$$\frac{\partial f}{\partial y} = 4x^3y^3 + x^2 + g'(y) = 4x^3y^3 + x^2 \implies g'(y) = 0 \implies g(y) = 0$$</div>
-            <p>Solución:</p>
-            <div class="math-block">$$x^3y^4 + x^2y = C$$</div>
-        </div>
-
-        <div id="ej20" class="tab-content">
-            <h2 class="exercise-title">Ejercicio 20: Transformable a Exacta (Con Factor Integrante)</h2>
-            <div class="math-block">$$(3x^2y^2 + 5xy)dx + (x^3y + x^2)dy = 0$$</div>
-            
-            <p><strong>Clasificación Obligatoria:</strong><br>
-            Orden: Primer orden.<br>
-            Linealidad: No lineal.<br>
-            Homogeneidad: Sí es Homogénea ($=0$).</p>
-
-            <div class="step">Ensayo y Error (Prueba de Exactitud inicial)</div>
-            <div class="math-block">$$\frac{\partial M}{\partial y} = 6x^2y + 5x \quad \text{y} \quad \frac{\partial N}{\partial x} = 3x^2y + 2x$$</div>
-            <p>No es exacta.</p>
-
-            <div class="step">Búsqueda del Factor Integrante</div>
-            <div class="math-block">$$P(x) = \frac{(6x^2y + 5x) - (3x^2y + 2x)}{x^3y + x^2} = \frac{3x^2y + 3x}{x(x^2y + x)} = \frac{3x(xy + 1)}{x^2(xy + 1)} = \frac{3}{x}$$</div>
-            <div class="math-block">$$I(x) = e^{\int \frac{3}{x} dx} = e^{3 \ln x} = x^3$$</div>
-
-            <div class="step">Transformación y Nueva Prueba</div>
-            <div class="math-block">$$(3x^5y^2 + 5x^4y)dx + (x^6y + x^5)dy = 0$$</div>
-            <div class="math-block">$$\frac{\partial M_{nuevo}}{\partial y} = 6x^5y + 5x^4 \quad \text{y} \quad \frac{\partial N_{nuevo}}{\partial x} = 6x^5y + 5x^4$$</div>
-            <p>Es exacta.</p>
-
-            <div class="step">Pasos de Solución</div>
-            <div class="math-block">$$f(x,y) = \int (x^6y + x^5) dy = \frac{x^6y^2}{2} + x^5y + g(x)$$</div>
-            <div class="math-block">$$\frac{\partial f}{\partial x} = 3x^5y^2 + 5x^4y + g'(x) = 3x^5y^2 + 5x^4y \implies g'(x) = 0 \implies g(x) = 0$$</div>
-            <p>Multiplicamos por 2 para eliminar la fracción:<br>
-            Solución:</p>
-            <div class="math-block">$$x^6y^2 + 2x^5y = K$$</div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <footer>
-        <p>Desarrollado por <strong>flexedwin</strong> | <a href="http://www.flexedwin.com" target="_blank" rel="noopener noreferrer">www.flexedwin.com</a> | &copy; 2026</p>
+        <p>Desarrollado con pasión por <a href="https://wwwflexedwin.com" target="_blank">FlexEdwin</a> &copy; 2026. Todos los derechos reservados.</p>
     </footer>
 
     <script>
         function openTab(evt, tabId) {
             // Ocultar todo el contenido de las pestañas
-            const tabContents = document.getElementsByClassName("tab-content");
-            for (let i = 0; i < tabContents.length; i++) {
-                tabContents[i].classList.remove("active");
+            let tabcontent = document.getElementsByClassName("tabcontent");
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
             }
 
             // Quitar la clase "active" de todos los botones
-            const tabButtons = document.getElementsByClassName("tab-button");
-            for (let i = 0; i < tabButtons.length; i++) {
-                tabButtons[i].classList.remove("active");
+            let tablinks = document.getElementsByClassName("tablinks");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
 
-            // Mostrar la pestaña actual y añadir "active" al botón presionado
-            document.getElementById(tabId).classList.add("active");
-            evt.currentTarget.classList.add("active");
+            // Mostrar la pestaña actual y añadir "active" al botón que abrió la pestaña
+            document.getElementById(tabId).style.display = "block";
+            evt.currentTarget.className += " active";
         }
+
+        // Simular un clic en la primera pestaña al cargar la página para que no quede vacía
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector(".tablinks").click();
+        });
     </script>
+
 </body>
 </html>
