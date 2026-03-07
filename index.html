@@ -3,967 +3,477 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solucionario Ecuaciones Diferenciales Lineales NoHomogeneas- www.FlexEdwin.com</title>
+    <title>Ecuaciones Diferenciales - flexedwin</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <script>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
-      },
-      options: {
-        ignoreHtmlClass: 'tex2jax_ignore',
-        processHtmlClass: 'tex2jax_process'
-      },
-      chtml: {
-        scale: 1.1 
-      }
-    };
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
         :root {
-            --primary: #2563eb;       /* Azul marca */
-            --primary-dark: #1e40af;
-            --accent: #3b82f6;
-            --bg-body: #f3f4f6;       /* Gris muy suave */
-            --bg-card: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --border-color: #e5e7eb;
-            --success-bg: #f0fdf4;
-            --success-border: #bbf7d0;
-            --sidebar-width: 280px;
-        }
-
-        * {
-            box-sizing: border-box;
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --surface-color: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --border-color: #e2e8f0;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
+            background-color: var(--bg-color);
             color: var(--text-main);
+            line-height: 1.7;
             margin: 0;
             padding: 0;
-            line-height: 1.7;
             display: flex;
+            flex-direction: column;
             min-height: 100vh;
         }
 
-        /* --- LAYOUT PRINCIPAL --- */
-        .app-layout {
-            display: grid;
-            grid-template-columns: var(--sidebar-width) 1fr;
-            width: 100%;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        /* --- SIDEBAR DE NAVEGACIÓN --- */
-        .sidebar {
-            background: var(--bg-card);
-            border-right: 1px solid var(--border-color);
-            height: 100vh;
-            position: sticky;
-            top: 0;
-            overflow-y: auto;
-            padding: 2rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .brand {
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--primary);
-            text-decoration: none;
-            margin-bottom: 2rem;
-            display: block;
-            letter-spacing: -0.5px;
-        }
-        
-        .nav-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .nav-links {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .nav-links li {
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            display: block;
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            background-color: #eff6ff;
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* --- CONTENIDO PRINCIPAL --- */
-        .main-content {
-            padding: 3rem 4rem;
-            overflow-x: hidden; /* Evita scroll horizontal general */
-        }
-
         header {
-            margin-bottom: 4rem;
+            background-color: var(--surface-color);
+            padding: 2rem;
+            text-align: center;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--text-main);
-            margin: 0 0 0.5rem 0;
-            letter-spacing: -1px;
+        header h1 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 2rem;
         }
 
-        .subtitle {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-
-        /* --- TARJETAS DE EJERCICIOS --- */
-        .exercise-card {
-            background: var(--bg-card);
+        main {
+            flex: 1;
+            max-width: 1000px;
+            margin: 2rem auto;
+            width: 90%;
+            background: var(--surface-color);
             border-radius: 12px;
-            padding: 0; /* Padding controlado internamente */
-            margin-bottom: 4rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            border: 1px solid var(--border-color);
-            scroll-margin-top: 2rem; /* Para que el link no quede pegado arriba */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
-        .card-header {
-            background: #f8fafc;
-            padding: 1.5rem 2.5rem;
-            border-bottom: 1px solid var(--border-color);
+        /* Sistema de Pestañas */
+        .tab-container {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-wrap: wrap;
+            background-color: #f1f5f9;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .exercise-badge {
-            background-color: var(--primary);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .card-body {
-            padding: 2.5rem;
-        }
-
-        /* Renderizado de ecuación principal grande */
-        .main-equation {
-            font-size: 1.4rem;
-            margin: 1.5rem 0 2.5rem 0;
-            text-align: center;
-            padding: 1rem;
-            background: #fdfdfd;
-            border: 1px dashed var(--border-color);
-            border-radius: 8px;
-        }
-
-        /* --- PASOS --- */
-        .step {
-            position: relative;
-            padding-left: 2rem;
-            margin-bottom: 2rem;
-            border-left: 2px solid var(--border-color);
-        }
-
-        .step:hover {
-            border-left-color: var(--accent);
-        }
-
-        .step-title {
-            font-weight: 700;
-            color: var(--primary-dark);
+        .tab-button {
+            background: inherit;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 1rem 1.5rem;
+            transition: 0.3s;
             font-size: 1rem;
-            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button:hover {
+            background-color: #e2e8f0;
+            color: var(--primary-color);
+        }
+
+        .tab-button.active {
+            background-color: var(--surface-color);
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 2.5rem;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-content.active {
             display: block;
         }
 
-        /* --- RESPUESTA FINAL --- */
-        .final-answer {
-            background-color: var(--success-bg);
-            border: 1px solid var(--success-border);
-            color: #14532d;
-            padding: 2rem;
-            border-radius: 8px;
-            margin-top: 3rem;
-            text-align: center;
-            position: relative;
-        }
-        
-        .final-answer::before {
-            content: "Solución General";
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--success-bg);
-            padding: 0 10px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: #166534;
-            text-transform: uppercase;
+        /* Estilos del contenido matemático */
+        .exercise-title {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 1.5rem;
         }
 
-        /* Ajuste para MathJax responsive */
-        mjx-container {
+        .step {
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .math-block {
             overflow-x: auto;
-            overflow-y: hidden;
-            max-width: 100%;
+            margin: 1rem 0;
         }
 
-        /* Footer */
-        .site-footer {
-            margin-top: 5rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
+        footer {
             text-align: center;
+            padding: 1.5rem;
+            background-color: var(--surface-color);
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
             color: var(--text-muted);
             font-size: 0.9rem;
         }
-        
-        .site-footer a {
-            color: var(--primary);
+
+        footer a {
+            color: var(--primary-color);
             text-decoration: none;
             font-weight: 600;
         }
 
-        /* --- RESPONSIVE --- */
-        @media (max-width: 1024px) {
-            .app-layout {
-                grid-template-columns: 1fr;
-            }
-            .sidebar {
-                display: none; /* Podrías convertirlo en menú hamburguesa */
-            }
-            .main-content {
-                padding: 2rem 1.5rem;
-            }
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-<div class="app-layout">
-    
-    <nav class="sidebar">
-        <a href="#" class="brand">FlexEdwin<span style="color:var(--text-main)">.com</span></a>
-        <div class="nav-title">Índice de Ejercicios</div>
-        <ul class="nav-links" id="toc-list">
-            </ul>
-    </nav>
+    <header>
+        <h1>Resolución de Ecuaciones Diferenciales</h1>
+        <p>Soluciones paso a paso</p>
+    </header>
 
-    <main class="main-content">
-        <header>
-            <h1>Guía Maestra de Ecuaciones</h1>
-            <div class="subtitle">Resolución micro-granular de Ecuaciones Lineales No Homogéneas</div>
-            <p style="margin-top: 1rem; color: var(--text-muted);">
-                <strong>Método:</strong> Factor Integrante &nbsp;|&nbsp; 
-                <strong>Autor:</strong> Edwin Flex
-            </p>
-        </header>
+    <main>
+        <div class="tab-container">
+            <button class="tab-button active" onclick="openTab(event, 'ej11')">Ejercicio 11</button>
+            <button class="tab-button" onclick="openTab(event, 'ej12')">Ejercicio 12</button>
+            <button class="tab-button" onclick="openTab(event, 'ej13')">Ejercicio 13</button>
+            <button class="tab-button" onclick="openTab(event, 'ej14')">Ejercicio 14</button>
+            <button class="tab-button" onclick="openTab(event, 'ej15')">Ejercicio 15</button>
+            <button class="tab-button" onclick="openTab(event, 'ej16')">Ejercicio 16</button>
+            <button class="tab-button" onclick="openTab(event, 'ej17')">Ejercicio 17</button>
+            <button class="tab-button" onclick="openTab(event, 'ej18')">Ejercicio 18</button>
+            <button class="tab-button" onclick="openTab(event, 'ej19')">Ejercicio 19</button>
+            <button class="tab-button" onclick="openTab(event, 'ej20')">Ejercicio 20</button>
+        </div>
 
-        <article class="exercise-card" id="ej-1">
-            <div class="card-header">
-                <span class="exercise-badge">Ejercicio 01</span>
-            </div>
-            <div class="card-body">
-                <div class="main-equation">
-                    $$ \frac{dy}{dx} + 2y = 4 $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">1. Identificación P(x) y Q(x)</span>
-                    La ecuación ya está en forma estándar. <br>
-                    \( P(x) = 2 \) <br>
-                    \( Q(x) = 4 \)
-                </div>
-
-                <div class="step">
-                    <span class="step-title">2. Factor Integrante</span>
-                    $$ I = e^{\int P(x)dx} = e^{\int 2 dx} = e^{2x} $$
-                </div>
-
-                <div class="step">
-                    <span class="step-title">3. Multiplicación</span>
-                    Multiplicamos toda la ecuación por \( e^{2x} \):
-                    $$ e^{2x}\frac{dy}{dx} + 2e^{2x}y = 4e^{2x} $$
-                </div>
-
-                <div class="step">
-                    <span class="step-title">4. Empaquetado (Derivada del Producto)</span>
-                    $$ \frac{d}{dx}[e^{2x}y] = 4e^{2x} $$
-                </div>
-
-                <div class="step">
-                    <span class="step-title">5. Integración</span>
-                    $$ e^{2x}y = \int 4e^{2x} dx $$
-                    Sacamos la constante 4 e integramos \( e^{2x} \) (dividiendo por la derivada del exponente, 2):
-                    $$ e^{2x}y = 4 \left( \frac{e^{2x}}{2} \right) + C $$
-                    $$ e^{2x}y = 2e^{2x} + C $$
-                </div>
-
-                <div class="final-answer">
-                    $$ y = 2 + Ce^{-2x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-2">
-            <div class="card-header">
-                <span class="exercise-badge">Ejercicio 02</span>
-            </div>
-            <div class="card-body">
-                <div class="main-equation">
-                    $$ \frac{dy}{dx} - y = x $$
-                </div>
-
-                <div class="step">
-                    <span class="step-title">1. Identificación</span>
-                    \( P(x) = -1 \) <br>
-                    \( Q(x) = x \)
-                </div>
-
-                <div class="step">
-                    <span class="step-title">2. Factor Integrante</span>
-                    $$ I = e^{\int -1 dx} = e^{-x} $$
-                </div>
-
-                <div class="step">
-                    <span class="step-title">3. Multiplicación y Empaquetado</span>
-                    $$ e^{-x}\frac{dy}{dx} - e^{-x}y = xe^{-x} $$
-                    $$ \frac{d}{dx}[e^{-x}y] = xe^{-x} $$
-                </div>
-
-                <div class="step">
-                    <span class="step-title">4. Integración por Partes</span>
-                    $$ e^{-x}y = \int x e^{-x} dx $$
-                    Usamos: \( u = x \Rightarrow du = dx \) y \( dv = e^{-x}dx \Rightarrow v = -e^{-x} \)
-                    $$ \int x e^{-x} dx = -xe^{-x} - \int (-e^{-x}) dx $$
-                    $$ = -xe^{-x} + \int e^{-x} dx $$
-                    $$ = -xe^{-x} - e^{-x} + C $$
-                </div>
-
-                <div class="step">
-                    <span class="step-title">5. Despeje</span>
-                    Dividimos todo por \( e^{-x} \) (o multiplicamos por \( e^x \)):
-                    $$ y = e^x(-xe^{-x} - e^{-x} + C) $$
-                    $$ y = -x - 1 + Ce^x $$
-                </div>
-
-                <div class="final-answer">
-                    $$ y = -x - 1 + Ce^x $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-3">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 03</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} + 3y = 2x - 5 $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( P(x) = 3 \Rightarrow I = e^{\int 3 dx} = e^{3x} \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Empaquetado</span>
-                    $$ \frac{d}{dx}[e^{3x}y] = (2x - 5)e^{3x} $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">3. Integración por Partes</span>
-                    \( u = 2x-5 \Rightarrow du = 2dx \) <br>
-                    \( dv = e^{3x}dx \Rightarrow v = \frac{1}{3}e^{3x} \)
-                    $$ \int (2x-5)e^{3x}dx = \frac{1}{3}(2x-5)e^{3x} - \int \frac{2}{3}e^{3x}dx $$
-                    $$ = \frac{1}{3}(2x-5)e^{3x} - \frac{2}{9}e^{3x} + C $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">4. Despeje</span>
-                    Dividimos por \( e^{3x} \):
-                    $$ y = \frac{1}{3}(2x-5) - \frac{2}{9} + Ce^{-3x} $$
-                    Simplificamos constantes: \( -\frac{5}{3} - \frac{2}{9} = -\frac{15}{9} - \frac{2}{9} = -\frac{17}{9} \)
-                </div>
-
-                <div class="final-answer">
-                    $$ y = \frac{2}{3}x - \frac{17}{9} + Ce^{-3x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-4">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 04</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ x\frac{dy}{dx} + y = x^2 $$</div>
-
-                <div class="step">
-                    <span class="step-title">1. Normalización</span>
-                    Dividimos todo por \( x \) para dejar la derivada sola:
-                    $$ \frac{dy}{dx} + \frac{1}{x}y = x $$
-                </div>
-
-                <div class="step">
-                    <span class="step-title">2. Factor Integrante</span>
-                    $$ I = e^{\int \frac{1}{x} dx} = e^{\ln x} = x $$
-                </div>
-
-                <div class="step">
-                    <span class="step-title">3. Multiplicación y Empaquetado</span>
-                    Multiplicamos la normalizada por \( x \):
-                    $$ x\frac{dy}{dx} + y = x^2 \Rightarrow \frac{d}{dx}[xy] = x^2 $$
-                </div>
-
-                <div class="step">
-                    <span class="step-title">4. Integración</span>
-                    $$ xy = \int x^2 dx = \frac{x^3}{3} + C $$
-                </div>
-
-                <div class="final-answer">
-                    $$ y = \frac{x^2}{3} + \frac{C}{x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-5">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 05</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} + y = x^2 - 2x + 1 $$</div>
-
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( P(x) = 1 \Rightarrow I = e^x \)
-                </div>
-
-                <div class="step">
-                    <span class="step-title">2. Empaquetado</span>
-                    $$ \frac{d}{dx}[e^x y] = e^x(x^2 - 2x + 1) $$
-                </div>
-
-                <div class="step">
-                    <span class="step-title">3. Integración (Doble por Partes)</span>
-                    Método tabular o iterativo para \( \int (x^2-2x+1)e^x dx \):
-                    <br>
-                    1) \( u = x^2-2x+1 \), \( dv=e^x \) <br>
-                    2) Derivadas de u: \( 2x-2 \to 2 \to 0 \) <br>
-                    3) Integrales de dv: \( e^x \to e^x \to e^x \) <br>
-                    Resultado sumando diagonales (+, -, +):
-                    $$ e^x(x^2-2x+1) - e^x(2x-2) + e^x(2) $$
-                    $$ = e^x(x^2 - 2x + 1 - 2x + 2 + 2) $$
-                    $$ = e^x(x^2 - 4x + 5) $$
-                </div>
-
-                <div class="step">
-                    <span class="step-title">4. Despeje</span>
-                    $$ e^x y = e^x(x^2 - 4x + 5) + C $$
-                    Dividimos por \( e^x \):
-                </div>
-
-                <div class="final-answer">
-                    $$ y = x^2 - 4x + 5 + Ce^{-x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-6">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 06</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} + y = e^{2x} $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( I = e^x \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Multiplicación</span>
-                    $$ e^x\frac{dy}{dx} + e^xy = e^{2x} \cdot e^x $$
-                    Sumamos exponentes: \( e^{2x+x} = e^{3x} \)
-                    $$ \frac{d}{dx}[e^x y] = e^{3x} $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">3. Integración</span>
-                    $$ e^x y = \int e^{3x} dx = \frac{1}{3}e^{3x} + C $$
-                </div>
-
-                <div class="final-answer">
-                    $$ y = \frac{1}{3}e^{2x} + Ce^{-x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-7">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 07</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} - 2y = e^{3x} $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( P(x) = -2 \Rightarrow I = e^{-2x} \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Multiplicación</span>
-                    $$ e^{-2x}\frac{dy}{dx} - 2e^{-2x}y = e^{3x} \cdot e^{-2x} $$
-                    Exponentes: \( 3x - 2x = x \)
-                    $$ \frac{d}{dx}[e^{-2x}y] = e^x $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">3. Integración</span>
-                    $$ e^{-2x}y = \int e^x dx = e^x + C $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">4. Despeje</span>
-                    Multiplicamos por \( e^{2x} \):
-                    $$ y = e^{2x}(e^x + C) = e^{3x} + Ce^{2x} $$
-                </div>
-
-                <div class="final-answer">
-                    $$ y = e^{3x} + Ce^{2x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-8">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 08</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} + 4y = e^{-4x} $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( I = e^{4x} \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Multiplicación (Cancelación)</span>
-                    $$ e^{4x}\frac{dy}{dx} + 4e^{4x}y = e^{-4x} \cdot e^{4x} $$
-                    Exponentes: \( -4x + 4x = 0 \Rightarrow e^0 = 1 \)
-                    $$ \frac{d}{dx}[e^{4x}y] = 1 $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">3. Integración</span>
-                    $$ e^{4x}y = \int 1 dx = x + C $$
-                </div>
-
-                <div class="final-answer">
-                    $$ y = xe^{-4x} + Ce^{-4x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-9">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 09</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ 2\frac{dy}{dx} + 4y = 6e^x $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Normalización</span>
-                    Dividimos todo por 2:
-                    $$ \frac{dy}{dx} + 2y = 3e^x $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Factor Integrante</span>
-                    \( I = e^{2x} \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">3. Integración</span>
-                    $$ \frac{d}{dx}[e^{2x}y] = 3e^x \cdot e^{2x} = 3e^{3x} $$
-                    $$ e^{2x}y = \int 3e^{3x} dx = 3\left(\frac{e^{3x}}{3}\right) + C = e^{3x} + C $$
-                </div>
-
-                <div class="final-answer">
-                    $$ y = e^x + Ce^{-2x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-10">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 10</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} + y = e^x + 1 $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( I = e^x \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Empaquetado</span>
-                    $$ \frac{d}{dx}[e^x y] = e^x(e^x + 1) = e^{2x} + e^x $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">3. Integración</span>
-                    $$ e^x y = \int (e^{2x} + e^x) dx $$
-                    $$ e^x y = \frac{1}{2}e^{2x} + e^x + C $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">4. Despeje</span>
-                    Dividimos por \( e^x \):
-                    $$ y = \frac{1}{2}e^x + 1 + Ce^{-x} $$
-                </div>
-
-                <div class="final-answer">
-                    $$ y = \frac{1}{2}e^x + 1 + Ce^{-x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-11">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 11</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} + y = \cos(x) $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( I = e^x \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Integral Cíclica</span>
-                    $$ e^x y = \int e^x \cos(x) dx $$
-                    Llamamos J a la integral. Por partes:
-                    \( u = \cos x, dv=e^x dx \Rightarrow J = e^x \cos x + \int e^x \sin x dx \) <br>
-                    Segunda vuelta: \( u=\sin x, dv=e^x dx \Rightarrow \int e^x \sin x dx = e^x \sin x - J \) <br>
-                    Sustituyendo: \( J = e^x \cos x + e^x \sin x - J \) <br>
-                    \( 2J = e^x(\cos x + \sin x) \) <br>
-                    \( J = \frac{e^x}{2}(\cos x + \sin x) \)
-                </div>
-
-                <div class="final-answer">
-                    $$ y = \frac{1}{2}\cos(x) + \frac{1}{2}\sin(x) + Ce^{-x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-12">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 12</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} - y = \sin(2x) $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( I = e^{-x} \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Integral Cíclica Compleja</span>
-                    $$ e^{-x}y = \int e^{-x}\sin(2x) dx $$
-                    Desarrollando la integral cíclica (dos veces por partes y despejando la variable):
-                    El resultado de la integral es \( -\frac{e^{-x}}{5}(\sin(2x) + 2\cos(2x)) \)
-                </div>
-
-                <div class="final-answer">
-                    $$ y = -\frac{1}{5}(\sin(2x) + 2\cos(2x)) + Ce^x $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-13">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 13</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} + 2y = \cos(3x) $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( I = e^{2x} \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Integral Cíclica con Coeficientes</span>
-                    $$ e^{2x}y = \int e^{2x}\cos(3x) dx $$
-                    Tras aplicar partes dos veces y despejar algebraicamente la integral (suma de fracciones 4/13 y 9/13):
-                    Integral = \( \frac{e^{2x}}{13}(2\cos(3x) + 3\sin(3x)) \)
-                </div>
-
-                <div class="final-answer">
-                    $$ y = \frac{2}{13}\cos(3x) + \frac{3}{13}\sin(3x) + Ce^{-2x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-14">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 14</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ x\frac{dy}{dx} + 2y = \sin(x) $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Normalización</span>
-                    Dividimos por x:
-                    $$ \frac{dy}{dx} + \frac{2}{x}y = \frac{\sin x}{x} $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Factor Integrante</span>
-                    \( I = e^{\int \frac{2}{x}dx} = e^{2\ln x} = e^{\ln x^2} = x^2 \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">3. Multiplicación</span>
-                    Multiplicamos la normalizada por \( x^2 \):
-                    $$ x^2\frac{dy}{dx} + 2xy = x\sin(x) \Rightarrow \frac{d}{dx}[x^2 y] = x\sin x $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">4. Integración</span>
-                    $$ x^2 y = \int x\sin x dx $$
-                    Por partes (\( u=x, dv=\sin x \)):
-                    $$ x^2 y = -x\cos x + \sin x + C $$
-                </div>
-
-                <div class="final-answer">
-                    $$ y = \frac{\sin x}{x^2} - \frac{\cos x}{x} + \frac{C}{x^2} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-15">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 15</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} + y = \sec^2(x) $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( I = e^x \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Integración</span>
-                    $$ \frac{d}{dx}[e^x y] = e^x \sec^2(x) $$
-                    $$ e^x y = \int e^x \sec^2(x) dx + C $$
-                    Nota: La integral no tiene solución elemental cerrada.
-                </div>
-
-                <div class="final-answer">
-                    $$ y = e^{-x} \int e^x \sec^2(x) dx + Ce^{-x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-16">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 16</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} + \frac{1}{x}y = x^3 $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( I = e^{\ln x} = x \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Multiplicación</span>
-                    $$ x\frac{dy}{dx} + y = x^4 \Rightarrow \frac{d}{dx}[xy] = x^4 $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">3. Integración</span>
-                    $$ xy = \frac{x^5}{5} + C $$
-                </div>
-
-                <div class="final-answer">
-                    $$ y = \frac{x^4}{5} + \frac{C}{x} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-17">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 17</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} + 2xy = x $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( I = e^{\int 2x dx} = e^{x^2} \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Integración</span>
-                    $$ \frac{d}{dx}[e^{x^2}y] = xe^{x^2} $$
-                    $$ e^{x^2}y = \int xe^{x^2} dx $$
-                    Sustitución \( u=x^2, du=2xdx \):
-                    $$ = \frac{1}{2}e^{x^2} + C $$
-                </div>
-
-                <div class="final-answer">
-                    $$ y = \frac{1}{2} + Ce^{-x^2} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-18">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 18</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ (1+x^2)\frac{dy}{dx} + 2xy = \sqrt{1+x^2} $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Normalización</span>
-                    $$ \frac{dy}{dx} + \frac{2x}{1+x^2}y = \frac{1}{\sqrt{1+x^2}} $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Factor Integrante</span>
-                    \( I = e^{\ln(1+x^2)} = 1+x^2 \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">3. Multiplicación</span>
-                    $$ (1+x^2)\frac{dy}{dx} + 2xy = \sqrt{1+x^2} $$
-                    $$ \frac{d}{dx}[(1+x^2)y] = \sqrt{1+x^2} $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">4. Integración</span>
-                    $$ (1+x^2)y = \int \sqrt{1+x^2} dx $$
-                    La integral se resuelve por sustitución trigonométrica o tablas:
-                    $$ \int \sqrt{1+x^2}dx = \frac{x}{2}\sqrt{1+x^2} + \frac{1}{2}\ln|x+\sqrt{1+x^2}| $$
-                </div>
-
-                <div class="final-answer">
-                    $$ y = \frac{x}{2\sqrt{1+x^2}} + \frac{\ln(x+\sqrt{1+x^2})}{2(1+x^2)} + \frac{C}{1+x^2} $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-19">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 19</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ \frac{dy}{dx} + y\tan(x) = \cos^2(x) $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Factor Integrante</span>
-                    \( I = e^{\int \tan x dx} = e^{\ln|\sec x|} = \sec x \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Multiplicación</span>
-                    $$ \sec x \frac{dy}{dx} + \sec x \tan x y = \cos^2 x \cdot \sec x $$
-                    Simplificando derecha: \( \cos^2 x \cdot \frac{1}{\cos x} = \cos x \)
-                    $$ \frac{d}{dx}[y \sec x] = \cos x $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">3. Integración</span>
-                    $$ y \sec x = \int \cos x dx = \sin x + C $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">4. Despeje</span>
-                    Multiplicamos por \( \cos x \):
-                    $$ y = \sin x \cos x + C \cos x $$
-                    Usando identidad \( \sin(2x) = 2\sin x \cos x \):
-                </div>
-
-                <div class="final-answer">
-                    $$ y = \frac{1}{2}\sin(2x) + C\cos(x) $$
-                </div>
-            </div>
-        </article>
-
-        <article class="exercise-card" id="ej-20">
-            <div class="card-header"><span class="exercise-badge">Ejercicio 20</span></div>
-            <div class="card-body">
-                <div class="main-equation">$$ x\frac{dy}{dx} - 3y = x^4 \ln x $$</div>
-                
-                <div class="step">
-                    <span class="step-title">1. Normalización</span>
-                    $$ \frac{dy}{dx} - \frac{3}{x}y = x^3 \ln x $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">2. Factor Integrante</span>
-                    \( I = e^{\int -\frac{3}{x}dx} = e^{-3\ln x} = x^{-3} \)
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">3. Multiplicación</span>
-                    $$ x^{-3}\frac{dy}{dx} - 3x^{-4}y = x^{-3}(x^3 \ln x) $$
-                    $$ \frac{d}{dx}[x^{-3}y] = \ln x $$
-                </div>
-                
-                <div class="step">
-                    <span class="step-title">4. Integración</span>
-                    $$ x^{-3}y = \int \ln x dx $$
-                    Por partes: \( x\ln x - x + C \)
-                </div>
-
-                <div class="final-answer">
-                    $$ y = x^4(\ln x - 1) + Cx^3 $$
-                </div>
-            </div>
-        </article>
-
-        <footer class="site-footer">
-            <p>&copy; 2026 <a href="https://flexedwin.com">www.FlexEdwin.com</a> - Ingeniería al detalle.</p>
-        </footer>
-
-    </main>
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const tocList = document.getElementById("toc-list");
-        const exercises = document.querySelectorAll("article.exercise-card");
-
-        exercises.forEach((ex, index) => {
-            const id = ex.id;
-            const badge = ex.querySelector(".exercise-badge").innerText;
-            const titleText = `Ejercicio ${index + 1}`; // O usar texto de la ecuación
-
-            const li = document.createElement("li");
-            const a = document.createElement("a");
-            a.href = `#${id}`;
-            a.innerText = badge;
+        <div id="ej11" class="tab-content active">
+            <h2 class="exercise-title">Ejercicio 11: Ecuación Diferencial Exacta (Directa)</h2>
+            <div class="math-block">$$(2xy^3 + 5)dx + (3x^2y^2 + 4y)dy = 0$$</div>
             
-            li.appendChild(a);
-            tocList.appendChild(li);
-        });
-    });
-</script>
+            <p><strong>Clasificación Obligatoria:</strong><br>
+            Orden: Primer orden.<br>
+            Linealidad: No lineal.<br>
+            Homogeneidad: Sí es Homogénea ($=0$).</p>
 
+            <div class="step">Paso 0: Prueba de Exactitud</div>
+            <p>$M(x,y) = 2xy^3 + 5$</p>
+            <p>$N(x,y) = 3x^2y^2 + 4y$</p>
+            <div class="math-block">$$\frac{\partial M}{\partial y} = 2x(3y^2) + 0 = 6xy^2$$</div>
+            <div class="math-block">$$\frac{\partial N}{\partial x} = 3y^2(2x) + 0 = 6xy^2$$</div>
+            <p>Como $\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}$, Es una ED exacta.</p>
+
+            <div class="step">Paso 1: Integración</div>
+            <div class="math-block">$$f(x,y) = \int (2xy^3 + 5) dx = 2y^3 \left( \frac{x^2}{2} \right) + 5x + g(y)$$</div>
+            <div class="math-block">$$f(x,y) = x^2y^3 + 5x + g(y)$$</div>
+
+            <div class="step">Paso 2: Derivación parcial e igualación</div>
+            <div class="math-block">$$\frac{\partial f}{\partial y} = x^2(3y^2) + 0 + g'(y) = 3x^2y^2 + g'(y)$$</div>
+            <p>Igualamos con $N(x,y)$:</p>
+            <div class="math-block">$$3x^2y^2 + g'(y) = 3x^2y^2 + 4y \implies g'(y) = 4y$$</div>
+
+            <div class="step">Paso 3 y 4: Hallar $g(y)$ y Solución</div>
+            <div class="math-block">$$g(y) = \int 4y dy = 2y^2$$</div>
+            <p>Solución:</p>
+            <div class="math-block">$$x^2y^3 + 5x + 2y^2 = C$$</div>
+            
+        </div>
+
+        <div id="ej12" class="tab-content">
+            <h2 class="exercise-title">Ejercicio 12: Transformable a Exacta (Con Factor Integrante)</h2>
+            <div class="math-block">$$(3xy^2 + 2y)dx + (2x^2y + x)dy = 0$$</div>
+            
+            <p><strong>Clasificación Obligatoria:</strong><br>
+            Orden: Primer orden.<br>
+            Linealidad: No lineal.<br>
+            Homogeneidad: Sí es Homogénea ($=0$).</p>
+
+            <div class="step">Ensayo y Error (Prueba de Exactitud inicial)</div>
+            <p>$M = 3xy^2 + 2y \implies \frac{\partial M}{\partial y} = 6xy + 2$</p>
+            <p>$N = 2x^2y + x \implies \frac{\partial N}{\partial x} = 4xy + 1$</p>
+            <p>No es exacta.</p>
+
+            <div class="step">Búsqueda del Factor Integrante</div>
+            <div class="math-block">$$P(x) = \frac{\frac{\partial M}{\partial y} - \frac{\partial N}{\partial x}}{N} = \frac{(6xy + 2) - (4xy + 1)}{2x^2y + x} = \frac{2xy + 1}{x(2xy + 1)} = \frac{1}{x}$$</div>
+            <div class="math-block">$$I(x) = e^{\int \frac{1}{x} dx} = e^{\ln x} = x$$</div>
+
+            <div class="step">Transformación y Nueva Prueba</div>
+            <div class="math-block">$$(3x^2y^2 + 2xy)dx + (2x^3y + x^2)dy = 0$$</div>
+            <div class="math-block">$$\frac{\partial M_{nuevo}}{\partial y} = 6x^2y + 2x \quad \text{y} \quad \frac{\partial N_{nuevo}}{\partial x} = 6x^2y + 2x$$</div>
+            <p>Es exacta.</p>
+
+            <div class="step">Pasos de Solución</div>
+            <div class="math-block">$$f(x,y) = \int (2x^3y + x^2) dy = x^3y^2 + x^2y + g(x)$$</div>
+            <div class="math-block">$$\frac{\partial f}{\partial x} = 3x^2y^2 + 2xy + g'(x) = 3x^2y^2 + 2xy \implies g'(x) = 0 \implies g(x) = 0$$</div>
+            <p>Solución:</p>
+            <div class="math-block">$$x^3y^2 + x^2y = C$$</div>
+        </div>
+
+        <div id="ej13" class="tab-content">
+            <h2 class="exercise-title">Ejercicio 13: Ecuación Diferencial Exacta (Directa)</h2>
+            <div class="math-block">$$(4x^3y^3 + 2y^2)dx + (3x^4y^2 + 4xy)dy = 0$$</div>
+            
+            <p><strong>Clasificación Obligatoria:</strong><br>
+            Orden: Primer orden.<br>
+            Linealidad: No lineal.<br>
+            Homogeneidad: Sí es Homogénea ($=0$).</p>
+
+            <div class="step">Paso 0: Prueba de Exactitud</div>
+            <div class="math-block">$$\frac{\partial M}{\partial y} = 4x^3(3y^2) + 2(2y) = 12x^3y^2 + 4y$$</div>
+            <div class="math-block">$$\frac{\partial N}{\partial x} = 3y^2(4x^3) + 4y(1) = 12x^3y^2 + 4y$$</div>
+            <p>Es una ED exacta.</p>
+
+            <div class="step">Paso 1: Integración</div>
+            <div class="math-block">$$f(x,y) = \int (4x^3y^3 + 2y^2) dx = x^4y^3 + 2xy^2 + g(y)$$</div>
+
+            <div class="step">Paso 2, 3 y 4: Derivación, Igualación y Solución</div>
+            <div class="math-block">$$\frac{\partial f}{\partial y} = 3x^4y^2 + 4xy + g'(y) = 3x^4y^2 + 4xy \implies g'(y) = 0 \implies g(y) = 0$$</div>
+            <p>Solución:</p>
+            <div class="math-block">$$x^4y^3 + 2xy^2 = C$$</div>
+        </div>
+
+        <div id="ej14" class="tab-content">
+            <h2 class="exercise-title">Ejercicio 14: Transformable a Exacta (Con Factor Integrante)</h2>
+            <div class="math-block">$$(2xy^2 + 3y)dx + (x^2y + x)dy = 0$$</div>
+            
+            <p><strong>Clasificación Obligatoria:</strong><br>
+            Orden: Primer orden.<br>
+            Linealidad: No lineal.<br>
+            Homogeneidad: Sí es Homogénea ($=0$).</p>
+
+            <div class="step">Ensayo y Error (Prueba de Exactitud inicial)</div>
+            <div class="math-block">$$\frac{\partial M}{\partial y} = 4xy + 3 \quad \text{y} \quad \frac{\partial N}{\partial x} = 2xy + 1$$</div>
+            <p>No es exacta.</p>
+
+            <div class="step">Búsqueda del Factor Integrante</div>
+            <div class="math-block">$$P(x) = \frac{(4xy + 3) - (2xy + 1)}{x^2y + x} = \frac{2xy + 2}{x(xy + 1)} = \frac{2(xy + 1)}{x(xy + 1)} = \frac{2}{x}$$</div>
+            <div class="math-block">$$I(x) = e^{\int \frac{2}{x} dx} = e^{2 \ln x} = x^2$$</div>
+
+            <div class="step">Transformación y Nueva Prueba</div>
+            <div class="math-block">$$(2x^3y^2 + 3x^2y)dx + (x^4y + x^3)dy = 0$$</div>
+            <div class="math-block">$$\frac{\partial M_{nuevo}}{\partial y} = 4x^3y + 3x^2 \quad \text{y} \quad \frac{\partial N_{nuevo}}{\partial x} = 4x^3y + 3x^2$$</div>
+            <p>Es exacta.</p>
+
+            <div class="step">Pasos de Solución</div>
+            <div class="math-block">$$f(x,y) = \int (x^4y + x^3) dy = \frac{x^4y^2}{2} + x^3y + g(x)$$</div>
+            <div class="math-block">$$\frac{\partial f}{\partial x} = 2x^3y^2 + 3x^2y + g'(x) = 2x^3y^2 + 3x^2y \implies g'(x) = 0 \implies g(x) = 0$$</div>
+            <p>Multiplicamos todo por 2 para limpiar denominadores:<br>
+            Solución:</p>
+            <div class="math-block">$$x^4y^2 + 2x^3y = K$$</div>
+        </div>
+
+        <div id="ej15" class="tab-content">
+            <h2 class="exercise-title">Ejercicio 15: Ecuación Diferencial Exacta (Directa)</h2>
+            <div class="math-block">$$(4xy^3 + 3y^2 + 3x^2)dx + (6x^2y^2 + 6xy)dy = 0$$</div>
+            
+            <p><strong>Clasificación Obligatoria:</strong><br>
+            Orden: Primer orden.<br>
+            Linealidad: No lineal.<br>
+            Homogeneidad: Sí es Homogénea ($=0$).</p>
+
+            <div class="step">Paso 0: Prueba de Exactitud</div>
+            <div class="math-block">$$\frac{\partial M}{\partial y} = 12xy^2 + 6y \quad \text{y} \quad \frac{\partial N}{\partial x} = 12xy^2 + 6y$$</div>
+            <p>Es una ED exacta.</p>
+
+            <div class="step">Paso 1: Integración</div>
+            <div class="math-block">$$f(x,y) = \int (4xy^3 + 3y^2 + 3x^2) dx = 2x^2y^3 + 3xy^2 + x^3 + g(y)$$</div>
+
+            <div class="step">Paso 2, 3 y 4: Derivación, Igualación y Solución</div>
+            <div class="math-block">$$\frac{\partial f}{\partial y} = 6x^2y^2 + 6xy + g'(y) = 6x^2y^2 + 6xy \implies g'(y) = 0 \implies g(y) = 0$$</div>
+            <p>Solución:</p>
+            <div class="math-block">$$2x^2y^3 + 3xy^2 + x^3 = C$$</div>
+        </div>
+
+        <div id="ej16" class="tab-content">
+            <h2 class="exercise-title">Ejercicio 16: Transformable a Exacta (Con Factor Integrante)</h2>
+            <div class="math-block">$$(2xy^2 + y)dx + (3x^2y + 2x)dy = 0$$</div>
+            
+            <p><strong>Clasificación Obligatoria:</strong><br>
+            Orden: Primer orden.<br>
+            Linealidad: No lineal.<br>
+            Homogeneidad: Sí es Homogénea ($=0$).</p>
+
+            <div class="step">Ensayo y Error (Prueba de Exactitud inicial)</div>
+            <div class="math-block">$$\frac{\partial M}{\partial y} = 4xy + 1 \quad \text{y} \quad \frac{\partial N}{\partial x} = 6xy + 2$$</div>
+            <p>No es exacta.</p>
+
+            <div class="step">Búsqueda del Factor Integrante (Dependiente de y)</div>
+            <div class="math-block">$$P(y) = \frac{\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}}{M} = \frac{(6xy + 2) - (4xy + 1)}{2xy^2 + y} = \frac{2xy + 1}{y(2xy + 1)} = \frac{1}{y}$$</div>
+            <div class="math-block">$$I(y) = e^{\int \frac{1}{y} dy} = e^{\ln y} = y$$</div>
+
+            <div class="step">Transformación y Nueva Prueba</div>
+            <div class="math-block">$$(2xy^3 + y^2)dx + (3x^2y^2 + 2xy)dy = 0$$</div>
+            <div class="math-block">$$\frac{\partial M_{nuevo}}{\partial y} = 6xy^2 + 2y \quad \text{y} \quad \frac{\partial N_{nuevo}}{\partial x} = 6xy^2 + 2y$$</div>
+            <p>Es exacta.</p>
+
+            <div class="step">Pasos de Solución</div>
+            <div class="math-block">$$f(x,y) = \int (2xy^3 + y^2) dx = x^2y^3 + xy^2 + g(y)$$</div>
+            <div class="math-block">$$\frac{\partial f}{\partial y} = 3x^2y^2 + 2xy + g'(y) = 3x^2y^2 + 2xy \implies g'(y) = 0 \implies g(y) = 0$$</div>
+            <p>Solución:</p>
+            <div class="math-block">$$x^2y^3 + xy^2 = C$$</div>
+        </div>
+
+        <div id="ej17" class="tab-content">
+            <h2 class="exercise-title">Ejercicio 17: Ecuación Diferencial Exacta (Directa)</h2>
+            <div class="math-block">$$(2xy^4 + 3x^2)dx + (4x^2y^3 + 2y)dy = 0$$</div>
+            
+            <p><strong>Clasificación Obligatoria:</strong><br>
+            Orden: Primer orden.<br>
+            Linealidad: No lineal.<br>
+            Homogeneidad: Sí es Homogénea ($=0$).</p>
+
+            <div class="step">Paso 0: Prueba de Exactitud</div>
+            <div class="math-block">$$\frac{\partial M}{\partial y} = 8xy^3 \quad \text{y} \quad \frac{\partial N}{\partial x} = 8xy^3$$</div>
+            <p>Es una ED exacta.</p>
+
+            <div class="step">Paso 1: Integración</div>
+            <div class="math-block">$$f(x,y) = \int (2xy^4 + 3x^2) dx = x^2y^4 + x^3 + g(y)$$</div>
+
+            <div class="step">Paso 2, 3 y 4: Derivación, Igualación y Solución</div>
+            <div class="math-block">$$\frac{\partial f}{\partial y} = 4x^2y^3 + g'(y) = 4x^2y^3 + 2y \implies g'(y) = 2y \implies g(y) = y^2$$</div>
+            <p>Solución:</p>
+            <div class="math-block">$$x^2y^4 + x^3 + y^2 = C$$</div>
+        </div>
+
+        <div id="ej18" class="tab-content">
+            <h2 class="exercise-title">Ejercicio 18: Transformable a Exacta (Con Factor Integrante)</h2>
+            <div class="math-block">$$(4x^2y + 2y^2)dx + (x^3 + 2xy)dy = 0$$</div>
+            
+            <p><strong>Clasificación Obligatoria:</strong><br>
+            Orden: Primer orden.<br>
+            Linealidad: No lineal.<br>
+            Homogeneidad: Sí es Homogénea ($=0$).</p>
+
+            <div class="step">Ensayo y Error (Prueba de Exactitud inicial)</div>
+            <div class="math-block">$$\frac{\partial M}{\partial y} = 4x^2 + 4y \quad \text{y} \quad \frac{\partial N}{\partial x} = 3x^2 + 2y$$</div>
+            <p>No es exacta.</p>
+
+            <div class="step">Búsqueda del Factor Integrante</div>
+            <div class="math-block">$$P(x) = \frac{(4x^2 + 4y) - (3x^2 + 2y)}{x^3 + 2xy} = \frac{x^2 + 2y}{x(x^2 + 2y)} = \frac{1}{x}$$</div>
+            <div class="math-block">$$I(x) = e^{\int \frac{1}{x} dx} = e^{\ln x} = x$$</div>
+
+            <div class="step">Transformación y Nueva Prueba</div>
+            <div class="math-block">$$(4x^3y + 2xy^2)dx + (x^4 + 2x^2y)dy = 0$$</div>
+            <div class="math-block">$$\frac{\partial M_{nuevo}}{\partial y} = 4x^3 + 4xy \quad \text{y} \quad \frac{\partial N_{nuevo}}{\partial x} = 4x^3 + 4xy$$</div>
+            <p>Es exacta.</p>
+
+            <div class="step">Pasos de Solución</div>
+            <div class="math-block">$$f(x,y) = \int (x^4 + 2x^2y) dy = x^4y + x^2y^2 + g(x)$$</div>
+            <div class="math-block">$$\frac{\partial f}{\partial x} = 4x^3y + 2xy^2 + g'(x) = 4x^3y + 2xy^2 \implies g'(x) = 0 \implies g(x) = 0$$</div>
+            <p>Solución:</p>
+            <div class="math-block">$$x^4y + x^2y^2 = C$$</div>
+        </div>
+
+        <div id="ej19" class="tab-content">
+            <h2 class="exercise-title">Ejercicio 19: Ecuación Diferencial Exacta (Directa)</h2>
+            <div class="math-block">$$(3x^2y^4 + 2xy)dx + (4x^3y^3 + x^2)dy = 0$$</div>
+            
+            <p><strong>Clasificación Obligatoria:</strong><br>
+            Orden: Primer orden.<br>
+            Linealidad: No lineal.<br>
+            Homogeneidad: Sí es Homogénea ($=0$).</p>
+
+            <div class="step">Paso 0: Prueba de Exactitud</div>
+            <div class="math-block">$$\frac{\partial M}{\partial y} = 12x^2y^3 + 2x \quad \text{y} \quad \frac{\partial N}{\partial x} = 12x^2y^3 + 2x$$</div>
+            <p>Es una ED exacta.</p>
+
+            <div class="step">Paso 1: Integración</div>
+            <div class="math-block">$$f(x,y) = \int (3x^2y^4 + 2xy) dx = x^3y^4 + x^2y + g(y)$$</div>
+
+            <div class="step">Paso 2, 3 y 4: Derivación, Igualación y Solución</div>
+            <div class="math-block">$$\frac{\partial f}{\partial y} = 4x^3y^3 + x^2 + g'(y) = 4x^3y^3 + x^2 \implies g'(y) = 0 \implies g(y) = 0$$</div>
+            <p>Solución:</p>
+            <div class="math-block">$$x^3y^4 + x^2y = C$$</div>
+        </div>
+
+        <div id="ej20" class="tab-content">
+            <h2 class="exercise-title">Ejercicio 20: Transformable a Exacta (Con Factor Integrante)</h2>
+            <div class="math-block">$$(3x^2y^2 + 5xy)dx + (x^3y + x^2)dy = 0$$</div>
+            
+            <p><strong>Clasificación Obligatoria:</strong><br>
+            Orden: Primer orden.<br>
+            Linealidad: No lineal.<br>
+            Homogeneidad: Sí es Homogénea ($=0$).</p>
+
+            <div class="step">Ensayo y Error (Prueba de Exactitud inicial)</div>
+            <div class="math-block">$$\frac{\partial M}{\partial y} = 6x^2y + 5x \quad \text{y} \quad \frac{\partial N}{\partial x} = 3x^2y + 2x$$</div>
+            <p>No es exacta.</p>
+
+            <div class="step">Búsqueda del Factor Integrante</div>
+            <div class="math-block">$$P(x) = \frac{(6x^2y + 5x) - (3x^2y + 2x)}{x^3y + x^2} = \frac{3x^2y + 3x}{x(x^2y + x)} = \frac{3x(xy + 1)}{x^2(xy + 1)} = \frac{3}{x}$$</div>
+            <div class="math-block">$$I(x) = e^{\int \frac{3}{x} dx} = e^{3 \ln x} = x^3$$</div>
+
+            <div class="step">Transformación y Nueva Prueba</div>
+            <div class="math-block">$$(3x^5y^2 + 5x^4y)dx + (x^6y + x^5)dy = 0$$</div>
+            <div class="math-block">$$\frac{\partial M_{nuevo}}{\partial y} = 6x^5y + 5x^4 \quad \text{y} \quad \frac{\partial N_{nuevo}}{\partial x} = 6x^5y + 5x^4$$</div>
+            <p>Es exacta.</p>
+
+            <div class="step">Pasos de Solución</div>
+            <div class="math-block">$$f(x,y) = \int (x^6y + x^5) dy = \frac{x^6y^2}{2} + x^5y + g(x)$$</div>
+            <div class="math-block">$$\frac{\partial f}{\partial x} = 3x^5y^2 + 5x^4y + g'(x) = 3x^5y^2 + 5x^4y \implies g'(x) = 0 \implies g(x) = 0$$</div>
+            <p>Multiplicamos por 2 para eliminar la fracción:<br>
+            Solución:</p>
+            <div class="math-block">$$x^6y^2 + 2x^5y = K$$</div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Desarrollado por <strong>flexedwin</strong> | <a href="http://www.flexedwin.com" target="_blank" rel="noopener noreferrer">www.flexedwin.com</a> | &copy; 2026</p>
+    </footer>
+
+    <script>
+        function openTab(evt, tabId) {
+            // Ocultar todo el contenido de las pestañas
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+
+            // Quitar la clase "active" de todos los botones
+            const tabButtons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+
+            // Mostrar la pestaña actual y añadir "active" al botón presionado
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
 </body>
 </html>
