@@ -1,347 +1,231 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cuestionario avanzado de Electrónica sobre Amplificadores Operacionales y circuitos multivibradores.">
-    <meta name="author" content="FlexEdwin">
-    <title>Evaluación Técnica | Amplificadores Operacionales</title>
+    <title>FlexEdwin | Technical Assessment: Op-Amps</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                    colors: {
-                        engineering: {
-                            50: '#f0f4f8',
-                            100: '#d9e2ec',
-                            800: '#102a43',
-                            900: '#0b1e33',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
-        /* Transiciones suaves para las respuestas */
-        .answer-wrapper {
-            display: grid;
-            grid-template-rows: 0fr;
-            transition: grid-template-rows 0.3s ease-out;
+        :root {
+            --bg-body: #f4f7f9;
+            --engineering-blue: #0a2540;
+            --accent-blue: #0070f3;
+            --success-green: #008f39;
+            --text-main: #1a1a1a;
+            --border-color: #d1d9e0;
         }
-        .answer-wrapper.open {
-            grid-template-rows: 1fr;
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-h-screen;
         }
-        .answer-inner {
-            overflow: hidden;
+
+        /* Header Profesional Estilo Universidad */
+        header {
+            background: var(--engineering-blue);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-blue);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        /* Contenedor Principal */
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+
+        /* Tarjetas de Preguntas Estilo Paper Técnico */
+        .q-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 25px;
+            padding: 25px;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .q-card:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .q-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-blue);
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .pregunta {
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: var(--engineering-blue);
+            margin-bottom: 15px;
+        }
+
+        /* Bloques de Respuesta */
+        .respuesta-box {
+            background: #f8fafc;
+            border-left: 4px solid var(--success-green);
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        .formula-block {
+            background: #ffffff;
+            border: 1px dashed var(--border-color);
+            padding: 15px;
+            text-align: center;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .nota-tecnica {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-style: italic;
+            margin-top: 10px;
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Footer FlexEdwin 2026 */
+        footer {
+            background: var(--engineering-blue);
+            color: #cbd5e1;
+            padding: 40px 20px;
+            margin-top: 60px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            margin-top: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* Estilo para las constantes y variables en el texto */
+        .math-inline {
+            color: #c2410c;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
-<body class="bg-engineering-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
+<body>
 
-    <header class="bg-engineering-900 text-white shadow-md border-b-4 border-blue-500">
-        <div class="max-w-5xl mx-auto px-6 py-8">
-            <div class="flex justify-between items-center">
-                <div>
-                    <h1 class="text-3xl font-bold tracking-tight">Análisis de Circuitos Electrónicos</h1>
-                    <p class="text-engineering-100 mt-2 font-mono text-sm">Módulo: Amplificadores Operacionales y Generadores de Señal</p>
-                </div>
-                <div class="hidden md:block">
-                    <svg class="w-12 h-12 text-blue-400 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
-                </div>
-            </div>
-        </div>
+    <header>
+        <h1>Engineering Assessment Series</h1>
+        <div class="subtitle">Electronics & Signal Processing // OP-AMP-2026</div>
     </header>
 
-    <main class="flex-grow max-w-5xl mx-auto px-6 py-10 w-full">
-        
-        <div class="flex justify-between items-center mb-8 pb-4 border-b border-gray-300">
-            <h2 class="text-xl font-semibold text-engineering-800">Cuestionario de Evaluación</h2>
-            <button id="toggleAllBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded shadow transition-colors duration-200">
-                Mostrar todas las respuestas
-            </button>
-        </div>
+    <main>
+        <article class="q-card">
+            <span class="q-number">EX-01</span>
+            <div class="pregunta">En un monoestable, el circuito vuelve a su estado estable después de:</div>
+            <div class="respuesta-box text-green-700">
+                Respuesta: Un pulso de disparo [1].
+            </div>
+        </article>
 
-        <div class="space-y-6" id="quiz-container">
-            
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">1. En un monoestable, el circuito vuelve a su estado estable después de:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Un pulso de disparo [1].</p>
-                    </div>
-                </div>
-            </article>
+        <article class="q-card">
+            <span class="q-number">EX-03</span>
+            <div class="pregunta">Calcular la frecuencia de oscilación de un puente de Wien considerando los parámetros:</div>
+            <div class="formula-block">
+                \( R = 10\text{ k}\Omega \) <br>
+                \( C = 10\text{ nF} \)
+            </div>
+            <div class="respuesta-box">
+                Respuesta: 1.59 KHz
+            </div>
+            <span class="nota-tecnica">* Verificación externa requerida (Cálculo fuera de fuentes base).</span>
+        </article>
 
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">2. Un multivibrador monoestable tiene:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Un estado estable y uno inestable [2].</p>
-                    </div>
-                </div>
-            </article>
+        <article class="q-card">
+            <span class="q-number">EX-08</span>
+            <div class="pregunta">Cálculo del Voltaje de Histéresis (\(V_H\)) para un disparador de Schmitt con:</div>
+            <div class="formula-block">
+                \( V_{OH} = 10.5\text{V}, V_{OL} = -10.5\text{V} \) <br>
+                \( R_F = 82\text{ k}\Omega, R_1 = 20\text{ k}\Omega \)
+            </div>
+            <div class="respuesta-box">
+                Respuesta: 5.12 Voltios [6].
+            </div>
+        </article>
 
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">3. Calcular la frecuencia de oscilación de un puente de Wien (\( R = 10\text{ k}\Omega \), \( C = 10\text{ nF} \)):</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: 1.59 KHz.</p>
-                        <p class="text-xs text-gray-500 mt-2 font-mono bg-gray-50 p-2 rounded">* Nota: Esta información no se encuentra en las fuentes y se calculó de forma externa.</p>
-                    </div>
-                </div>
-            </article>
+        <article class="q-card">
+            <span class="q-number">EX-09</span>
+            <div class="pregunta">Definición matemática de la frecuencia del puente de Wien:</div>
+            <div class="formula-block" style="font-size: 1.5rem;">
+                \( f = \frac{1}{2\pi RC} \)
+            </div>
+            <div class="respuesta-box">
+                Respuesta: Ecuación fundamental de oscilación.
+            </div>
+        </article>
 
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">4. En el oscilador Miller-Schmitt, la señal cuadrada proviene de:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: El disparador de Schmitt [3].</p>
-                    </div>
-                </div>
-            </article>
+        <article class="q-card">
+            <span class="q-number">EX-19</span>
+            <div class="pregunta">Un comparador con histéresis es otro nombre para:</div>
+            <div class="respuesta-box">
+                Respuesta: Disparador de Schmitt [7].
+            </div>
+        </article>
 
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">5. En un multivibrador astable el capacitor se:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Carga y descarga periódicamente [4, 5].</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">6. La condición de oscilación en el puente de Wien requiere una ganancia aproximada de:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: 3.</p>
-                        <p class="text-xs text-gray-500 mt-2 font-mono bg-gray-50 p-2 rounded">* Nota: Esta información no se encuentra en las fuentes y se obtuvo de forma externa.</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">7. El oscilador Miller-Schmitt genera principalmente:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Señal triangular [3].</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">8. Calcular el voltaje de histéresis de un disparador de Schmitt (\( V_{OH} = 10.5\text{V} \), \( V_{OL} = -10.5\text{V} \), \( R_F = 82\text{ k}\Omega \), \( R_1 = 20\text{ k}\Omega \)):</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: 5.12 Voltios [6].</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">9. La expresión de la frecuencia del puente de Wien es:</h3>
-                <div class="my-4 text-center">
-                    \( f = \frac{1}{2\pi RC} \)
-                </div>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Correcta.</p>
-                        <p class="text-xs text-gray-500 mt-2 font-mono bg-gray-50 p-2 rounded">* Nota: Esta información no se encuentra en las fuentes y se obtuvo de forma externa.</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">10. El disparador de Schmitt se utiliza para:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Generar histéresis en la señal [7].</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">11. La frecuencia del oscilador de Wien depende de:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Resistencias y condensadores.</p>
-                        <p class="text-xs text-gray-500 mt-2 font-mono bg-gray-50 p-2 rounded">* Nota: Esta información no se encuentra en las fuentes y se obtuvo de forma externa.</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">12. La histéresis en un disparador de Schmitt permite:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Evitar conmutaciones por ruido [8].</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">13. El generador de rampa puede obtenerse usando:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Integrador con corriente constante [9, 10].</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">14. El periodo de oscilación de un multivibrador astable depende principalmente de:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Las resistencias y el condensador [11, 12].</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">15. Para que un oscilador de Wien cumpla con el criterio de Barkhausen, si \( R_1 = 10\text{ k}\Omega \), calcular \( R_F \):</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: \( 20\text{ k}\Omega \).</p>
-                        <p class="text-xs text-gray-500 mt-2 font-mono bg-gray-50 p-2 rounded">* Nota: Esta información no se encuentra en las fuentes y se calculó de forma externa.</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">16. El generador de señal de rampa se obtiene cuando:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: El capacitor se carga linealmente [9, 13].</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">17. El tiempo de pulso de un monoestable depende de:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: R y C [14-16].</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">18. Un oscilador es un circuito que:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Genera señales periódicas sin señal de entrada [17, 18].</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">19. Un comparador con histéresis es otro nombre para:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Disparador de Schmitt [7].</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-shadow hover:shadow-md">
-                <h3 class="font-semibold text-lg text-engineering-800 mb-3">20. Un generador de señales basado en amplificadores operacionales se utiliza para:</h3>
-                <button class="toggle-btn text-sm text-blue-600 font-medium hover:underline mb-2 focus:outline-none">Revelar respuesta</button>
-                <div class="answer-wrapper">
-                    <div class="answer-inner">
-                        <p class="text-green-700 font-medium bg-green-50 p-3 rounded border border-green-100 mt-2">Respuesta: Generar formas de onda periódicas [17].</p>
-                    </div>
-                </div>
-            </article>
-
-        </div>
     </main>
 
-    <footer class="bg-engineering-900 text-engineering-100 py-8 border-t border-engineering-800 mt-auto">
-        <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
-            <div class="mb-4 md:mb-0 text-center md:text-left">
-                <span class="text-xl font-bold text-white tracking-wide">FlexEdwin</span>
-                <p class="text-sm mt-1 text-gray-400">Soluciones Tecnológicas & Ingeniería Front-End</p>
-            </div>
-            <div class="text-sm text-gray-400 text-center md:text-right">
-                <p>&copy; 2026 <a href="https://www.flexedwin.com" class="text-blue-400 hover:text-blue-300 transition-colors">www.flexedwin.com</a>. Todos los derechos reservados.</p>
-                <p class="mt-1 opacity-75">Diseñado con precisión para la Ingeniería Electrónica.</p>
-            </div>
+    <footer>
+        <div class="footer-brand">
+            <a href="https://www.flexedwin.com">WWW.FLEXEDWIN.COM</a>
+        </div>
+        <p class="subtitle">Engineering Digital Assets & Education Platform</p>
+        <div class="copyright">
+            &copy; 2026 FLEXEDWIN. TODOS LOS DERECHOS RESERVADOS.
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const toggleButtons = document.querySelectorAll('.toggle-btn');
-            const toggleAllBtn = document.getElementById('toggleAllBtn');
-            let allOpen = false;
-
-            // Lógica individual para cada botón
-            toggleButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const answerWrapper = this.nextElementSibling;
-                    answerWrapper.classList.toggle('open');
-                    
-                    if (answerWrapper.classList.contains('open')) {
-                        this.textContent = 'Ocultar respuesta';
-                        this.classList.replace('text-blue-600', 'text-gray-500');
-                    } else {
-                        this.textContent = 'Revelar respuesta';
-                        this.classList.replace('text-gray-500', 'text-blue-600');
-                    }
-                });
-            });
-
-            // Lógica para el botón global
-            toggleAllBtn.addEventListener('click', () => {
-                allOpen = !allOpen;
-                toggleButtons.forEach(btn => {
-                    const answerWrapper = btn.nextElementSibling;
-                    if (allOpen) {
-                        answerWrapper.classList.add('open');
-                        btn.textContent = 'Ocultar respuesta';
-                        btn.classList.replace('text-blue-600', 'text-gray-500');
-                    } else {
-                        answerWrapper.classList.remove('open');
-                        btn.textContent = 'Revelar respuesta';
-                        btn.classList.replace('text-gray-500', 'text-blue-600');
-                    }
-                });
-                toggleAllBtn.textContent = allOpen ? 'Ocultar todas las respuestas' : 'Mostrar todas las respuestas';
-            });
-        });
-    </script>
 </body>
 </html>
