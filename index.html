@@ -3,229 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlexEdwin | Technical Assessment: Op-Amps</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>FlexEdwin | Engineering Data Sheet Total</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
     <style>
         :root {
-            --bg-body: #f4f7f9;
-            --engineering-blue: #0a2540;
+            --bg-main: #f8fafc;
+            --text-main: #0a2540;
             --accent-blue: #0070f3;
-            --success-green: #008f39;
-            --text-main: #1a1a1a;
-            --border-color: #d1d9e0;
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+            --error-red: #ef4444;
+            --accent-purple: #7928ca;
+            --border-color: #e2e8f0;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
+            font-family: var(--font-body);
+            background-color: var(--bg-main);
             color: var(--text-main);
             line-height: 1.6;
-            margin: 0;
             display: flex;
             flex-direction: column;
-            min-h-screen;
+            min-height: 100vh;
         }
 
-        /* Header Profesional Estilo Universidad */
         header {
-            background: var(--engineering-blue);
+            background-color: var(--text-main);
             color: white;
-            padding: 3rem 1rem;
-            text-align: center;
-            border-bottom: 5px solid var(--accent-blue);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-            letter-spacing: -1px;
-            text-transform: uppercase;
+        header h1 span { color: var(--accent-blue); }
+
+        .controls-container {
+            max-width: 1100px;
+            margin: 2rem auto 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .subtitle {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 10px;
+        .tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+        button {
+            font-family: var(--font-body);
+            font-weight: 600;
+            padding: 0.5rem 0.8rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
         }
 
-        /* Contenedor Principal */
-        main {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-            flex-grow: 1;
-        }
+        .tab-btn { background-color: var(--border-color); color: var(--text-main); }
+        .tab-btn.active { background-color: var(--accent-blue); color: white; }
 
-        /* Tarjetas de Preguntas Estilo Paper Técnico */
-        .q-card {
+        .read-mode-btn { background-color: var(--success-green); color: white; }
+
+        main { flex: 1; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; width: 100%; }
+
+        .exercise-container {
             background: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             border: 1px solid var(--border-color);
-            border-radius: 4px;
-            margin-bottom: 25px;
-            padding: 25px;
-            position: relative;
-            transition: transform 0.2s ease;
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+            margin-bottom: 2rem;
         }
 
-        .q-card:hover {
-            border-color: var(--accent-blue);
-        }
+        .exercise-container.active { display: block; }
+        body.read-mode .exercise-container { display: block; }
+        body.read-mode .tabs { display: none; }
 
-        .q-number {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent-blue);
-            font-weight: bold;
-            font-size: 1.1rem;
-            display: block;
-            margin-bottom: 10px;
-        }
+        h2, h3 { color: var(--text-main); margin-top: 1.5rem; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+        p { margin-bottom: 1.2rem; }
 
-        .pregunta {
-            font-weight: 600;
-            font-size: 1.15rem;
-            color: var(--engineering-blue);
-            margin-bottom: 15px;
-        }
+        .highlight-box { background-color: #fff7ed; border-left: 4px solid var(--warning-orange); padding: 1.5rem; margin: 1.5rem 0; }
+        .theory-card { background-color: #f1f5f9; border-left: 5px solid var(--accent-blue); padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .protocol-box { border: 2px solid var(--accent-purple); border-radius: 12px; padding: 2rem; margin: 1.5rem 0; background: #faf5ff; }
+        
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1.5rem 0; background: #f1f5f9; padding: 1.5rem; border-radius: 8px; }
+        .data-item { text-align: center; }
+        .data-item span { display: block; font-size: 0.75rem; font-weight: 700; color: #64748b; }
 
-        /* Bloques de Respuesta */
-        .respuesta-box {
-            background: #f8fafc;
-            border-left: 4px solid var(--success-green);
-            padding: 15px;
-            margin-top: 15px;
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .formula-block {
-            background: #ffffff;
-            border: 1px dashed var(--border-color);
-            padding: 15px;
-            text-align: center;
-            margin: 15px 0;
-            border-radius: 4px;
-        }
-
-        .nota-tecnica {
-            font-size: 0.8rem;
-            color: #64748b;
-            font-style: italic;
-            margin-top: 10px;
-            display: block;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* Footer FlexEdwin 2026 */
-        footer {
-            background: var(--engineering-blue);
-            color: #cbd5e1;
-            padding: 40px 20px;
-            margin-top: 60px;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        footer a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .copyright {
-            font-size: 0.9rem;
-            margin-top: 20px;
-            letter-spacing: 1px;
-        }
-
-        /* Estilo para las constantes y variables en el texto */
-        .math-inline {
-            color: #c2410c;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
-        }
-
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.5rem; }
-        }
+        footer { text-align: center; padding: 2rem; background-color: var(--border-color); margin-top: auto; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Engineering Assessment Series</h1>
-        <div class="subtitle">Electronics & Signal Processing // OP-AMP-2026</div>
+        <h1><span>Flex</span>Edwin 2026</h1>
+        <div>Engineering Portfolio</div>
     </header>
 
-    <main>
-        <article class="q-card">
-            <span class="q-number">EX-01</span>
-            <div class="pregunta">En un monoestable, el circuito vuelve a su estado estable después de:</div>
-            <div class="respuesta-box text-green-700">
-                Respuesta: Un pulso de disparo [1].
-            </div>
+    <div class="controls-container">
+        <div class="tabs" id="tabContainer">
+            <button class="tab-btn active" onclick="openExercise('ejercicio-1')">E1: Ecuación Exacta</button>
+            <button class="tab-btn" onclick="openExercise('ejercicio-2')">E2: Corriente RC</button>
+            <button class="tab-btn" onclick="openExercise('ejercicio-3')">E3: Int. Discreto</button>
+            <button class="tab-btn" onclick="openExercise('ejercicio-4')">E4: Factor Int. Teoría</button>
+            <button class="tab-btn" onclick="openExercise('ejercicio-5')">E5: Parcial respecto a Y</button>
+            <button class="tab-btn" onclick="openExercise('ejercicio-6')">E6: El Mapeo</button>
+            <button class="tab-btn" onclick="openExercise('ejercicio-7')">E7: Parcial respecto a X</button>
+            <button class="tab-btn" onclick="openExercise('ejercicio-8')">E8: Circuito RC Total</button>
+            <button class="tab-btn" onclick="openExercise('ejercicio-9')">E9: Protocolo P(y)</button>
+            <button class="tab-btn" onclick="openExercise('ejercicio-10')">E10: Criterio Final</button>
+        </div>
+        <button class="read-mode-btn" id="readModeToggle">Modo Lectura</button>
+    </div>
+
+    <main id="mainContent">
+        <article id="ejercicio-1" class="exercise-container active">
+            <h2>Ejercicio 1: Ecuación Diferencial Exacta</h2>
+            <p>$$2xy \, dx + (x^2 - 1) \, dy = 0$$</p>
+            <p><strong>Paso 1:</strong> Comprobar exactitud. $M = 2xy, N = x^2 - 1$.<br>
+            $\frac{\partial M}{\partial y} = 2x$, $\frac{\partial N}{\partial x} = 2x$. Es exacta.</p>
+            <p><strong>Paso 2:</strong> Integrar $M$ respecto a $x$: $f(x,y) = \int 2xy \, dx = x^2y + g(y)$.</p>
+            <p><strong>Paso 3:</strong> Derivar respecto a $y$ e igualar a $N$: $x^2 + g'(y) = x^2 - 1 \implies g'(y) = -1$.</p>
+            <p><strong>Paso 4:</strong> Hallar $g(y) = -y$. Solución: $$x^2y - y = C \implies y = \frac{C}{x^2 - 1}$$</p>
         </article>
 
-        <article class="q-card">
-            <span class="q-number">EX-03</span>
-            <div class="pregunta">Calcular la frecuencia de oscilación de un puente de Wien considerando los parámetros:</div>
-            <div class="formula-block">
-                \( R = 10\text{ k}\Omega \) <br>
-                \( C = 10\text{ nF} \)
-            </div>
-            <div class="respuesta-box">
-                Respuesta: 1.59 KHz
-            </div>
-            <span class="nota-tecnica">* Verificación externa requerida (Cálculo fuera de fuentes base).</span>
+        <article id="ejercicio-2" class="exercise-container">
+            <h2>Ejercicio 2: Corriente en Circuito RC</h2>
+            <p>$$R \frac{dq}{dt} + \frac{1}{C} q = E(t)$$</p>
+            <p>Datos: $R=2, C=0.25, E=100$. Sustituyendo: $2q' + 4q = 100 \implies q' + 2q = 50$.</p>
+            <p>Factor integrante: $e^{2t}$. Carga: $q(t) = 25 + Ce^{-2t}$.</p>
+            <p>Corriente: $i(t) = \frac{dq}{dt} = -2Ce^{-2t}$. Si $i(0)=0.5$, entonces $i(t) = 0.5 e^{-50t} \text{ A}$.</p>
         </article>
 
-        <article class="q-card">
-            <span class="q-number">EX-08</span>
-            <div class="pregunta">Cálculo del Voltaje de Histéresis (\(V_H\)) para un disparador de Schmitt con:</div>
-            <div class="formula-block">
-                \( V_{OH} = 10.5\text{V}, V_{OL} = -10.5\text{V} \) <br>
-                \( R_F = 82\text{ k}\Omega, R_1 = 20\text{ k}\Omega \)
-            </div>
-            <div class="respuesta-box">
-                Respuesta: 5.12 Voltios [6].
-            </div>
+        <article id="ejercicio-3" class="exercise-container">
+            <h2>1. Definición del Modelo Discreto</h2>
+            <p>Cuando el interés compuesto se acumula por periodos específicos (en este caso, anualmente), no usamos integrales ni el número de Euler ($e$), sino la fórmula estándar de interés compuesto discreto.</p>
+            <p>Definimos nuestras variables:</p>
+            <p>$P$: Capital principal (monto inicial) $= 5000$.</p>
+            <p>$r$: Tasa de interés anual en forma decimal $= \frac{8}{100} = 0.08$.</p>
+            <p>$n$: Número de periodos (años transcurridos).</p>
+            <p>$A_n$: Monto acumulado después de $n$ años.</p>
+            <p>La fórmula base (que proviene de iterar el crecimiento año con año) es: $$A_n = P(1 + r)^n$$</p>
+            <h3>2. Sustitución y Desarrollo Algebraico</h3>
+            <p>Calculamos $n = 18 - 0 = 18$ años. Sustituimos: $$A_{18} = 5000 \cdot (1 + 0.08)^{18}$$</p>
+            <p><strong>Trabajo Sucio (Evaluación de la potencia):</strong> $(1.08)^{18} \approx 3.9960195$. Reemplazamos: $$A_{18} = 5000 \cdot (3.9960195) \approx 19980.0975$$</p>
+            <p>Redondeando: $$A_{18} \approx 19980$$</p>
         </article>
 
-        <article class="q-card">
-            <span class="q-number">EX-09</span>
-            <div class="pregunta">Definición matemática de la frecuencia del puente de Wien:</div>
-            <div class="formula-block" style="font-size: 1.5rem;">
-                \( f = \frac{1}{2\pi RC} \)
-            </div>
-            <div class="respuesta-box">
-                Respuesta: Ecuación fundamental de oscilación.
-            </div>
+        <article id="ejercicio-4" class="exercise-container">
+            <h3>Si una ecuación diferencial $M(x,y)dx + N(x,y)dy = 0$ No es exacta, entonces:</h3>
+            <div class="theory-card">...se debe multiplicar por un Factor Integrante $\mu$ para convertirla en una ecuación exacta.</div>
+            <h3>El "Porqué" (Análisis de Granularidad)</h3>
+            <p><strong>1. El Diagnóstico:</strong> $\frac{\partial M}{\partial y} \neq \frac{\partial N}{\partial x}$.</p>
+            <p><strong>2. La Cura:</strong> Existe una función $\mu$. Al multiplicar: $$\mu M \, dx + \mu N \, dy = 0$$</p>
+            <p><strong>3. El Resultado:</strong> Ahora se cumple $\frac{\partial}{\partial y} (\mu M) = \frac{\partial}{\partial x} (\mu N)$.</p>
         </article>
 
-        <article class="q-card">
-            <span class="q-number">EX-19</span>
-            <div class="pregunta">Un comparador con histéresis es otro nombre para:</div>
-            <div class="respuesta-box">
-                Respuesta: Disparador de Schmitt [7].
-            </div>
+        <article id="ejercicio-5" class="exercise-container">
+            <h2>Derivada parcial respecto a $y$</h2>
+            <p>$$f(x,y) = \sin y - y \sin x$$</p>
+            <p><strong>Regla de Oro:</strong> Tratamos a $x$ como constante.</p>
+            <p><strong>Paso 1 y 2:</strong> $\frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(\sin y) - \frac{\partial}{\partial y}(y \sin x)$.</p>
+            <p><strong>Paso 3:</strong> $\frac{\partial}{\partial y}(\sin y) = \cos y$.</p>
+            <p><strong>Paso 4:</strong> $\frac{\partial}{\partial y}(y \sin x) = \sin x \cdot \frac{\partial}{\partial y}(y) = \sin x$.</p>
+            <p><strong>Paso 5:</strong> $$\frac{\partial f}{\partial y} = \cos y - \sin x$$</p>
+        </article>
+        <article id="ejercicio-6" class="exercise-container">
+            <h3>El Punto de Partida: El Mapeo</h3>
+            <p>$$(5x + 4y)dx + (4x - 8y^3)dy = 0$$</p>
+            <p>Correspondencia visual directa con $M(x,y)dx + N(x,y)dy = 0$:</p>
+            <p>$$M(x,y) = 5x + 4y \quad , \quad N(x,y) = 4x - 8y^3$$</p>
+            <p><strong>Prueba:</strong> $\frac{\partial M}{\partial y} = 4$ y $\frac{\partial N}{\partial x} = 4$. Exacta.</p>
         </article>
 
+        <article id="ejercicio-7" class="exercise-container">
+            <h2>Derivada parcial respecto a $x$</h2>
+            <p>$$f(x,y) = \sin y - y \sin x$$</p>
+            <p><strong>Regla de Oro:</strong> $y$ se trata como constante.</p>
+            <p><strong>Paso 3:</strong> $\frac{\partial}{\partial x}(\sin y) = 0$ (no contiene x).</p>
+            <p><strong>Paso 4:</strong> $\frac{\partial}{\partial x}(y \sin x) = y \cos x$.</p>
+            <p><strong>Paso 5:</strong> $$\frac{\partial f}{\partial x} = -y \cos x$$</p>
+        </article>
+
+        <article id="ejercicio-8" class="exercise-container">
+            <h2>Circuito RC: Modelo de Carga</h2>
+            <div class="data-grid">
+                <div class="data-item"><span>E(t)</span><strong>100</strong></div>
+                <div class="data-item"><span>R</span><strong>200</strong></div>
+                <div class="data-item"><span>C</span><strong>10⁻⁴</strong></div>
+            </div>
+            <p>$$200 \frac{dq}{dt} + 10000 q = 100 \implies \frac{dq}{dt} + 50q = 0.5$$</p>
+            <p>Factor integrante: $e^{50t}$. Integrando: $e^{50t}q = \int 0.5e^{50t}dt = 0.01e^{50t} + K$.</p>
+            <p>Si $q(0)=0 \implies K = -0.01$. Modelo final: $$q(t) = 0.01(1 - e^{-50t})$$</p>
+        </article>
+
+        <article id="ejercicio-9" class="exercise-container">
+            <h2>Protocolo Factor Integrante $P(y)$</h2>
+            <p>Si $\frac{\partial M}{\partial y} \neq \frac{\partial N}{\partial x}$, construimos $P(y)$:</p>
+            <div class="protocol-box">
+                $$P(y) = \frac{\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}}{M}$$
+            </div>
+            <p>Si el resultado depende solo de $y$, entonces: $$\mu(y) = e^{\int P(y) \, dy}$$</p>
+        </article>
+
+        <article id="ejercicio-10" class="exercise-container">
+            <h2>Criterio de las Derivadas Parciales Cruzadas</h2>
+            <p>$$M(x,y) \, dx + N(x,y) \, dy = 0$$</p>
+            <div class="theory-card">
+                Es Exacta si y solo si: $$\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}$$
+            </div>
+            <p>Esto valida la simetría de las segundas parciales del Teorema de Clairaut.</p>
+        </article>
     </main>
 
     <footer>
-        <div class="footer-brand">
-            <a href="https://www.flexedwin.com">WWW.FLEXEDWIN.COM</a>
-        </div>
-        <p class="subtitle">Engineering Digital Assets & Education Platform</p>
-        <div class="copyright">
-            &copy; 2026 FLEXEDWIN. TODOS LOS DERECHOS RESERVADOS.
-        </div>
+        <p>&copy; 2026 FlexEdwin | Engineering & Web Solutions</p>
     </footer>
 
+    <script>
+        function openExercise(exerciseId) {
+            document.querySelectorAll('.exercise-container').forEach(ex => ex.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(exerciseId).classList.add('active');
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.getAttribute('onclick').includes(exerciseId));
+            if(activeBtn) activeBtn.classList.add('active');
+        }
+
+        document.getElementById('readModeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('read-mode');
+            this.textContent = document.body.classList.contains('read-mode') ? "Modo Interactivo" : "Modo Lectura";
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+        });
+    </script>
 </body>
 </html>
