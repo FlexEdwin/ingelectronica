@@ -3,673 +3,689 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlexEdwin 2026 | Engineering Data Sheet</title>
+    <title>Guía de Ecuaciones Diferenciales - FlexEdwin Engineering</title>
     
-    <!-- Google Fonts: Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- KaTeX CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsEOPaOmb3ZcuirX0SNc+sPzx5hRVzEhzz44aGzeWePUsr02u+DsdH1eM7" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+            ],
+            throwOnError: false
+        });"></script>
 
     <style>
         /* ==========================================================================
-           1. DESIGN SYSTEM & CSS VARIABLES (FLEXEDWIN 2026)
+           1. SISTEMA DE DISEÑO (FLEXEDWIN STYLE)
            ========================================================================== */
         :root {
-            --bg-main: #f8fafc;
-            --blue-eng: #0a2540;
-            --blue-electric: #0070f3;
-            --green-success: #10b981;
-            --text-dark: #1e293b;
-            --text-light: #64748b;
+            --bg-color: #f8fafc; /* Fondo Base */
+            --eng-blue: #0a2540; /* Azul de Ingeniería (Principal) */
+            --elec-blue: #0070f3; /* Azul Eléctrico (Acentos/Interacción) */
+            --success-green: #10b981; /* Verde de Éxito */
+            --text-main: #334155;
+            --border-light: #e2e8f0;
+            --nota-bg: #fcf3cf;
+            --nota-border: #f1c40f;
+            --enunciado-bg: #e8f6f3;
+            
             --font-body: 'Inter', sans-serif;
-            --font-data: 'JetBrains Mono', monospace;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --transition-speed: 0.3s;
         }
 
         /* ==========================================================================
-           2. GLOBAL RESET & TYPOGRAPHY
+           2. RESET & BASE
            ========================================================================== */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             font-family: var(--font-body);
-            background-color: var(--bg-main);
-            color: var(--text-dark);
-            line-height: 1.7;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        h1, h2, h3, h4 { color: var(--blue-eng); font-weight: 700; }
-
         /* ==========================================================================
-           3. BRANDING, HEADER & FOOTER
+           3. ESTRUCTURA SPA (HEADER, SIDEBAR, MAIN)
            ========================================================================== */
-        header {
-            background-color: var(--blue-eng);
-            color: #ffffff;
+        .app-header {
+            background-color: var(--eng-blue);
+            color: white;
             padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
-        .brand { display: flex; align-items: center; gap: 15px; }
-
-        .brand-logo {
-            font-family: var(--font-data);
+        .brand {
             font-size: 1.5rem;
-            color: var(--blue-electric);
             font-weight: 700;
-            letter-spacing: -1px;
+            letter-spacing: -0.02em;
         }
 
-        .brand-logo span { color: var(--green-success); }
+        .brand span {
+            color: var(--elec-blue);
+        }
 
-        .header-titles h1 { font-size: 1.2rem; margin: 0; }
-        .header-titles p { color: #94a3b8; font-size: 0.85rem; }
-
-        footer {
-            background-color: var(--blue-eng);
-            color: #ffffff;
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: auto;
+        .app-subtitle {
             font-size: 0.9rem;
+            opacity: 0.8;
+            font-family: var(--font-mono);
         }
 
-        footer a { color: var(--blue-electric); text-decoration: none; font-weight: 600; transition: color 0.3s ease; }
-        footer a:hover { color: var(--green-success); }
-
-        /* ==========================================================================
-           4. LAYOUT: SPA & TABS NAVIGATION
-           ========================================================================== */
         .spa-container {
             display: flex;
             flex: 1;
-            overflow: hidden;
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
         }
 
+        /* SIDEBAR / NAVEGACIÓN */
         .sidebar {
-            width: 280px;
-            background-color: #ffffff;
-            border-right: 1px solid #e2e8f0;
+            width: 300px;
+            background: white;
+            border-right: 1px solid var(--border-light);
+            padding: 2rem 1rem;
             display: flex;
             flex-direction: column;
+            gap: 0.5rem;
+            height: calc(100vh - 76px);
+            position: sticky;
+            top: 76px;
             overflow-y: auto;
-            padding: 1.5rem 0;
         }
 
-        .controls {
-            padding: 0 1.5rem 1.5rem 1.5rem;
-            border-bottom: 1px solid #e2e8f0;
-            margin-bottom: 1rem;
-        }
-
-        .btn-read-mode {
-            width: 100%;
-            background-color: var(--blue-electric);
-            color: #ffffff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            font-family: var(--font-data);
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.1s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-read-mode:hover { background-color: #005bb5; }
-        .btn-read-mode:active { transform: scale(0.98); }
-
-        .tab-menu {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            padding: 0 1rem;
-        }
-
-        .tab-btn {
+        .nav-btn {
             background: transparent;
-            border: none;
-            width: 100%;
+            border: 1px solid transparent;
+            color: var(--text-main);
             text-align: left;
-            padding: 12px 15px;
+            padding: 0.8rem 1rem;
             border-radius: 6px;
             font-family: var(--font-body);
+            font-weight: 500;
             font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-light);
             cursor: pointer;
-            transition: all 0.2s ease;
-            border-left: 3px solid transparent;
+            transition: all var(--transition-speed);
         }
 
-        .tab-btn:hover { background-color: #f1f5f9; color: var(--blue-eng); }
-        .tab-btn.active {
-            background-color: #eff6ff;
-            color: var(--blue-electric);
-            border-left: 3px solid var(--green-success);
+        .nav-btn:hover {
+            background: var(--bg-color);
+            border-color: var(--border-light);
         }
 
-        /* ==========================================================================
-           5. CONTENT RENDER & METROLOGY STYLES
-           ========================================================================== */
+        .nav-btn.active {
+            background: var(--elec-blue);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 112, 243, 0.2);
+        }
+
+        .read-mode-btn {
+            margin-top: auto;
+            border: 2px solid var(--eng-blue);
+            background: var(--eng-blue);
+            color: white;
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.85rem;
+        }
+
+        .read-mode-btn:hover, .read-mode-btn.active {
+            background: var(--elec-blue);
+            border-color: var(--elec-blue);
+            color: white;
+        }
+
+        /* ÁREA DE CONTENIDO */
         .content-area {
             flex: 1;
             padding: 3rem 4rem;
-            overflow-y: auto;
-            scroll-behavior: smooth;
+            max-width: 900px;
         }
 
-        .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
-        .tab-content.active { display: block; }
+        /* ==========================================================================
+           4. COMPONENTES DE CONTENIDO (DATA SHEET STYLE)
+           ========================================================================== */
+        .ejercicio-section {
+            display: none; /* Oculto por defecto para SPA */
+            background-color: white;
+            border-left: 5px solid var(--elec-blue);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .ejercicio-section.active {
+            display: block;
+        }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .ejercicio-box {
-            background-color: #ffffff;
-            border-left: 5px solid var(--blue-electric);
-            padding: 2.5rem;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
-            border-radius: 8px;
-        }
-
-        .ejercicio-box h2 {
+        h2 {
+            color: var(--eng-blue);
             font-size: 1.5rem;
-            margin-top: 0;
             margin-bottom: 1.5rem;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-light);
         }
 
-        .ejercicio-box h3 {
-            font-size: 1.15rem;
-            color: var(--green-success);
-            margin: 1.5rem 0 1rem 0;
+        h3 {
+            color: var(--elec-blue);
+            font-size: 1.1rem;
+            margin: 1.5rem 0 1rem;
         }
 
         .enunciado {
-            background-color: #eff6ff;
-            padding: 1.2rem 1.5rem;
+            background-color: var(--enunciado-bg);
+            padding: 1.5rem;
             border-radius: 6px;
             font-weight: 600;
+            color: var(--eng-blue);
             margin-bottom: 1.5rem;
-            font-family: var(--font-data);
-            font-size: 0.95rem;
-            border: 1px solid #bfdbfe;
+            border-left: 4px solid var(--success-green);
         }
 
         .nota {
-            background-color: #fefce8;
+            background-color: var(--nota-bg);
             padding: 1rem 1.5rem;
-            border-left: 4px solid #facc15;
+            border-left: 4px solid var(--nota-border);
             font-style: italic;
             margin: 1.5rem 0;
             border-radius: 0 6px 6px 0;
+            color: #7a6609;
         }
 
-        p { margin-bottom: 1rem; }
-        ul, ol { margin-bottom: 1.5rem; padding-left: 2rem; }
-        li { margin-bottom: 0.5rem; }
+        p, li {
+            margin-bottom: 1rem;
+        }
 
-        /* Ajuste crucial para evitar que las fórmulas anchas rompan el diseño */
+        ul, ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Estilos para que el texto matemático fluya armónicamente */
         .katex-display {
+            margin: 1.5em 0 !important;
             overflow-x: auto;
             overflow-y: hidden;
-            padding: 1rem 0;
-            margin: 1rem 0;
-            text-align: center;
+            padding: 0.5em 0;
+        }
+
+        /* Resaltado para soluciones finales */
+        strong {
+            color: var(--eng-blue);
         }
 
         /* ==========================================================================
-           6. READ MODE OVERRIDES
+           5. FOOTER INSTITUCIONAL
            ========================================================================== */
-        .read-mode-active .sidebar { display: none; }
-        .read-mode-active .content-area { max-width: 900px; margin: 0 auto; }
-        .read-mode-active .tab-content { display: block !important; margin-bottom: 3rem; }
+        .app-footer {
+            background-color: var(--eng-blue);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        .app-footer a {
+            color: var(--elec-blue);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+
+        .app-footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
 
         /* ==========================================================================
-           7. RESPONSIVE DESIGN
+           6. RESPONSIVE DESIGN (MOBILE)
            ========================================================================== */
-        @media (max-width: 768px) {
-            .spa-container { flex-direction: column; }
-            .sidebar { width: 100%; max-height: 250px; border-right: none; border-bottom: 1px solid #e2e8f0; }
-            .content-area { padding: 1.5rem; }
-            header { flex-direction: column; align-items: flex-start; gap: 10px; }
+        @media (max-width: 992px) {
+            .spa-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 1rem;
+                border-right: none;
+                border-bottom: 1px solid var(--border-light);
+                position: static;
+                gap: 0.5rem;
+            }
+            .nav-btn {
+                white-space: nowrap;
+                flex: 0 0 auto;
+            }
+            .read-mode-btn {
+                margin-top: 0;
+                margin-left: 1rem;
+            }
+            .content-area {
+                padding: 2rem 1.5rem;
+            }
+            .app-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
         }
     </style>
-
-    <!-- JS CORE LOGIC (Definido arriba para que las librerías lo llamen al terminar de cargar) -->
-    <script>
-        // Función maestra blindada. Solo se ejecuta cuando KaTeX avisa que está listo.
-        window.renderizarMatematicas = function() {
-            if (typeof renderMathInElement === "function") {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        {left: "$$", right: "$$", display: true},
-                        {left: "\\[", right: "\\]", display: true},
-                        {left: "$", right: "$", display: false},
-                        {left: "\\(", right: "\\)", display: false}
-                    ],
-                    throwOnError: false
-                });
-                console.log("FlexEdwin Engine: Motor matemático inicializado correctamente.");
-            }
-        };
-    </script>
-
-    <!-- KaTeX Scripts con delegación de carga estricta (El 'onload' dispara la función anterior) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Gl1m003b5N7Wlu080PZsyfvAuzbEepXZu-20pM5Y" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbOskyxzZzaL8Wq000O4Q04+1l" crossorigin="anonymous" onload="window.renderizarMatematicas()"></script>
 </head>
 <body>
 
-    <!-- BRANDING HEADER -->
-    <header>
-        <div class="brand">
-            <div class="brand-logo">&lt;FlexEdwin<span>/</span>&gt; 2026</div>
-        </div>
-        <div class="header-titles">
-            <h1>Guía de Estudio: Ecuaciones Diferenciales y Circuitos</h1>
-            <p>Documento compilado con desarrollo analítico paso a paso para no perder el rigor matemático.</p>
-        </div>
+    <header class="app-header">
+        <div class="brand">Flex<span>Edwin</span></div>
+        <div class="app-subtitle">Engineering Data Sheet • SPA Rendering</div>
     </header>
 
-    <!-- SPA ARCHITECTURE -->
-    <div class="spa-container" id="app-container">
-        
-        <!-- SIDEBAR NAVIGATION -->
-        <aside class="sidebar">
-            <div class="controls">
-                <button class="btn-read-mode" id="btn-read-mode">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                    Modo Lectura / Revelar
-                </button>
-            </div>
-            <ul class="tab-menu" id="tab-menu">
-                <li><button class="tab-btn active" data-target="ej-1">Ejercicio 1</button></li>
-                <li><button class="tab-btn" data-target="ej-2">Ejercicio 2</button></li>
-                <li><button class="tab-btn" data-target="ej-3">Ejercicio 3</button></li>
-                <li><button class="tab-btn" data-target="ej-4">Ejercicio 4</button></li>
-                <li><button class="tab-btn" data-target="ej-5">Ejercicio 5</button></li>
-                <li><button class="tab-btn" data-target="ej-6">Ejercicio 6</button></li>
-                <li><button class="tab-btn" data-target="ej-7">Ejercicio 7</button></li>
-                <li><button class="tab-btn" data-target="ej-8">Ejercicio 8</button></li>
-                <li><button class="tab-btn" data-target="ej-9">Ejercicio 9</button></li>
-                <li><button class="tab-btn" data-target="ej-10">Ejercicio 10</button></li>
-            </ul>
+    <div class="spa-container">
+        <aside class="sidebar" aria-label="Navegación de Ejercicios">
+            <button class="nav-btn" data-target="ej-1">Ejercicio 1</button>
+            <button class="nav-btn" data-target="ej-2">Ejercicio 2</button>
+            <button class="nav-btn" data-target="ej-3">Ejercicio 3</button>
+            <button class="nav-btn" data-target="ej-4">Ejercicio 4</button>
+            <button class="nav-btn" data-target="ej-5">Ejercicio 5</button>
+            <button class="nav-btn" data-target="ej-6">Ejercicio 6</button>
+            <button class="nav-btn" data-target="ej-7">Ejercicio 7</button>
+            <button class="nav-btn" data-target="ej-8">Ejercicio 8</button>
+            <button class="nav-btn" data-target="ej-9">Ejercicio 9</button>
+            <button class="nav-btn" data-target="ej-10">Ejercicio 10</button>
+            
+            <button class="nav-btn read-mode-btn" id="btn-read-mode">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: text-bottom; margin-right: 5px;">
+                    <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.156 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.596 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+                </svg>
+                Modo Lectura
+            </button>
         </aside>
 
-        <!-- CONTENT AREA (LITERAL ENGINEERING PAYLOAD) -->
-        <main class="content-area">
-
-            <div class="tab-content active" id="ej-1">
-                <div class="ejercicio-box">
-                    <h2>1. Teoría: Ecuaciones No Exactas y el Factor Integrante</h2>
-                    <div class="enunciado">
-                        Si una ecuación diferencial $M(x,y)dx + N(x,y)dy = 0$ No es exacta, entonces:
-                    </div>
-                    <h3>Respuesta Teórica</h3>
-                    <p><strong>...entonces se debe multiplicar por un Factor Integrante $\mu$ para convertirla en una ecuación exacta.</strong></p>
-                    <h3>El Análisis (Por qué falla y la cura)</h3>
-                    <p><strong>1. El Diagnóstico:</strong> Decimos que la ecuación "no es exacta" porque al hacer nuestra prueba de derivadas parciales cruzadas, los resultados no coinciden. Es decir:</p>
-                    $$ \frac{\partial M}{\partial y} \neq \frac{\partial N}{\partial x} $$
-                    <p><strong>2. La Cura (El Factor Integrante):</strong> Para "arreglar" esta desigualdad, multiplicamos absolutamente todos los términos de la ecuación original por una función especial $\mu$. La ecuación se transforma en:</p>
-                    $$ \mu \cdot M(x,y) \, dx + \mu \cdot N(x,y) \, dy = 0 $$
-                    <p><strong>3. El Resultado:</strong> Al realizar este micro-paso algebraico, la nueva ecuación se equilibra. Si volviéramos a hacer la prueba de derivadas cruzadas con estos nuevos términos agregados, ahora sí darían igual:</p>
-                    $$ \frac{\partial}{\partial y} (\mu M) = \frac{\partial}{\partial x} (\mu N) $$
+        <main class="content-area" id="main-content">
+            
+            <article class="ejercicio-section" id="ej-1">
+                <h2>1. Teoría: Ecuaciones No Exactas y el Factor Integrante</h2>
+                <div class="enunciado">
+                    Si una ecuación diferencial $M(x,y)dx + N(x,y)dy = 0$ No es exacta, entonces:
                 </div>
-            </div>
+                
+                <h3>Respuesta Teórica</h3>
+                <p><strong>...entonces se debe multiplicar por un Factor Integrante $\mu$ para convertirla en una ecuación exacta.</strong></p>
+                
+                <h3>El Análisis (Por qué falla y la cura)</h3>
+                <p><strong>1. El Diagnóstico:</strong> Decimos que la ecuación "no es exacta" porque al hacer nuestra prueba de derivadas parciales cruzadas, los resultados no coinciden. Es decir:</p>
+                $$ \frac{\partial M}{\partial y} \neq \frac{\partial N}{\partial x} $$
+                
+                <p><strong>2. La Cura (El Factor Integrante):</strong> Para "arreglar" esta desigualdad, multiplicamos absolutamente todos los términos de la ecuación original por una función especial $\mu$. La ecuación se transforma en:</p>
+                $$ \mu \cdot M(x,y) \, dx + \mu \cdot N(x,y) \, dy = 0 $$
+                
+                <p><strong>3. El Resultado:</strong> Al realizar este micro-paso algebraico, la nueva ecuación se equilibra. Si volviéramos a hacer la prueba de derivadas cruzadas con estos nuevos términos agregados, ahora sí darían igual:</p>
+                $$ \frac{\partial}{\partial y} (\mu M) = \frac{\partial}{\partial x} (\mu N) $$
+            </article>
 
-            <div class="tab-content" id="ej-2">
-                <div class="ejercicio-box">
-                    <h2>2. Cálculo: Derivada Parcial con respecto a "y"</h2>
-                    <div class="enunciado">
-                        La derivada parcial con respecto a $y$ para la función es $f(x,y) = \sin y - y \sin x$
-                    </div>
-                    <div class="nota">
-                        <strong>Regla de Oro:</strong> Al derivar respecto a $y$, debemos tratar a la variable $y$ como nuestra única variable real, mientras que asumimos que la variable $x$ (y cualquier función que dependa exclusivamente de $x$) se comporta como un número constante.
-                    </div>
-                    <h3>Desarrollo Paso a Paso</h3>
-                    <ol>
-                        <li><strong>Planteamiento del operador:</strong> Aplicamos el operador a toda la función:
-                            $$ \frac{\partial f}{\partial y} = \frac{\partial}{\partial y} \left( \sin y - y \sin x \right) $$
-                        </li>
-                        <li><strong>Ley de linealidad:</strong> Separamos el operador para cada término:
-                            $$ \frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(\sin y) - \frac{\partial}{\partial y}(y \sin x) $$
-                        </li>
-                        <li><strong>Derivar el primer término:</strong> La derivada del seno es el coseno:
-                            $$ \frac{\partial}{\partial y}(\sin y) = \cos y $$
-                        </li>
-                        <li><strong>Derivar el segundo término:</strong> La expresión $\sin x$ actúa como una constante, por lo que sale del operador:
-                            $$ \frac{\partial}{\partial y}(y \sin x) = \sin x \cdot \frac{\partial}{\partial y}(y) $$
-                            Sabiendo que la derivada de $y$ es $1$:
-                            $$ \sin x \cdot (1) = \sin x $$
-                        </li>
-                        <li><strong>Ensamblar la respuesta final:</strong>
-                            $$ \frac{\partial f}{\partial y} = \cos y - \sin x $$
-                        </li>
-                    </ol>
+            <article class="ejercicio-section" id="ej-2">
+                <h2>2. Cálculo: Derivada Parcial con respecto a "y"</h2>
+                <div class="enunciado">
+                    La derivada parcial con respecto a $y$ para la función es $f(x,y) = \sin y - y \sin x$
                 </div>
-            </div>
 
-            <div class="tab-content" id="ej-3">
-                <div class="ejercicio-box">
-                    <h2>3. Prueba Analítica: Comprobación de Exactitud</h2>
-                    <div class="enunciado">
-                        La ecuación diferencial es Exacta: $(5x + 4y)dx + (4x - 8y^3)dy = 0$
-                    </div>
-                    <h3>El "Porqué": La Prueba de Exactitud</h3>
-                    <p>Para que sea exacta, se debe cumplir que sus derivadas parciales cruzadas sean idénticas: $\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}$.</p>
-                    <ol>
-                        <li><strong>Identificamos $M$ y $N$:</strong>
-                            <ul>
-                                <li>El bloque que acompaña a $dx$ es nuestra $M$: $M(x,y) = 5x + 4y$</li>
-                                <li>El bloque que acompaña a $dy$ es nuestra $N$: $N(x,y) = 4x - 8y^3$</li>
-                            </ul>
-                        </li>
-                        <li><strong>Calculamos la derivada de $M$ respecto a $y$:</strong> Tratamos a $x$ como constante.
-                            $$ \frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(5x + 4y) = 0 + 4 = 4 $$
-                        </li>
-                        <li><strong>Calculamos la derivada de $N$ respecto a $x$:</strong> Tratamos a $y$ como constante.
-                            $$ \frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(4x - 8y^3) = 4 - 0 = 4 $$
-                        </li>
-                        <li><strong>Conclusión:</strong> Al comparar ambos resultados, vemos que $4 = 4$. Queda demostrado que la ecuación sí es exacta.</li>
-                    </ol>
+                <div class="nota">
+                    <strong>Regla de Oro:</strong> Al derivar respecto a $y$, debemos tratar a la variable $y$ como nuestra única variable real, mientras que asumimos que la variable $x$ (y cualquier función que dependa exclusivamente de $x$) se comporta como un número constante.
                 </div>
-            </div>
 
-            <div class="tab-content" id="ej-4">
-                <div class="ejercicio-box">
-                    <h2>4. Cálculo: Derivada Parcial con respecto a "x"</h2>
-                    <div class="enunciado">
-                        La derivada parcial con respecto a $x$ para la función es $f(x,y) = \sin y - y \sin x$
-                    </div>
-                    <div class="nota">
-                        <strong>Regla de Oro (versión x):</strong> Como vamos a derivar respecto a $x$, la variable $y$ (y cualquier función que dependa exclusivamente de $y$) se comporta como un número constante.
-                    </div>
-                    <h3>Desarrollo Paso a Paso</h3>
-                    <ol>
-                        <li><strong>Separación del operador:</strong>
-                            $$ \frac{\partial f}{\partial x} = \frac{\partial}{\partial x}(\sin y) - \frac{\partial}{\partial x}(y \sin x) $$
-                        </li>
-                        <li><strong>Derivando el primer término (La trampa):</strong> Como no hay ninguna $x$, toda la expresión $\sin y$ es constante. Su derivada es cero.
-                            $$ \frac{\partial}{\partial x}(\sin y) = 0 $$
-                        </li>
-                        <li><strong>Derivando el segundo término:</strong> La variable $y$ actúa como una constante y "sale" del operador:
-                            $$ \frac{\partial}{\partial x}(y \sin x) = y \cdot \frac{\partial}{\partial x}(\sin x) = y \cos x $$
-                        </li>
-                        <li><strong>Ensamblaje Final:</strong> Restamos el resultado del paso 3 al paso 2:
-                            $$ \frac{\partial f}{\partial x} = 0 - y \cos x = -y \cos x $$
-                        </li>
-                    </ol>
-                </div>
-            </div>
+                <h3>Desarrollo Paso a Paso</h3>
+                <ol>
+                    <li><strong>Planteamiento del operador:</strong> Aplicamos el operador a toda la función:
+                        $$ \frac{\partial f}{\partial y} = \frac{\partial}{\partial y} \left( \sin y - y \sin x \right) $$
+                    </li>
+                    <li><strong>Ley de linealidad:</strong> Separamos el operador para cada término:
+                        $$ \frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(\sin y) - \frac{\partial}{\partial y}(y \sin x) $$
+                    </li>
+                    <li><strong>Derivar el primer término:</strong> La derivada del seno es el coseno:
+                        $$ \frac{\partial}{\partial y}(\sin y) = \cos y $$
+                    </li>
+                    <li><strong>Derivar el segundo término:</strong> La expresión $\sin x$ actúa como una constante, por lo que sale del operador:
+                        $$ \frac{\partial}{\partial y}(y \sin x) = \sin x \cdot \frac{\partial}{\partial y}(y) $$
+                        Sabiendo que la derivada de $y$ es $1$:
+                        $$ \sin x \cdot (1) = \sin x $$
+                    </li>
+                    <li><strong>Ensamblar la respuesta final:</strong>
+                        $$ \frac{\partial f}{\partial y} = \cos y - \sin x $$
+                    </li>
+                </ol>
+            </article>
 
-            <div class="tab-content" id="ej-5">
-                <div class="ejercicio-box">
-                    <h2>5. Modelado Aplicado: Circuito RC en Serie (Carga)</h2>
-                    <div class="enunciado">
-                        Se aplica una fuerza electromotriz de $100 \text{ V}$ a un circuito en serie RC, donde la resistencia es de $200 \text{ } \Omega$ y la capacitancia es de $10^{-4} \text{ F}$. Determine la carga $q(t)$ en el capacitor.
-                    </div>
-                    <h3>1. Extracción de Datos y Principio Físico</h3>
-                    <p>Por la Segunda Ley de Kirchhoff, la suma de las caídas de voltaje en el resistor y el capacitor iguala al voltaje de la fuente: $V_R + V_C = E(t)$. Utilizando $V_R = R \frac{dq}{dt}$ y $V_C = \frac{1}{C} q(t)$, obtenemos nuestra EDO base:</p>
-                    $$ R \frac{dq}{dt} + \frac{1}{C} q = E(t) $$
-                    <h3>2. Sustitución y Estandarización</h3>
-                    <p>Sustituimos $E(t)=100$, $R=200$, y $C=10^{-4}$:</p>
-                    $$ 200 \frac{dq}{dt} + \frac{1}{10^{-4}} q = 100 $$
-                    <p>Como $\frac{1}{10^{-4}} = 10000$, dividimos toda la ecuación entre $200$ para dejar a la derivada sola:</p>
-                    $$ \frac{dq}{dt} + 50 q = \frac{1}{2} $$
-                    <h3>3. Cálculo del Factor Integrante ($\mu$)</h3>
-                    <p>Tenemos la forma $\frac{dq}{dt} + P(t)q = f(t)$ donde $P(t) = 50$.</p>
-                    $$ \mu(t) = e^{\int 50 \, dt} = e^{50t} $$
-                    <h3>4. Solución General y Particular</h3>
-                    <p>Multiplicamos la ecuación estándar por $\mu(t)$ e integramos:</p>
-                    $$ \int \frac{d}{dt} \left( e^{50t} \cdot q \right) \, dt = \int \frac{1}{2} e^{50t} \, dt $$
-                    $$ e^{50t} \cdot q = \frac{1}{100} e^{50t} + K $$
-                    $$ q(t) = 0.01 + K e^{-50t} $$
-                    <p>Asumiendo que el capacitor parte descargado ($q(0)=0$):</p>
-                    $$ 0 = 0.01 + K(1) \implies K = -0.01 $$
-                    <p><strong>Solución Final de la Carga:</strong></p>
-                    $$ q(t) = 0.01(1 - e^{-50t}) $$
+            <article class="ejercicio-section" id="ej-3">
+                <h2>3. Prueba Analítica: Comprobación de Exactitud</h2>
+                <div class="enunciado">
+                    La ecuación diferencial es Exacta: $(5x + 4y)dx + (4x - 8y^3)dy = 0$
                 </div>
-            </div>
 
-            <div class="tab-content" id="ej-6">
-                <div class="ejercicio-box">
-                    <h2>6. Solución Completa: Ecuación Diferencial Exacta (Parte 1)</h2>
-                    <div class="enunciado">
-                        Resolver la ecuación diferencial: $2xy \, dx + (x^2 - 1) \, dy = 0$
-                    </div>
-                    <h3>Desarrollo del Método de 4 Pasos</h3>
-                    <p>Asumiendo que ya comprobamos que es exacta ($\frac{\partial M}{\partial y} = 2x$ y $\frac{\partial N}{\partial x} = 2x$), buscamos la función $F(x,y) = C$.</p>
-                    <ol>
-                        <li><strong>Integrar $M$ con respecto a $x$:</strong>
-                            $$ F(x,y) = \int M(x,y) \, dx = \int 2xy \, dx $$
-                            La variable $y$ sale como constante:
-                            $$ F(x,y) = 2y \int x \, dx = 2y \left(\frac{x^2}{2}\right) + g(y) $$
-                            Simplificando:
-                            $$ F(x,y) = x^2y + g(y) $$
-                        </li>
-                        <li><strong>Derivar $F(x,y)$ con respecto a $y$:</strong>
-                            $$ \frac{\partial F}{\partial y} = \frac{\partial}{\partial y}(x^2y + g(y)) = x^2(1) + g'(y) = x^2 + g'(y) $$
-                        </li>
-                        <li><strong>Igualar a $N(x,y)$ para hallar $g'(y)$:</strong>
-                            $$ x^2 + g'(y) = x^2 - 1 $$
-                            Cancelamos $x^2$ en ambos lados:
-                            $$ g'(y) = -1 $$
-                        </li>
-                        <li><strong>Integrar $g'(y)$ para hallar $g(y)$ y ensamblar:</strong>
-                            $$ g(y) = \int -1 \, dy = -y $$
-                            Sustituimos $g(y)$ en nuestro paso 1 para obtener la función final igualada a una constante $C$:
-                            $$ x^2y - y = C $$
-                        </li>
-                    </ol>
-                    <h3>Solución Explícita Final</h3>
-                    <p>Factorizamos la $y$ para despejarla:</p>
-                    $$ y(x^2 - 1) = C $$
-                    $$ y = \frac{C}{x^2 - 1} $$
-                </div>
-            </div>
+                <h3>El "Porqué": La Prueba de Exactitud</h3>
+                <p>Para que sea exacta, se debe cumplir que sus derivadas parciales cruzadas sean idénticas: $\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}$.</p>
+                
+                <ol>
+                    <li><strong>Identificamos $M$ y $N$:</strong>
+                        <ul>
+                            <li>El bloque que acompaña a $dx$ es nuestra $M$: $M(x,y) = 5x + 4y$</li>
+                            <li>El bloque que acompaña a $dy$ es nuestra $N$: $N(x,y) = 4x - 8y^3$</li>
+                        </ul>
+                    </li>
+                    <li><strong>Calculamos la derivada de $M$ respecto a $y$:</strong> Tratamos a $x$ como constante.
+                        $$ \frac{\partial M}{\partial y} = \frac{\partial}{\partial y}(5x + 4y) = 0 + 4 = 4 $$
+                    </li>
+                    <li><strong>Calculamos la derivada de $N$ respecto a $x$:</strong> Tratamos a $y$ como constante.
+                        $$ \frac{\partial N}{\partial x} = \frac{\partial}{\partial x}(4x - 8y^3) = 4 - 0 = 4 $$
+                    </li>
+                    <li><strong>Conclusión:</strong> Al comparar ambos resultados, vemos que $4 = 4$. Queda demostrado que la ecuación sí es exacta.</li>
+                </ol>
+            </article>
 
-            <div class="tab-content" id="ej-7">
-                <div class="ejercicio-box">
-                    <h2>7. Matemáticas Financieras: Modelo de Interés Discreto</h2>
-                    <div class="enunciado">
-                        Se depositan $\$5000$ dólares en una cuenta que paga el $8\%$ de interés anual. ¿Cuánto dinero habrá en la cuenta en el decimoctavo cumpleaños?
-                    </div>
-                    <div class="nota">
-                        <strong>Nota de Ingeniería:</strong> Al no indicar la palabra "continuamente", el problema exige usar el modelo de interés discreto, donde los intereses se calculan y se suman al capital una sola vez al año.
-                    </div>
-                    <h3>Desarrollo Paso a Paso</h3>
-                    <p>Definimos el modelo matemático estándar para interés compuesto discreto:</p>
-                    $$ A_n = P(1 + r)^n $$
-                    <p>Identificamos nuestros datos:</p>
-                    <ul>
-                        <li>Capital principal: $P = 5000$</li>
-                        <li>Tasa de interés decimal: $r = \frac{8}{100} = 0.08$</li>
-                        <li>Periodos (años): $n = 18 - 0 = 18$</li>
-                    </ul>
-                    <p>Sustituimos en el modelo y resolvemos la jerarquía de operaciones:</p>
-                    $$ A_{18} = 5000 \cdot (1 + 0.08)^{18} $$
-                    $$ A_{18} = 5000 \cdot (1.08)^{18} $$
-                    <p>Evaluamos la potencia (el factor de crecimiento):</p>
-                    $$ (1.08)^{18} \approx 3.9960195 $$
-                    <p>Multiplicación final:</p>
-                    $$ A_{18} = 5000 \cdot 3.9960195 \approx 19980.0975 $$
-                    <p><strong>Solución:</strong> Redondeando, el monto acumulado es de <strong>$\$19,980$ dólares</strong>.</p>
+            <article class="ejercicio-section" id="ej-4">
+                <h2>4. Cálculo: Derivada Parcial con respecto a "x"</h2>
+                <div class="enunciado">
+                    La derivada parcial con respecto a $x$ para la función es $f(x,y) = \sin y - y \sin x$
                 </div>
-            </div>
 
-            <div class="tab-content" id="ej-8">
-                <div class="ejercicio-box">
-                    <h2>8. Aplicación de Circuitos: Cálculo de la Corriente $i(t)$</h2>
-                    <div class="enunciado">
-                        Conociendo que la función de carga en un capacitor es $q(t) = 0.01 - 0.01 e^{-50t}$, determine la función de la corriente $i(t)$.
-                    </div>
-                    <h3>Principio Físico</h3>
-                    <p>Por definición electromagnética, la corriente eléctrica es la tasa de cambio de la carga con respecto al tiempo. Matemáticamente, es la derivada de $q(t)$:</p>
-                    $$ i(t) = \frac{dq}{dt} $$
-                    <h3>Desarrollo Analítico</h3>
-                    <ol>
-                        <li><strong>Planteamiento del operador:</strong>
-                            $$ i(t) = \frac{d}{dt} \left( 0.01 - 0.01 e^{-50t} \right) $$
-                        </li>
-                        <li><strong>Derivación de términos:</strong>
-                            <ul>
-                                <li>La derivada de la constante $0.01$ es $0$.</li>
-                                <li>Para el término exponencial, aplicamos la regla de la cadena: la derivada de $e^{u}$ es $e^{u} \cdot u'$.</li>
-                            </ul>
-                            $$ \frac{d}{dt} \left( -0.01 e^{-50t} \right) = -0.01 \cdot \frac{d}{dt}(-50t) \cdot e^{-50t} $$
-                            $$ = -0.01 \cdot (-50) \cdot e^{-50t} $$
-                        </li>
-                        <li><strong>Cálculo Final:</strong> Multiplicamos los coeficientes:
-                            $$ -0.01 \cdot -50 = 0.5 $$
-                        </li>
-                    </ol>
-                    <p><strong>Solución Final de la Corriente:</strong></p>
-                    $$ i(t) = 0.5 e^{-50t} \text{ A} $$
+                <div class="nota">
+                    <strong>Regla de Oro (versión x):</strong> Como vamos a derivar respecto a $x$, la variable $y$ (y cualquier función que dependa exclusivamente de $y$) se comporta como un número constante.
                 </div>
-            </div>
 
-            <div class="tab-content" id="ej-9">
-                <div class="ejercicio-box">
-                    <h2>9. Teoría Avanzada: Factor Integrante dependiente de "y"</h2>
-                    <div class="enunciado">
-                        ¿Cómo encontrar el factor integrante a partir de una ecuación no exacta si se busca una dependencia exclusiva para la variable $y$?
-                    </div>
-                    <h3>Protocolo Analítico Paso a Paso</h3>
-                    <ol>
-                        <li><strong>Construir la función $P(y)$:</strong> Restamos las derivadas parciales cruzadas en un orden específico y dividimos entre $M$:
-                            $$ P(y) = \frac{\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}}{M} $$
-                        </li>
-                        <li><strong>Condición de Supervivencia:</strong> Si al simplificar el álgebra de esa fracción el resultado depende <em>únicamente</em> de la variable $y$ (es decir, todas las $x$ se cancelan por completo) o es una constante pura, el método es válido.
-                        </li>
-                        <li><strong>Aplicar la fórmula exponencial:</strong> El factor integrante $\mu(y)$ se obtiene colocando $P(y)$ en una integral en el exponente de $e$:
-                            $$ \mu(y) = e^{\int P(y) \, dy} $$
-                        </li>
-                    </ol>
-                    <p>Al multiplicar toda la ecuación original por este $\mu(y)$, las derivadas parciales se equilibrarán y la ecuación se transformará en exacta.</p>
-                </div>
-            </div>
+                <h3>Desarrollo Paso a Paso</h3>
+                <ol>
+                    <li><strong>Separación del operador:</strong>
+                        $$ \frac{\partial f}{\partial x} = \frac{\partial}{\partial x}(\sin y) - \frac{\partial}{\partial x}(y \sin x) $$
+                    </li>
+                    <li><strong>Derivando el primer término (La trampa):</strong> Como no hay ninguna $x$, toda la expresión $\sin y$ es constante. Su derivada es cero.
+                        $$ \frac{\partial}{\partial x}(\sin y) = 0 $$
+                    </li>
+                    <li><strong>Derivando el segundo término:</strong> La variable $y$ actúa como una constante y "sale" del operador:
+                        $$ \frac{\partial}{\partial x}(y \sin x) = y \cdot \frac{\partial}{\partial x}(\sin x) = y \cos x $$
+                    </li>
+                    <li><strong>Ensamblaje Final:</strong> Restamos el resultado del paso 3 al paso 2:
+                        $$ \frac{\partial f}{\partial x} = 0 - y \cos x = -y \cos x $$
+                    </li>
+                </ol>
+            </article>
 
-            <div class="tab-content" id="ej-10">
-                <div class="ejercicio-box">
-                    <h2>10. Solución Completa: Ecuación Diferencial Exacta (Parte 2)</h2>
-                    <div class="enunciado">
-                        Resolver la ecuación exacta: $(5x + 4y)dx + (4x - 8y^3)dy = 0$
-                    </div>
-                    <h3>Desarrollo del Método de 4 Pasos</h3>
-                    <p>Ya demostramos que es exacta (ambas derivadas parciales cruzadas son $4$). Buscamos $F(x,y) = C$.</p>
-                    <ol>
-                        <li><strong>Integrar $M$ con respecto a $x$:</strong>
-                            $$ F(x,y) = \int (5x + 4y) \, dx $$
-                            Integramos cada término tratando a $y$ como constante:
-                            $$ F(x,y) = 5\left(\frac{x^2}{2}\right) + 4yx + g(y) $$
-                            $$ F(x,y) = \frac{5}{2}x^2 + 4xy + g(y) $$
-                        </li>
-                        <li><strong>Derivar $F(x,y)$ con respecto a $y$:</strong>
-                            $$ \frac{\partial F}{\partial y} = \frac{\partial}{\partial y}\left(\frac{5}{2}x^2 + 4xy + g(y)\right) $$
-                            $$ \frac{\partial F}{\partial y} = 0 + 4x(1) + g'(y) = 4x + g'(y) $$
-                        </li>
-                        <li><strong>Igualar a $N(x,y)$ para hallar $g'(y)$:</strong>
-                            $$ 4x + g'(y) = 4x - 8y^3 $$
-                            Cancelamos $4x$ en ambos lados:
-                            $$ g'(y) = -8y^3 $$
-                        </li>
-                        <li><strong>Integrar $g'(y)$ y ensamblar la solución final:</strong>
-                            $$ g(y) = \int -8y^3 \, dy = -8 \left(\frac{y^4}{4}\right) = -2y^4 $$
-                            Sustituimos $g(y)$ en nuestro paso 1 e igualamos a $C$:
-                        </li>
-                    </ol>
-                    <p><strong>Solución General Final:</strong></p>
-                    $$ \frac{5}{2}x^2 + 4xy - 2y^4 = C $$
+            <article class="ejercicio-section" id="ej-5">
+                <h2>5. Modelado Aplicado: Circuito RC en Serie (Carga)</h2>
+                <div class="enunciado">
+                    Se aplica una fuerza electromotriz de $100$ Voltios a un circuito en serie RC, donde la resistencia es de $200$ Ohms y la capacitancia es de $10^{-4}$ faradios. Determine la carga $q(t)$ en el capacitor.
                 </div>
-            </div>
+
+                <h3>1. Extracción de Datos y Principio Físico</h3>
+                <p>Por la Segunda Ley de Kirchhoff, la suma de las caídas de voltaje en el resistor y el capacitor iguala al voltaje de la fuente: $V_R + V_C = E(t)$. Utilizando $V_R = R \frac{dq}{dt}$ y $V_C = \frac{1}{C} q(t)$, obtenemos nuestra EDO base:</p>
+                $$ R \frac{dq}{dt} + \frac{1}{C} q = E(t) $$
+
+                <h3>2. Sustitución y Estandarización</h3>
+                <p>Sustituimos $E(t)=100$, $R=200$, y $C=10^{-4}$:</p>
+                $$ 200 \frac{dq}{dt} + \frac{1}{10^{-4}} q = 100 $$
+                <p>Como $\frac{1}{10^{-4}} = 10000$, dividimos toda la ecuación entre $200$ para dejar a la derivada sola:</p>
+                $$ \frac{dq}{dt} + 50 q = \frac{1}{2} $$
+
+                <h3>3. Cálculo del Factor Integrante ($\mu$)</h3>
+                <p>Tenemos la forma $\frac{dq}{dt} + P(t)q = f(t)$ donde $P(t) = 50$.</p>
+                $$ \mu(t) = e^{\int 50 \, dt} = e^{50t} $$
+
+                <h3>4. Solución General y Particular</h3>
+                <p>Multiplicamos la ecuación estándar por $\mu(t)$ e integramos:</p>
+                $$ \int \frac{d}{dt} \left( e^{50t} \cdot q \right) \, dt = \int \frac{1}{2} e^{50t} \, dt $$
+                $$ e^{50t} \cdot q = \frac{1}{100} e^{50t} + K $$
+                $$ q(t) = 0.01 + K e^{-50t} $$
+                <p>Asumiendo que el capacitor parte descargado ($q(0)=0$):</p>
+                $$ 0 = 0.01 + K(1) \implies K = -0.01 $$
+                <p><strong>Solución Final de la Carga:</strong></p>
+                $$ q(t) = 0.01(1 - e^{-50t}) $$
+            </article>
+
+            <article class="ejercicio-section" id="ej-6">
+                <h2>6. Solución Completa: Ecuación Diferencial Exacta (Parte 1)</h2>
+                <div class="enunciado">
+                    Resolver la ecuación diferencial: $2xy \, dx + (x^2 - 1) \, dy = 0$
+                </div>
+
+                <h3>Desarrollo del Método de 4 Pasos</h3>
+                <p>Asumiendo que ya comprobamos que es exacta ($\frac{\partial M}{\partial y} = 2x$ y $\frac{\partial N}{\partial x} = 2x$), buscamos la función $F(x,y) = C$.</p>
+                
+                <ol>
+                    <li><strong>Integrar $M$ con respecto a $x$:</strong>
+                        $$ F(x,y) = \int M(x,y) \, dx = \int 2xy \, dx $$
+                        La variable $y$ sale como constante:
+                        $$ F(x,y) = 2y \int x \, dx = 2y \left(\frac{x^2}{2}\right) + g(y) $$
+                        Simplificando:
+                        $$ F(x,y) = x^2y + g(y) $$
+                    </li>
+                    <li><strong>Derivar $F(x,y)$ con respecto a $y$:</strong>
+                        $$ \frac{\partial F}{\partial y} = \frac{\partial}{\partial y}(x^2y + g(y)) = x^2(1) + g'(y) = x^2 + g'(y) $$
+                    </li>
+                    <li><strong>Igualar a $N(x,y)$ para hallar $g'(y)$:</strong>
+                        $$ x^2 + g'(y) = x^2 - 1 $$
+                        Cancelamos $x^2$ en ambos lados:
+                        $$ g'(y) = -1 $$
+                    </li>
+                    <li><strong>Integrar $g'(y)$ para hallar $g(y)$ y ensamblar:</strong>
+                        $$ g(y) = \int -1 \, dy = -y $$
+                        Sustituimos $g(y)$ en nuestro paso 1 para obtener la función final igualada a una constante $C$:
+                        $$ x^2y - y = C $$
+                    </li>
+                </ol>
+
+                <h3>Solución Explícita Final</h3>
+                <p>Factorizamos la $y$ para despejarla:</p>
+                $$ y(x^2 - 1) = C $$
+                $$ y = \frac{C}{x^2 - 1} $$
+            </article>
+
+            <article class="ejercicio-section" id="ej-7">
+                <h2>7. Matemáticas Financieras: Modelo de Interés Discreto</h2>
+                <div class="enunciado">
+                    Se depositan $\$5000$ dólares en una cuenta que paga el $8\%$ de interés anual. ¿Cuánto dinero habrá en la cuenta en el decimoctavo cumpleaños?
+                </div>
+
+                <div class="nota">
+                    <strong>Nota de Ingeniería:</strong> Al no indicar la palabra "continuamente", el problema exige usar el modelo de interés discreto, donde los intereses se calculan y se suman al capital una sola vez al año.
+                </div>
+
+                <h3>Desarrollo Paso a Paso</h3>
+                <p>Definimos el modelo matemático estándar para interés compuesto discreto:</p>
+                $$ A_n = P(1 + r)^n $$
+                
+                <p>Identificamos nuestros datos:</p>
+                <ul>
+                    <li>Capital principal: $P = 5000$</li>
+                    <li>Tasa de interés decimal: $r = \frac{8}{100} = 0.08$</li>
+                    <li>Periodos (años): $n = 18 - 0 = 18$</li>
+                </ul>
+
+                <p>Sustituimos en el modelo y resolvemos la jerarquía de operaciones:</p>
+                $$ A_{18} = 5000 \cdot (1 + 0.08)^{18} $$
+                $$ A_{18} = 5000 \cdot (1.08)^{18} $$
+                
+                <p>Evaluamos la potencia (el factor de crecimiento):</p>
+                $$ (1.08)^{18} \approx 3.9960195 $$
+                
+                <p>Multiplicación final:</p>
+                $$ A_{18} = 5000 \cdot 3.9960195 \approx 19980.0975 $$
+                
+                <p><strong>Solución:</strong> Redondeando, el monto acumulado es de <strong>$\$19,980$ dólares</strong>.</p>
+            </article>
+
+            <article class="ejercicio-section" id="ej-8">
+                <h2>8. Aplicación de Circuitos: Cálculo de la Corriente $i(t)$</h2>
+                <div class="enunciado">
+                    Conociendo que la función de carga en un capacitor es $q(t) = 0.01 - 0.01 e^{-50t}$, determine la función de la corriente $i(t)$.
+                </div>
+
+                <h3>Principio Físico</h3>
+                <p>Por definición electromagnética, la corriente eléctrica es la tasa de cambio de la carga con respecto al tiempo. Matemáticamente, es la derivada de $q(t)$:</p>
+                $$ i(t) = \frac{dq}{dt} $$
+
+                <h3>Desarrollo Analítico</h3>
+                <ol>
+                    <li><strong>Planteamiento del operador:</strong>
+                        $$ i(t) = \frac{d}{dt} \left( 0.01 - 0.01 e^{-50t} \right) $$
+                    </li>
+                    <li><strong>Derivación de términos:</strong>
+                        <ul>
+                            <li>La derivada de la constante $0.01$ es $0$.</li>
+                            <li>Para el término exponencial, aplicamos la regla de la cadena: la derivada de $e^{u}$ es $e^{u} \cdot u'$.</li>
+                        </ul>
+                        $$ \frac{d}{dt} \left( -0.01 e^{-50t} \right) = -0.01 \cdot \frac{d}{dt}(-50t) \cdot e^{-50t} $$
+                        $$ = -0.01 \cdot (-50) \cdot e^{-50t} $$
+                    </li>
+                    <li><strong>Cálculo Final:</strong> Multiplicamos los coeficientes:
+                        $$ -0.01 \cdot -50 = 0.5 $$
+                    </li>
+                </ol>
+
+                <p><strong>Solución Final de la Corriente:</strong></p>
+                $$ i(t) = 0.5 e^{-50t} \text{ Amperios} $$
+            </article>
+
+            <article class="ejercicio-section" id="ej-9">
+                <h2>9. Teoría Avanzada: Factor Integrante dependiente de "y"</h2>
+                <div class="enunciado">
+                    ¿Cómo encontrar el factor integrante a partir de una ecuación no exacta si se busca una dependencia exclusiva para la variable $y$?
+                </div>
+
+                <h3>Protocolo Analítico Paso a Paso</h3>
+                <ol>
+                    <li><strong>Construir la función $P(y)$:</strong> Restamos las derivadas parciales cruzadas en un orden específico y dividimos entre $M$:
+                        $$ P(y) = \frac{\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}}{M} $$
+                    </li>
+                    <li><strong>Condición de Supervivencia:</strong> Si al simplificar el álgebra de esa fracción el resultado depende <em>únicamente</em> de la variable $y$ (es decir, todas las $x$ se cancelan por completo) o es una constante pura, el método es válido.
+                    </li>
+                    <li><strong>Aplicar la fórmula exponencial:</strong> El factor integrante $\mu(y)$ se obtiene colocando $P(y)$ en una integral en el exponente de $e$:
+                        $$ \mu(y) = e^{\int P(y) \, dy} $$
+                    </li>
+                </ol>
+                <p>Al multiplicar toda la ecuación original por este $\mu(y)$, las derivadas parciales se equilibrarán y la ecuación se transformará en exacta.</p>
+            </article>
+
+            <article class="ejercicio-section" id="ej-10">
+                <h2>10. Solución Completa: Ecuación Diferencial Exacta (Parte 2)</h2>
+                <div class="enunciado">
+                    Resolver la ecuación exacta: $(5x + 4y)dx + (4x - 8y^3)dy = 0$
+                </div>
+
+                <h3>Desarrollo del Método de 4 Pasos</h3>
+                <p>Ya demostramos que es exacta (ambas derivadas parciales cruzadas son $4$). Buscamos $F(x,y) = C$.</p>
+                
+                <ol>
+                    <li><strong>Integrar $M$ con respecto a $x$:</strong>
+                        $$ F(x,y) = \int (5x + 4y) \, dx $$
+                        Integramos cada término tratando a $y$ como constante:
+                        $$ F(x,y) = 5\left(\frac{x^2}{2}\right) + 4yx + g(y) $$
+                        $$ F(x,y) = \frac{5}{2}x^2 + 4xy + g(y) $$
+                    </li>
+                    <li><strong>Derivar $F(x,y)$ con respecto a $y$:</strong>
+                        $$ \frac{\partial F}{\partial y} = \frac{\partial}{\partial y}\left(\frac{5}{2}x^2 + 4xy + g(y)\right) $$
+                        $$ \frac{\partial F}{\partial y} = 0 + 4x(1) + g'(y) = 4x + g'(y) $$
+                    </li>
+                    <li><strong>Igualar a $N(x,y)$ para hallar $g'(y)$:</strong>
+                        $$ 4x + g'(y) = 4x - 8y^3 $$
+                        Cancelamos $4x$ en ambos lados:
+                        $$ g'(y) = -8y^3 $$
+                    </li>
+                    <li><strong>Integrar $g'(y)$ y ensamblar la solución final:</strong>
+                        $$ g(y) = \int -8y^3 \, dy = -8 \left(\frac{y^4}{4}\right) = -2y^4 $$
+                        Sustituimos $g(y)$ en nuestro paso 1 e igualamos a $C$:
+                    </li>
+                </ol>
+
+                <p><strong>Solución General Final:</strong></p>
+                $$ \frac{5}{2}x^2 + 4xy - 2y^4 = C $$
+            </article>
 
         </main>
     </div>
 
-    <!-- BRANDING FOOTER -->
-    <footer>
-        <p>© 2026 FlexEdwin | Engineering & Web Solutions. Todos los derechos reservados. | <a href="http://www.flexedwin.com" target="_blank" rel="noopener">www.flexedwin.com</a></p>
+    <footer class="app-footer">
+        © 2026 <a href="https://www.flexedwin.com" target="_blank" rel="noopener noreferrer">FlexEdwin</a> | Engineering . Todos los derechos reservados.
     </footer>
 
-    <!-- INTERACTIVIDAD UI (PESTAÑAS Y BOTONES) -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            
-            // LÓGICA 1: SISTEMA DE PESTAÑAS DINAÁMICO
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-            
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    tabContents.forEach(content => content.classList.remove('active'));
-                    
-                    button.classList.add('active');
-                    const targetId = button.getAttribute('data-target');
-                    const targetContent = document.getElementById(targetId);
-                    
-                    if(targetContent) {
-                        targetContent.classList.add('active');
+        document.addEventListener("DOMContentLoaded", () => {
+            // Referencias del DOM
+            const navButtons = document.querySelectorAll('.nav-btn:not(#btn-read-mode)');
+            const readModeBtn = document.getElementById('btn-read-mode');
+            const sections = document.querySelectorAll('.ejercicio-section');
+
+            // Función Helper: Ocultar todas las secciones y resetear botones
+            const resetUI = () => {
+                sections.forEach(sec => sec.classList.remove('active'));
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                readModeBtn.classList.remove('active');
+            };
+
+            // Event Listeners: Botones de Ejercicios Individuales
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    resetUI();
+                    btn.classList.add('active');
+                    const targetId = btn.getAttribute('data-target');
+                    const targetSection = document.getElementById(targetId);
+                    if(targetSection) {
+                        targetSection.classList.add('active');
                     }
-                    
-                    document.querySelector('.content-area').scrollTop = 0;
-                    
-                    // Inyección de Seguridad: Re-renderizar matemáticas si se salteó alguna
-                    if(window.renderizarMatematicas) {
-                        window.renderizarMatematicas();
+                    // Desplazar suavemente al inicio en versión móvil
+                    if(window.innerWidth <= 992) {
+                        document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
                     }
                 });
             });
 
-            // LÓGICA 2: MODO LECTURA GLOBAL
-            const btnReadMode = document.getElementById('btn-read-mode');
-            const appContainer = document.getElementById('app-container');
-            let isReadMode = false;
-
-            btnReadMode.addEventListener('click', () => {
-                isReadMode = !isReadMode;
-                if (isReadMode) {
-                    appContainer.classList.add('read-mode-active');
-                    btnReadMode.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg> Volver a Pestañas`;
-                    btnReadMode.style.backgroundColor = 'var(--green-success)';
-                } else {
-                    appContainer.classList.remove('read-mode-active');
-                    btnReadMode.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg> Modo Lectura / Revelar`;
-                    btnReadMode.style.backgroundColor = 'var(--blue-electric)';
-                }
-                
-                // Forzar render de KaTeX por precaución al mostrar todas las pestañas
-                if(window.renderizarMatematicas) {
-                    window.renderizarMatematicas();
-                }
+            // Event Listener: Botón Modo Lectura (Revelar todo)
+            readModeBtn.addEventListener('click', () => {
+                resetUI();
+                readModeBtn.classList.add('active');
+                sections.forEach(sec => sec.classList.add('active'));
             });
-            
+
+            // Init: Mostrar el primer ejercicio al cargar la página
+            if(navButtons.length > 0) {
+                navButtons[0].click();
+            }
         });
     </script>
+
 </body>
 </html>
